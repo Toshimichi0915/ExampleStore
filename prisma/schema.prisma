@@ -1,0 +1,63 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id       String     @id @default(cuid())
+  name     String?    @unique
+  password String?
+  roles    UserRole[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN @map("admin")
+
+  @@map("user_roles")
+}
+
+model Product {
+  id      String       @id @default(cuid())
+  name    String
+  price   Int
+  type    ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
+  typeId  String?      @map("type")
+  content String
+  charges Charge[]
+
+  @@map("shop_items")
+}
+
+model ProductType {
+  name      String    @id @unique
+  shopItems Product[]
+
+  @@map("shop_item_types")
+}
+
+model Charge {
+  id         String       @id @default(cuid())
+  status     ChargeStatus @default(CREATED)
+  product    Product      @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId  String       @map("product")
+  coinbaseId String?      @unique @map("coinbase_id")
+  chargeUrl  String?      @map("charge_url")
+  userId     String       @map("user")
+
+  @@map("charges")
+}
+
+enum ChargeStatus {
+  CREATED   @map("created")
+  CONFIRMED @map("confirmed")
+  FAILED    @map("failed")
+  DELAYED   @map("delayed")
+  PENDING   @map("pending")
+  RESOLVED  @map("resolved")
+}
