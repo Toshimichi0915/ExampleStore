@@ -18,7 +18,7 @@ import { GetServerSidePropsContext } from "next"
 import { getServerSession } from "next-auth/next"
 import { ReactNode, useCallback, useEffect, useState } from "react"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
-import { defaultDialogStyles, defaultDialogTitleStyles, defaultPaperStyles, defaultTextAreaStyles } from "@/styles/mui"
+import { defaultDialogStyles, defaultDialogContentStyles, defaultPaperStyles, defaultTextAreaStyles } from "@/styles/mui"
 import { useTheme } from "@mui/material"
 
 const StyledAddButton = styled(Button)<ButtonProps>(({ theme }) => ({
@@ -82,10 +82,10 @@ function AddNewProductTypeDialog({
         onClose()
       }}
     >
-      <DialogTitle css={defaultDialogTitleStyles(theme)}>
+      <DialogTitle>
         {productType ? "Edit product type" : "Add new type"}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent css={defaultDialogContentStyles(theme)}>
         <TextField label="name" size="small" value={name} onChange={(e) => setName(e.target.value)} />
         <Button onClick={() => mutate()}>OK</Button>
       </DialogContent>
@@ -166,7 +166,7 @@ function AddNewProductDialog({
       }}
     >
       <DialogTitle>Add new product</DialogTitle>
-      <DialogContent>
+      <DialogContent css={defaultDialogContentStyles(theme)}>
         <Select
           sx={{
             "& .MuiSelect-select": {

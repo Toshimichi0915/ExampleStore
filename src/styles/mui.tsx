@@ -28,6 +28,7 @@ export const defaultPaperStyles: Styles = (theme: Theme) => css({
   padding: 20,
   borderRadius: 6,
   border: `1px solid ${theme.palette.border.paper}`,
+  backgroundColor: theme.palette.background.paper,
 })
 
 export const defaultDialogStyles: Styles = (theme: Theme) =>
@@ -39,7 +40,7 @@ export const defaultDialogStyles: Styles = (theme: Theme) =>
     },
   })
 
-export const defaultDialogTitleStyles: Styles = () => css({
+export const defaultDialogContentStyles: Styles = () => css({
   display: "flex",
   flexDirection: "column",
   gap: 16,
