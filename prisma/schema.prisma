@@ -12,6 +12,7 @@ model User {
   name     String?    @unique
   password String?
   roles    UserRole[]
+  charges  Charge[]
 
   @@map("users")
 }
@@ -48,6 +49,7 @@ model Charge {
   productId  String       @map("product")
   coinbaseId String?      @unique @map("coinbase_id")
   chargeUrl  String?      @map("charge_url")
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     String       @map("user")
 
   @@map("charges")

@@ -1,5 +1,5 @@
-import { Paper } from "@/components/paper"
-import { Button, TextField, Typography, useTheme } from "@mui/material"
+import { defaultPaperStyles } from "@/styles/mui"
+import { Button, TextField, Typography, css, useTheme } from "@mui/material"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
 import { getCsrfToken } from "next-auth/react"
 
@@ -8,15 +8,14 @@ export default function Page({ csrfToken }: InferGetServerSidePropsType<typeof g
 
   return (
     <div className="w-screen h-screen grid place-items-center">
-      <Paper
-        component="main"
-        sx={{
+      <main
+        css={[defaultPaperStyles(theme), css({
           width: "80vw",
           padding: "30px",
           "@media (min-width: 768px)": {
             width: "400px",
           },
-        }}
+        })]}
       >
         <Typography variant="h1" sx={{ marginBottom: "30px" }}>
           Login
@@ -35,7 +34,7 @@ export default function Page({ csrfToken }: InferGetServerSidePropsType<typeof g
             LOGIN
           </Button>
         </form>
-      </Paper>
+      </main>
     </div>
   )
 }

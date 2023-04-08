@@ -1,13 +1,13 @@
-import { Box, css, Typography, useTheme } from "@mui/material"
+import { css, Typography, useTheme } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
 import { prisma, Product, productPrismaToObj, ProductType, productTypePrismaToObj } from "@/server/db"
-import { Paper } from "@/components/paper"
 import { InferGetServerSidePropsType } from "next"
 import { create } from "zustand"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { defaultPaperStyles } from "@/styles/mui"
 
 interface ProductStore {
   productTypes: ProductType[]
@@ -27,45 +27,41 @@ function Header() {
   const theme = useTheme()
 
   return (
-    <div
-      css={css`
-        background-color: ${theme.palette.background.light};
-      `}
-    >
-      <Box
-        component="header"
-        sx={{
-          padding: "30px 30px",
-          "@media (min-width: 768px)": {
-            padding: "40px 100px",
-          },
-          "@media (min-width: 1024px)": {
-            padding: "40px 200px",
-          },
-          "@media (min-width: 1280px)": {
-            padding: "40px 0",
-            margin: "auto",
-            width: 1024,
-          },
-        }}
-      >
-        <section className="flex flex-col gap-2">
-          <Typography variant="h1">Asteroid Shop</Typography>
-          <Typography component="p" variant="subtitle1">
-            Premium Twitter Accounts
-          </Typography>
-          <div>
-            <Link
-              href="https://example.com"
-              className="bg-[#458EFC] px-4 py-2 rounded-sm inline-flex items-center gap-2 no-underline"
-            >
-              <Image src="/telegram.svg" alt="" width={16} height={16} />
-              <span className="text-[0.8rem] text-white">TELEGRAM</span>
-            </Link>
-          </div>
-        </section>
-      </Box>
-    </div>
+    <header css={css({ backgroundColor: theme.palette.background.light })}>
+      <div className="p-[30px]">
+        <div
+          css={css({
+            "@media (min-width: 768px)": {
+              padding: "40px 100px",
+            },
+            "@media (min-width: 1024px)": {
+              padding: "40px 200px",
+            },
+            "@media (min-width: 1280px)": {
+              padding: "40px 0",
+              margin: "auto",
+              width: 1024,
+            },
+          })}
+        >
+          <section className="flex flex-col gap-2">
+            <Typography variant="h1">Asteroid Shop</Typography>
+            <Typography component="p" variant="subtitle1">
+              Premium Twitter Accounts
+            </Typography>
+            <div>
+              <Link
+                href="https://example.com"
+                className="bg-[#458EFC] px-4 py-2 rounded-sm inline-flex items-center gap-2 no-underline"
+              >
+                <Image src="/telegram.svg" alt="" width={16} height={16} />
+                <span className="text-[0.8rem] text-white">TELEGRAM</span>
+              </Link>
+            </div>
+          </section>
+        </div>
+      </div>
+    </header>
   )
 }
 
@@ -74,26 +70,22 @@ function ProductCard({ product }: { product: Product }) {
   const router = useRouter()
 
   return (
-    <Paper
-      sx={{
-        padding: 2,
-      }}
-    >
+    <div css={defaultPaperStyles(theme)}>
       <div className="flex flex-col justify-between h-full">
         <div>
           <p
-            css={css`
-              margin: 0;
-              font-size: 0.9rem;
-            `}
+            css={css({
+              margin: 0,
+              fontSize: "0.9rem",
+            })}
           >
             {product.type}
           </p>
           <p
-            css={css`
-              margin: 8px 0 24px 0;
-              font-size: 1.1rem;
-            `}
+            css={css({
+              margin: "8px 0 24px 0",
+              fontSize: "1.1rem",
+            })}
           >
             {product.name}
           </p>
@@ -132,7 +124,7 @@ function ProductCard({ product }: { product: Product }) {
           PURCHASE - ${product.price}
         </button>
       </div>
-    </Paper>
+    </div>
   )
 }
 
@@ -140,9 +132,8 @@ function Main() {
   const products = useProductStore((state) => state.products)
 
   return (
-    <Box
-      component="main"
-      sx={{
+    <main
+      css={css({
         flex: 1,
         padding: "20px 30px",
         "@media (min-width: 768px)": {
@@ -156,7 +147,7 @@ function Main() {
           margin: "auto",
           width: 1024,
         },
-      }}
+      })}
     >
       <div
         css={css`
@@ -169,7 +160,7 @@ function Main() {
           <ProductCard key={product.id} product={product} />
         ))}
       </div>
-    </Box>
+    </main>
   )
 }
 
@@ -213,7 +204,7 @@ export async function getStaticProps() {
         charges: { select: { userId: true, status: true } },
       },
     })
-  ).map((product) => productPrismaToObj(product, undefined, null))
+  ).map((product) => productPrismaToObj(product))
 
   return {
     props: {

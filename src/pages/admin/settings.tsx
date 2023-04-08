@@ -1,13 +1,25 @@
-import { Dialog, DialogContent, DialogTitle } from "@/components/dialog"
-import { Paper } from "@/components/paper"
-import { TextareaAutosize } from "@/components/textarea"
-import { Product, ProductType } from "@/server/db"
-import { Box, Button, ButtonProps, MenuItem, Select, styled, TextField, Typography } from "@mui/material"
+import { ProductType, PurchasedProduct } from "@/server/db"
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  Select,
+  styled,
+  TextareaAutosize,
+  TextField,
+  Typography,
+} from "@mui/material"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { GetServerSidePropsContext } from "next"
 import { getServerSession } from "next-auth/next"
 import { ReactNode, useCallback, useEffect, useState } from "react"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
+import { defaultDialogStyles, defaultDialogTitleStyles, defaultPaperStyles, defaultTextAreaStyles } from "@/styles/mui"
+import { useTheme } from "@mui/material"
 
 const StyledAddButton = styled(Button)<ButtonProps>(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
@@ -26,6 +38,7 @@ function AddNewProductTypeDialog({
   onClose: () => void
   productType?: ProductType
 }) {
+  const theme = useTheme()
   const productTypeName = productType?.name ?? ""
   const [name, setName] = useState(productTypeName)
   useEffect(() => setName(productTypeName), [productTypeName])
@@ -62,13 +75,16 @@ function AddNewProductTypeDialog({
 
   return (
     <Dialog
+      css={defaultDialogStyles(theme)}
       open={open}
       onClose={() => {
         reset()
         onClose()
       }}
     >
-      <DialogTitle>{productType ? "Edit product type" : "Add new type"}</DialogTitle>
+      <DialogTitle css={defaultDialogTitleStyles(theme)}>
+        {productType ? "Edit product type" : "Add new type"}
+      </DialogTitle>
       <DialogContent>
         <TextField label="name" size="small" value={name} onChange={(e) => setName(e.target.value)} />
         <Button onClick={() => mutate()}>OK</Button>
@@ -85,7 +101,7 @@ function AddNewProductDialog({
 }: {
   open: boolean
   onClose: () => void
-  product?: Product
+  product?: PurchasedProduct
   productTypes: ProductType[]
 }) {
   const productName = product?.name ?? ""
@@ -97,6 +113,8 @@ function AddNewProductDialog({
   const [type, setType] = useState(productType)
   const [price, setPrice] = useState(productPrice)
   const [content, setContent] = useState(productContent)
+
+  const theme = useTheme()
 
   useEffect(() => {
     setName(productName)
@@ -176,6 +194,7 @@ function AddNewProductDialog({
           <p className="my-0">USD</p>
         </div>
         <TextareaAutosize
+          css={defaultTextAreaStyles(theme)}
           placeholder="Product content here"
           aria-label="product content"
           minRows={2}
@@ -209,8 +228,9 @@ function TableColumn({
 }
 
 export default function Page() {
+  const theme = useTheme()
   const [selectedProductType, setSelectedProductType] = useState<ProductType>()
-  const [selectedProduct, setSelectedProduct] = useState<Product>()
+  const [selectedProduct, setSelectedProduct] = useState<PurchasedProduct>()
   const [openAddNewProductType, setOpenAddNewProductType] = useState(false)
   const [openAddNewProduct, setOpenAddNewProduct] = useState(false)
 
@@ -223,7 +243,7 @@ export default function Page() {
   })
 
   const products = useQuery(["products"], async () => {
-    const res = await fetch("/api/products")
+    const res = await fetch("/api/products?details=true")
     if (!res.ok) throw new Error("Failed to fetch products")
     return res.json()
   })
@@ -295,7 +315,7 @@ export default function Page() {
             <Typography variant="h2">Product types</Typography>
             <AddButton onClick={() => setOpenAddNewProductType(true)}>Add new...</AddButton>
           </div>
-          <Paper>
+          <div css={defaultPaperStyles(theme)}>
             {productTypes.data ? (
               productTypes.data.length > 0 ? (
                 <div className="flex flex-col gap-2">
@@ -320,18 +340,18 @@ export default function Page() {
             ) : (
               <p className="my-1">Loading...</p>
             )}
-          </Paper>
+          </div>
         </section>
         <section className="flex flex-col gap-3">
           <div className="flex justify-between">
             <Typography variant="h2">Products</Typography>
             <AddButton onClick={() => setOpenAddNewProduct(true)}>Add new...</AddButton>
           </div>
-          <Paper>
+          <div css={defaultPaperStyles(theme)}>
             {products.data ? (
               products.data.length > 0 ? (
                 <div className="flex flex-col gap-2">
-                  {products.data.map((product: Product) => (
+                  {products.data.map((product: PurchasedProduct) => (
                     <TableColumn
                       key={product.name}
                       onEdit={() => {
@@ -352,7 +372,7 @@ export default function Page() {
             ) : (
               <p className="my-1">Loading...</p>
             )}{" "}
-          </Paper>
+          </div>
         </section>
       </Box>
     </>

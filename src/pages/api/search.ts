@@ -2,9 +2,6 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { z } from "zod"
 import { ZodError } from "zod/lib"
 import { prisma, productPrismaToObj } from "@/server/db"
-import { getUserId } from "@/server/id"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/pages/api//auth/[...nextauth]"
 
 export const SearchSchema = z.object({
   type: z.string(),
@@ -13,9 +10,6 @@ export const SearchSchema = z.object({
 })
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const userId = getUserId(req, res)
-  const session = await getServerSession(req, res, authOptions)
-
   if (req.method === "POST") {
     const result = SearchSchema.safeParse(req.body)
     if (!result.success) {
@@ -25,7 +19,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const { type, skip, take } = result.data
 
-    const response = (await prisma.product.findMany({
+    const response = (
+      await prisma.product.findMany({
         where: {
           typeId: type,
         },
@@ -34,7 +29,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         skip,
         take,
-      })).map((product) => productPrismaToObj(product, userId, session))
+      })
+    ).map((product) => productPrismaToObj(product))
 
     res.status(200).json(response)
   } else {

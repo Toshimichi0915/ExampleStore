@@ -1,12 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, isProductAvailable, prisma, productPrismaToObj } from "@/server/db"
+import { isAdmin, isProductAvailable, prisma, productPrismaToObj, purchasedProductPrismaToObj } from "@/server/db"
 import { ProductSchema } from "@/common/product"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
-
+import { getUserId } from "@/server/id"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
+
+  const userId = getUserId(req, res)
+  if (!userId) {
+    res.status(401).json({ error: "Unauthorized" })
+    return
+  }
 
   if (!session) {
     res.status(401).json({ error: "Unauthorized" })
@@ -32,7 +38,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    res.status(200).json(productPrismaToObj(product, await isProductAvailable(product, session)))
+    const details = req.query.details === "true"
+    if (details) {
+      if (!isProductAvailable(product, userId, session)) {
+        res.status(403).json({ error: "Forbidden" })
+        return
+      }
+
+      res.status(200).json(purchasedProductPrismaToObj(product))
+    } else {
+      res.status(200).json(productPrismaToObj(product))
+    }
   } else if (req.method === "PUT") {
     if (!isAdmin(session)) {
       res.status(403).json({ error: "Forbidden" })

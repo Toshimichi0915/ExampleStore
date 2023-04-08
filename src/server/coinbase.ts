@@ -47,7 +47,8 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
         coinbaseId: data.code,
         chargeUrl: data.hosted_url,
       },
-    })
+    }),
+    product
   )
 }
 

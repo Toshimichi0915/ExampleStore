@@ -21,8 +21,10 @@ export interface Product {
   name: string
   type: string | null
   price: number
-  content?: string
-  available: boolean
+}
+
+export interface PurchasedProduct extends Product {
+  content: string
 }
 
 export interface ProductType {
@@ -36,6 +38,7 @@ export interface Charge {
   coinbaseId?: string
   chargeUrl?: string
   status: ChargeStatus
+  product: Product
 }
 
 export const ChargeStatus = {
@@ -49,29 +52,35 @@ export const ChargeStatus = {
 
 export type ChargeStatus = typeof ChargeStatus[keyof typeof ChargeStatus]
 
-export function productPrismaToObj(
-  product: PrismaProduct & { charges: { userId: string; status: string }[] },
-  userId: string | undefined,
-  session: Session | null
-): Product {
-  const available =
-    (session && isAdmin(session)) ||
-    product.charges.some((charge) => charge.userId === userId && charge.status === ChargeStatus.RESOLVED)
+export interface User {
+  id: string
+  charges: Charge[]
+}
 
-  const res: Product = {
+export function productPrismaToObj(product: PrismaProduct | Product): Product {
+  let type
+  if ("typeId" in product) {
+    type = product.typeId
+  } else {
+    type = product.type
+  }
+
+  return {
+    id: product.id,
+    name: product.name,
+    type: type,
+    price: product.price,
+  }
+}
+
+export function purchasedProductPrismaToObj(product: PrismaProduct): PurchasedProduct {
+  return {
     id: product.id,
     name: product.name,
     type: product.typeId,
     price: product.price,
     content: product.content,
-    available,
   }
-
-  if (!available) {
-    delete res.content
-  }
-
-  return res
 }
 
 export function productTypePrismaToObj(productType: PrismaProductType): ProductType {
@@ -80,7 +89,7 @@ export function productTypePrismaToObj(productType: PrismaProductType): ProductT
   }
 }
 
-export function chargePrismaToObj(charge: PrismaCharge): Charge {
+export function chargePrismaToObj(charge: PrismaCharge, product: Product | PrismaProduct): Charge {
   return {
     id: charge.id,
     productId: charge.productId,
@@ -88,16 +97,28 @@ export function chargePrismaToObj(charge: PrismaCharge): Charge {
     status: charge.status,
     ...(charge.coinbaseId && { coinbaseId: charge.coinbaseId }),
     ...(charge.chargeUrl && { chargeUrl: charge.chargeUrl }),
+    product: productPrismaToObj(product),
   }
 }
 
-export async function isProductAvailable(product: Product | PrismaProduct, session: Session): Promise<boolean> {
-  if (isAdmin(session)) return true
+export async function isProductAvailable(
+  product: string | PrismaProduct | Product,
+  userId: string,
+  session: Session | null
+): Promise<boolean> {
+  if (session && isAdmin(session)) return true
+
+  let productId
+  if (typeof product === "string") {
+    productId = product
+  } else {
+    productId = product.id
+  }
 
   const charge = await prisma.charge.findFirst({
     where: {
-      productId: product.id,
-      userId: session.user.id,
+      productId: productId,
+      userId: userId,
       status: ChargeStatus.RESOLVED,
     },
   })
@@ -109,4 +130,20 @@ export async function isProductAvailable(product: Product | PrismaProduct, sessi
 
 export function isAdmin(session: Session): boolean {
   return session.user.roles.includes("ADMIN")
+}
+
+export async function getUser(userId: string): Promise<User> {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    include: {
+      charges: { include: { product: true } },
+    },
+  })
+
+  if (!user) throw new Error("User not found")
+
+  return {
+    id: user.id,
+    charges: user.charges.map((charge) => chargePrismaToObj(charge, charge.product)),
+  }
 }

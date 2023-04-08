@@ -1,10 +1,12 @@
 import { getUserId } from "@/server/id"
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from "next"
-import { chargePrismaToObj, ChargeStatus, prisma, productPrismaToObj } from "@/server/db"
+import { chargePrismaToObj, ChargeStatus, isProductAvailable, prisma } from "@/server/db"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 
-export default function Page({ charge, product }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({ charge }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const product = charge.product
+
   return (
     <main>
       <h1>{product.name}</h1>
@@ -24,8 +26,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   }
 
   const userId = getUserId(context.req, context.res)
+  if (!userId) {
+    return {
+      notFound: true,
+    }
+  }
+
   const session = await getServerSession(context.req, context.res, authOptions)
 
+  // pending payments
   const charge = await prisma.charge.findFirst({
     where: {
       productId: id,
@@ -40,6 +49,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
+  // check if product is available
   const product = await prisma.product.findFirst({
     where: {
       id: id,
@@ -55,8 +65,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  const productObj = productPrismaToObj(product, userId, session)
-  if (!productObj.available) {
+  if (!isProductAvailable(product, userId, session)) {
     return {
       notFound: true,
     }
@@ -64,8 +73,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
-      charge: chargePrismaToObj(charge),
-      product: productObj,
+      charge: chargePrismaToObj(charge, product),
     },
   }
 }
