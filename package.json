@@ -14,12 +14,14 @@
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.12",
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.10.1",
     "@tanstack/react-query": "^4.24.4",
     "@tanstack/react-query-devtools": "^4.28.0",
     "@types/bcrypt": "^5.0.0",
+    "@types/coinbase-commerce-node": "^1.0.6",
     "@types/node": "18.13.0",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.10",
@@ -42,7 +44,6 @@
     "ts-node": "^10.9.1",
     "typescript": "4.9.5",
     "zod": "^3.21.4",
-    "zustand": "^4.3.6",
-    "@types/coinbase-commerce-node": "^1.0.6"
+    "zustand": "^4.3.6"
   }
 }

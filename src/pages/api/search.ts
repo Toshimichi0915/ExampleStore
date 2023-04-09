@@ -24,9 +24,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
         where: {
           typeId: type,
         },
-        include: {
-          charges: { select: { userId: true, status: true } },
-        },
         skip,
         take,
       })

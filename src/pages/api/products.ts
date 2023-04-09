@@ -8,11 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const session = await getServerSession(req, res, authOptions)
 
   if (req.method === "GET") {
-    const products = await prisma.product.findMany({
-      include: {
-        charges: { select: { userId: true, status: true } },
-      },
-    })
+    const products = await prisma.product.findMany()
 
     const details = req.query.details === "true"
     if (details) {
@@ -26,10 +22,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return
       }
 
-      res.status(200).json(products.map((product) => purchasedProductPrismaToObj(product)))
+      res.status(200).json(products.map(purchasedProductPrismaToObj))
       return
     } else {
-      res.status(200).json(products.map((product) => productPrismaToObj(product)))
+      res.status(200).json(products.map(productPrismaToObj))
       return
     }
   } else if (req.method === "POST") {
@@ -52,9 +48,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { name, type: typeId, price, content } = schema.data
     const product = await prisma.product.create({
       data: { name, typeId, price, content },
-      include: {
-        charges: { select: { userId: true, status: true } },
-      },
     })
 
     res.status(200).json(purchasedProductPrismaToObj(product))

@@ -6,7 +6,7 @@ import { InferGetServerSidePropsType } from "next"
 import { create } from "zustand"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { defaultPaperStyles } from "@/styles/mui"
 
 interface ProductStore {
@@ -68,6 +68,7 @@ function Header() {
 function ProductCard({ product }: { product: Product }) {
   const theme = useTheme()
   const router = useRouter()
+  const queryClient = useQueryClient()
 
   return (
     <div css={defaultPaperStyles(theme)}>
@@ -118,6 +119,8 @@ function ProductCard({ product }: { product: Product }) {
             })
 
             if (!res.ok) return
+            queryClient.invalidateQueries(["products"])
+            queryClient.invalidateQueries(["charges"])
             router.push(`/products/${product.id}`)
           }}
         >
@@ -199,9 +202,6 @@ export async function getStaticProps() {
             NOT: { status: "FAILED" },
           },
         },
-      },
-      include: {
-        charges: { select: { userId: true, status: true } },
       },
     })
   ).map((product) => productPrismaToObj(product))

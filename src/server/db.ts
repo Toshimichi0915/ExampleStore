@@ -52,11 +52,6 @@ export const ChargeStatus = {
 
 export type ChargeStatus = typeof ChargeStatus[keyof typeof ChargeStatus]
 
-export interface User {
-  id: string
-  charges: Charge[]
-}
-
 export function productPrismaToObj(product: PrismaProduct | Product): Product {
   let type
   if ("typeId" in product) {
@@ -130,20 +125,4 @@ export async function isProductAvailable(
 
 export function isAdmin(session: Session): boolean {
   return session.user.roles.includes("ADMIN")
-}
-
-export async function getUser(userId: string): Promise<User> {
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    include: {
-      charges: { include: { product: true } },
-    },
-  })
-
-  if (!user) throw new Error("User not found")
-
-  return {
-    id: user.id,
-    charges: user.charges.map((charge) => chargePrismaToObj(charge, charge.product)),
-  }
 }

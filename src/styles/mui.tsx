@@ -1,7 +1,5 @@
 import { Theme, css } from "@mui/material"
-import { CSSInterpolation } from "@emotion/serialize"
-
-type Styles = (theme: Theme) => CSSInterpolation
+import { Styles } from "@/common/css"
 
 export const defaultTextAreaStyles: Styles = (theme: Theme) => css({
   background: "transparent",

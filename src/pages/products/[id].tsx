@@ -38,7 +38,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const charge = await prisma.charge.findFirst({
     where: {
       productId: id,
-      userId: userId,
+      userId,
       NOT: { status: ChargeStatus.FAILED },
     },
   })
