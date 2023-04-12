@@ -3,7 +3,7 @@ import { Styles } from "@/common/css"
 import { useCallback, useEffect, useState } from "react"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import { usePurchaseHitory } from "@/hooks/history"
-import { Charge } from "@/server/db"
+import { Charge } from "@/common/product"
 import { defaultDialogContentStyles, defaultDialogStyles } from "@/styles/mui"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -38,7 +38,7 @@ export const chargeCardStyles: Styles = (theme: Theme) =>
     "& .ChargeCard-Container": {
       display: "flex",
       justifyContent: "space-between",
-      color: "white",
+      color: theme.palette.text.primary,
       borderRadius: 4,
       padding: "10px 15px",
       transition: "background-color 0.2s",
@@ -85,7 +85,7 @@ function PurchaseHistoryDialog({ open, onClose }: { open: boolean; onClose: () =
   )
 }
 
-export function PurchaseHistory({ ...props }) {
+export function PurchaseHistory({ className }: { className?: string }) {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleDialogClose = useCallback(() => {
@@ -97,13 +97,12 @@ export function PurchaseHistory({ ...props }) {
   }, [])
 
   return (
-    <div {...props}>
+    <div className={className}>
       <PurchaseHistoryDialog open={dialogOpen} onClose={handleDialogClose} />
       <div className="HistoryDialogPaper">
         <button onClick={handleButtonClick} className="HistoryDialogPaper-Button">
           <ShoppingCartIcon className="HistoryDialogPaper-Icon" />
         </button>
-        <p>Purchase History</p>
       </div>
     </div>
   )

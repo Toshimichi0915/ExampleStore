@@ -1,4 +1,4 @@
-import { Charge } from "@/server/db"
+import { Charge } from "@/common/product"
 import { useQuery } from "@tanstack/react-query"
 import { useEffect, useMemo, useState } from "react"
 

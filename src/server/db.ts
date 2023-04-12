@@ -1,3 +1,4 @@
+import { Charge, ChargeStatus, Product, ProductType, PurchasedProduct } from "@/common/product"
 import {
   PrismaClient,
   Product as PrismaProduct,
@@ -15,42 +16,6 @@ const client = globalThis.prisma || new PrismaClient()
 if (process.env.NODE_ENV !== "production") globalThis.prisma = client
 
 export const prisma = client
-
-export interface Product {
-  id: string
-  name: string
-  type: string | null
-  price: number
-}
-
-export interface PurchasedProduct extends Product {
-  content: string
-}
-
-export interface ProductType {
-  name: string
-}
-
-export interface Charge {
-  id: string
-  productId: string
-  userId: string
-  coinbaseId?: string
-  chargeUrl?: string
-  status: ChargeStatus
-  product: Product
-}
-
-export const ChargeStatus = {
-  CREATED: "CREATED",
-  CONFIRMED: "CONFIRMED",
-  FAILED: "FAILED",
-  DELAYED: "DELAYED",
-  PENDING: "PENDING",
-  RESOLVED: "RESOLVED",
-} as const
-
-export type ChargeStatus = typeof ChargeStatus[keyof typeof ChargeStatus]
 
 export function productPrismaToObj(product: PrismaProduct | Product): Product {
   let type

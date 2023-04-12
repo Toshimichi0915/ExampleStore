@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { ChargeStatus, prisma } from "@/server/db"
+import { ChargeStatus } from "@/common/product"
+import { prisma } from "@/server/db"
 import coinbase from "coinbase-commerce-node"
 import { resolveCharge } from "@/server/coinbase"
 

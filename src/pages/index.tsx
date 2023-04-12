@@ -1,13 +1,14 @@
 import { css, Typography, useTheme } from "@mui/material"
 import Image from "next/image"
 import Link from "next/link"
-import { prisma, Product, productPrismaToObj, ProductType, productTypePrismaToObj } from "@/server/db"
+import { prisma, productPrismaToObj, productTypePrismaToObj } from "@/server/db"
 import { InferGetServerSidePropsType } from "next"
 import { create } from "zustand"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { defaultPaperStyles } from "@/styles/mui"
+import { Product, ProductType } from "@/common/product"
 
 interface ProductStore {
   productTypes: ProductType[]
