@@ -15,8 +15,8 @@ export function TableRow({ className, children, onEdit, onDelete }: {
 }) {
   return (
     <div css={tableRowStyles}>
-      <p className="ColumnName">{children}</p>
-      <div className="Buttons">
+      <p className="TableRow-ColumnName">{children}</p>
+      <div className="TableRow-Buttons">
         <Button onClick={onEdit}>EDIT</Button>
         <Button onClick={onDelete}>Delete</Button>
       </div>
@@ -80,12 +80,12 @@ function tableRowStyles() {
     justify-content: space-between;
     align-items: center;
 
-    & .ColumnName {
+    & .TableRow-ColumnName {
       margin-top: 0;
       margin-bottom: 0;
     }
 
-    & .Buttons {
+    & .TableRow-Buttons {
       display: flex;
     }
   `

@@ -21,17 +21,17 @@ export function PurchaseHistoryDialog({ className, open, onClose }: {
 
   return (
     <Dialog open={open} onClose={onClose} className={className} css={[ dialogStyles, purchaseHistoryDialogStyles ]}>
-      <DialogTitle className="Title">Purchase History</DialogTitle>
-      <DialogContent className="Content">
+      <DialogTitle className="PurchaseHistory-Title">Purchase History</DialogTitle>
+      <DialogContent className="PurchaseHistory-Content">
         {loaded ? history.map((charge) => (
-          <ChargeItem key={charge.id} charge={charge} className="ChargeCard" />
+          <ChargeItem key={charge.id} charge={charge} className="PurchaseHistory-ChargeCard" />
         )) : (
           <p>Loading...</p>
         )
         }
 
         {router.pathname !== "/" && (
-          <Link href="/" className="TopNavigation">→ View all products</Link>
+          <Link href="/" className="PurchaseHistory-TopNavigation">→ View all products</Link>
         )}
       </DialogContent>
     </Dialog>
@@ -40,13 +40,13 @@ export function PurchaseHistoryDialog({ className, open, onClose }: {
 
 function purchaseHistoryDialogStyles(theme: Theme) {
   return css`
-    & .TopNavigation {
+    & .PurchaseHistory-TopNavigation {
       text-decoration: none;
       color: white;
       margin-top: 40px;
       display: block;
       text-align: center;
-      
+
       &:hover {
         text-decoration: underline;
         color: ${theme.palette.primary.light};

@@ -73,17 +73,18 @@ export function ProductEditDialog({ className, open, onClose, product, productTy
     <Dialog open={open} onClose={onClose} css={[ dialogStyles, productDialogStyles ]} className={className}>
       <DialogTitle>Edit Product</DialogTitle>
       <DialogContent>
-        <Select className="Type" value={productBody.type} onChange={setType}>
+        <Select className="ProductDialog-Type" value={productBody.type} onChange={setType}>
           {productTypes.map((productType: ProductType) => (
             <MenuItem key={productType.name} value={productType.name}>
               {productType.name}
             </MenuItem>
           ))}
         </Select>
-        <TextField label="name" size="small" className="Name" value={productBody.name} onChange={setName} />
-        <div className="Price">
+        <TextField label="name" size="small" className="ProductDialog-Name" value={productBody.name}
+                   onChange={setName} />
+        <div className="ProductDialog-Price">
           <TextField label="price" size="small" type="number" value={productBody.price} onChange={setPrice} />
-          <p className="Currency">USD</p>
+          <p className="ProductDialog-Currency">USD</p>
         </div>
         <TextareaAutosize
           css={textAreaStyles}
@@ -101,17 +102,17 @@ export function ProductEditDialog({ className, open, onClose, product, productTy
 
 function productDialogStyles() {
   return css`
-    & .Type .MuiSelect-select {
+    & .ProductDialog-Type .MuiSelect-select {
       padding: 8.5px 14px;
     }
 
-    & .Price {
+    & .ProductDialog-Price {
       display: flex;
       align-items: center;
       gap: 3px;
     }
 
-    & .Currency {
+    & .ProductDialog-Currency {
       margin-top: 0;
       margin-bottom: 0;
     }

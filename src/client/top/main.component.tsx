@@ -6,7 +6,7 @@ export function Main({ products }: { products: Product[] }) {
 
   return (
     <main css={mainStyles}>
-      <div className="Products">
+      <div className="Main-Products">
         {products.map((product) => (
           <ProductItem key={product.id} product={product} />
         ))}
@@ -31,7 +31,7 @@ function mainStyles() {
       padding: 20px calc((100vw - 1024px) / 2);
     }
 
-    & .Products {
+    & .Main-Products {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;

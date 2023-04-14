@@ -7,16 +7,16 @@ export function Header() {
   return (
     <header css={headerStyles}>
       <div>
-        <h1 className="Title">Asteroid Shop</h1>
-        <p className="Description">Premium Twitter Accounts</p>
+        <h1 className="Header-Title">Asteroid Shop</h1>
+        <p className="Header-Description">Premium Twitter Accounts</p>
       </div>
       <div>
         <Link
           href="https://example.com"
-          className="Telegram"
+          className="Header-Telegram"
         >
           <Image src="/telegram.svg" alt="" width={16} height={16} />
-          <span className="Telegram-Text">TELEGRAM</span>
+          <span className="Header-Telegram-Text">TELEGRAM</span>
         </Link>
       </div>
     </header>
@@ -41,16 +41,16 @@ function headerStyles(theme: Theme) {
       padding: 40px calc((100vw - 1024px) / 2);
     }
 
-    & .Title {
+    & .Header-Title {
       margin: 0;
     }
 
-    & .Description {
+    & .Header-Description {
       font-size: 1.4rem;
       margin: 0;
     }
 
-    & .Telegram {
+    & .Header-Telegram {
       background-color: #458EFC;
       padding: 8px 11px;
       border-radius: 3px;
@@ -60,7 +60,7 @@ function headerStyles(theme: Theme) {
       text-decoration: none;
     }
 
-    & .Telegram-Text {
+    & .Header-Telegram-Text {
       color: white;
     }
   `

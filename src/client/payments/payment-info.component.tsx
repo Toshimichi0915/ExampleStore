@@ -18,17 +18,17 @@ export function PaymentInfo({ charge, className }: { charge: Charge; className?:
       <PaymentInfoRow
         left="Status"
         right={charge.status}
-        className="PaymentInfoRow"
+        className="PaymentInfo-PaymentInfoRow"
       />
       <PaymentInfoRow
         left="Price"
         right={`$${charge.product.price}`}
-        className="PaymentInfoRow"
+        className="PaymentInfo-PaymentInfoRow"
       />
       <PaymentInfoRow
         left="Type"
         right={charge.product.type ?? "UNKNOWN"}
-        className="PaymentInfoRow"
+        className="PaymentInfo-PaymentInfoRow"
       />
     </div>
   )
@@ -39,7 +39,7 @@ function paymentInfoStyles(theme: Theme) {
     padding: 40px 60px;
     background-color: ${theme.palette.background.light};
 
-    & .PaymentInfoRow {
+    & .PaymentInfo-PaymentInfoRow {
       display: flex;
       justify-content: space-between;
     }

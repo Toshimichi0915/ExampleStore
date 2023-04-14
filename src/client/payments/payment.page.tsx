@@ -22,7 +22,7 @@ function paymentPageStyles() {
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    
+
     @media (min-width: 768px) {
       flex-direction: row;
       min-height: 100vh;

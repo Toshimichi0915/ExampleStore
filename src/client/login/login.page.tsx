@@ -7,13 +7,13 @@ export function LoginPage({ csrfToken }: InferGetServerSidePropsType<typeof getS
 
   return (
     <div css={loginPageStyles}>
-      <main css={[ paperStyles ]} className="Container">
-        <h1 className="Title">Login</h1>
-        <form className="Form" method="post" action="/api/auth/callback/credentials">
+      <main css={[ paperStyles ]} className="Login-Container">
+        <h1 className="Login-Title">Login</h1>
+        <form className="Login-Form" method="post" action="/api/auth/callback/credentials">
           <TextField label="Username" name="name" />
           <TextField label="Password" name="password" type="password" />
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <Button type="submit" className="Submit">LOGIN</Button>
+          <Button type="submit" className="Login-Submit">LOGIN</Button>
         </form>
       </main>
     </div>
@@ -27,7 +27,7 @@ function loginPageStyles(theme: Theme) {
     display: grid;
     place-items: center;
 
-    & .Container {
+    & .Login-Container {
       width: 80vw;
       padding: 30px;
       @media (min-width: 768px) {
@@ -35,17 +35,17 @@ function loginPageStyles(theme: Theme) {
       }
     }
 
-    & .Title {
+    & .Login-Title {
       margin: 0 0 30px 0;
     }
 
-    & .Form {
+    & .Login-Form {
       display: flex;
       flex-direction: column;
       gap: 20px;
     }
 
-    & .Submit {
+    & .Login-Submit {
       font-size: 1rem;
       color: ${theme.palette.text.primary}
     }

@@ -13,8 +13,8 @@ function PaymentCard({ className, title, description, children }: {
 }) {
   return (
     <section className={className} css={[ paperStyles, paymentCardStyles ]}>
-      <h2 className="Title">{title}</h2>
-      <p className="Description">{description}</p>
+      <h2 className="PaymentCard-Title">{title}</h2>
+      <p className="PaymentCard-Description">{description}</p>
       {children}
     </section>
   )
@@ -24,10 +24,10 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
   return (
     <PaymentCard title="Payment" description="Click the URL shown below">
       <div css={paymentUrlCardStyles}>
-        <Link href={charge.chargeUrl ?? ""} className="ChargeUrl">
+        <Link href={charge.chargeUrl ?? ""} className="PaymentUrlCard-ChargeUrl">
           {charge.chargeUrl}
         </Link>
-        <p className="Description">(Redirects to coinbase payment URL)</p>
+        <p className="PaymentUrlCard-Description">(Redirects to coinbase payment URL)</p>
       </div>
     </PaymentCard>
   )
@@ -46,11 +46,11 @@ function paymentCardStyles() {
     margin-top: 40px;
     margin-bottom: 60px;
 
-    & .Title {
+    & .PaymentCard-Title {
       margin: 0;
     }
 
-    & .Description {
+    & .PaymentCard-Description {
       margin: 0;
     }
   `
@@ -61,7 +61,7 @@ function paymentUrlCardStyles(theme: Theme) {
   return css`
     padding: 20px 0;
 
-    & .ChargeUrl {
+    & .PaymentUrlCard-ChargeUrl {
       text-align: center;
       display: block;
       text-decoration: none;
@@ -72,7 +72,7 @@ function paymentUrlCardStyles(theme: Theme) {
       }
     }
 
-    & .Description {
+    & .PaymentUrlCard-Description {
       text-align: center;
     }
   `

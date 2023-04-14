@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client"
 import bcrypt from "bcrypt"
+
 const prisma = new PrismaClient()
 
 const name = "placeholder"
@@ -12,7 +13,7 @@ async function main(): Promise<void> {
     create: {
       name: name,
       password: await bcrypt.hash(password, 10),
-      roles: ["ADMIN"],
+      roles: [ "ADMIN" ],
     },
   })
 }

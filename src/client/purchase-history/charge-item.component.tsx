@@ -5,9 +5,9 @@ import { css, Theme } from "@mui/material"
 export function ChargeItem({ charge, className }: { charge: Charge; className?: string }) {
   return (
     <Link href={`/products/${charge.productId}`} css={chargeItemStyles} className={className}>
-      <div className="Container">
-        <p className="ProductName">{charge.product.name}</p>
-        <p className="ChargeStatus">{charge.status}</p>
+      <div className="ChargeItem-Container">
+        <p className="ChargeItem-ProductName">{charge.product.name}</p>
+        <p className="ChargeItem-ChargeStatus">{charge.status}</p>
       </div>
     </Link>
   )
@@ -17,7 +17,7 @@ function chargeItemStyles(theme: Theme) {
   return css`
     text-decoration: none;
 
-    & .Container {
+    & .ChargeItem-Container {
       display: flex;
       justify-content: space-between;
       color: white;
@@ -30,11 +30,11 @@ function chargeItemStyles(theme: Theme) {
       }
     }
 
-    & .ProductName {
+    & .ChargeItem-ProductName {
       margin: 0;
     }
 
-    & .ChargeStatus {
+    & .ChargeItem-ChargeStatus {
       margin: 0;
     }
   `

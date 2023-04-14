@@ -17,9 +17,9 @@ export function PurchaseHistory({ className }: { className?: string }) {
   return (
     <div css={purchaseHistoryStyles} className={className}>
       <PurchaseHistoryDialog open={dialogOpen} onClose={handleDialogClose} />
-      <div className="Paper">
-        <button onClick={handleButtonClick} className="Button">
-          <ShoppingCartIcon className="Icon" />
+      <div className="PurchaseHistory-Paper">
+        <button onClick={handleButtonClick} className="PurchaseHistory-Button">
+          <ShoppingCartIcon className="PurchaseHistory-Icon" />
         </button>
       </div>
     </div>
@@ -30,7 +30,7 @@ function purchaseHistoryStyles() {
   return css`
     background-color: red;
 
-    & .Paper {
+    & .PurchaseHistory-Paper {
       display: flex;
       position: fixed;
       top: 0;
@@ -40,7 +40,7 @@ function purchaseHistoryStyles() {
       gap: 10px;
     }
 
-    & .Button {
+    & .PurchaseHistory-Button {
       background-color: rgba(255, 255, 255, 0.7);
       border: 0;
       padding: 5px;
@@ -49,7 +49,7 @@ function purchaseHistoryStyles() {
       border-radius: 4px;
     }
 
-    & .Icon {
+    & .PurchaseHistory-Icon {
       color: black;
     }
   `

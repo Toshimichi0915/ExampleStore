@@ -10,10 +10,10 @@ export function ProductItem({ product }: { product: Product }) {
   return (
     <div css={[ paperStyles, productItemStyles ]}>
       <div>
-        <p className="ProductType">{product.type}</p>
-        <p className="ProductName">{product.name}</p>
+        <p className="ProductItem-ProductType">{product.type}</p>
+        <p className="ProductItem-ProductName">{product.name}</p>
       </div>
-      <button className="PurchaseButton" onClick={purchase}>
+      <button className="ProductItem-PurchaseButton" onClick={purchase}>
         PURCHASE - ${product.price}
       </button>
     </div>
@@ -27,17 +27,17 @@ export function productItemStyles(theme: Theme) {
     border: 1px solid ${theme.palette.border.paper};
     background-color: ${theme.palette.background.paper};
 
-    & .ProductType {
+    & .ProductItem-ProductType {
       margin: 0;
       font-size: 0.9rem;
     }
 
-    & .ProductName {
+    & .ProductItem-ProductName {
       margin: 8px 0 24px 0;
       font-size: 1.1rem;
     }
 
-    & .PurchaseButton {
+    & .ProductItem-PurchaseButton {
       outline: none;
       width: 100%;
       border: 2px solid ${theme.palette.primary.main};
