@@ -1,7 +1,9 @@
-import { Charge, chargePrismaToObj, prisma, Product } from "@/server/db"
 import { Product as PrismaProduct } from "@prisma/client"
 import coinbase from "coinbase-commerce-node"
 import { promisify } from "util"
+import { chargePrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
+import { Charge, Product } from "@/common/db.type"
 
 const { Client } = coinbase
 const { Charge } = coinbase.resources
@@ -48,7 +50,7 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
         chargeUrl: data.hosted_url,
       },
     }),
-    product
+    product,
   )
 }
 

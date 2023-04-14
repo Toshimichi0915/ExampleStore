@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, isProductAvailable, prisma, productPrismaToObj, purchasedProductPrismaToObj } from "@/server/db"
-import { ProductSchema } from "@/common/product"
+import { isAdmin, isProductAvailable } from "@/server/session/session.util"
+import { PurchasedProductSchema } from "@/common/product.util"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
-import { getUserId } from "@/server/id"
+import { getUserId } from "@/server/session/id.util"
+import { productPrismaToObj, purchasedProductPrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
@@ -40,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const details = req.query.details === "true"
     if (details) {
-      if (!isProductAvailable(product, userId, session)) {
+      if (!(await isProductAvailable(product, userId, session))) {
         res.status(403).json({ error: "Forbidden" })
         return
       }
@@ -55,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    const schema = ProductSchema.safeParse(req.body)
+    const schema = PurchasedProductSchema.safeParse(req.body)
     if (!schema.success) {
       res.status(400).json({ error: "Invalid data" })
       return

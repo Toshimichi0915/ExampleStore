@@ -1,13 +1,12 @@
-import "@/styles/global.scss"
 import type { AppProps } from "next/app"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import Head from "next/head"
 import { SessionProvider } from "next-auth/react"
 import { CssBaseline, StyledEngineProvider, ThemeProvider } from "@mui/material"
-import { GlobalTheme } from "@/components/theme"
-import { useThemeOptions } from "@/common/theme"
+import { useThemeOptions } from "@/client/common/theme.hook"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { PurchaseHistory, defaultPurchaseHistoryStyles } from "@/components/history"
+import { PurchaseHistory } from "@/client/purchase-history/history.component"
+import { GlobalTheme } from "@/client/common/theme.component"
 
 const queryClient = new QueryClient()
 
@@ -25,7 +24,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
         <SessionProvider session={session}>
           <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
-              <PurchaseHistory css={defaultPurchaseHistoryStyles(theme)} />
+              <PurchaseHistory />
               <CssBaseline />
               <GlobalTheme />
               <Component {...pageProps} />

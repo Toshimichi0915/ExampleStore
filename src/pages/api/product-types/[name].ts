@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, prisma, productTypePrismaToObj } from "@/server/db"
+import { isAdmin } from "@/server/session/session.util"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
+import { productTypePrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
+import { ProductTypeSchema } from "@/common/product.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
@@ -33,25 +36,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(403).json({ error: "Forbidden" })
       return
     }
-    const { name: newName } = req.body
-    if (typeof newName !== "string") {
-      res.status(400).json({ error: "Invalid name" })
+    const schema = ProductTypeSchema.safeParse(req.body)
+    if (!schema.success) {
+      res.status(400).json({ error: "Invalid data" })
       return
     }
 
     const existingProductType = await prisma.productType.findUnique({
-      where: { name: newName },
+      where: { name: schema.data.name },
     })
 
     if (existingProductType) {
       await prisma.$transaction([
-        prisma.product.updateMany({ where: { typeId: name }, data: { typeId: newName } }),
+        prisma.product.updateMany({ where: { typeId: name }, data: { typeId: schema.data.name } }),
         prisma.productType.delete({ where: { name } }),
       ])
     } else {
       const productType = await prisma.productType.update({
         where: { name },
-        data: { name: newName },
+        data: { name: schema.data.name },
       })
 
       if (!productType) {
@@ -66,7 +69,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(403).json({ error: "Forbidden" })
       return
     }
-    const [, deleted] = await prisma.$transaction([
+    const [ , deleted ] = await prisma.$transaction([
       prisma.product.updateMany({
         where: { typeId: name },
         data: { typeId: undefined },

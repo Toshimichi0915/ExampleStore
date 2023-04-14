@@ -1,4 +1,4 @@
-import { poppins } from "@/common/theme"
+import { poppins } from "@/client/common/theme.hook"
 import { useTheme } from "@mui/material"
 
 export function GlobalTheme() {

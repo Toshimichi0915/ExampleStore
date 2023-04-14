@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, prisma, productPrismaToObj, purchasedProductPrismaToObj } from "@/server/db"
-import { ProductSchema } from "@/common/product"
+import { isAdmin } from "@/server/session/session.util"
+import { PurchasedProductSchema } from "@/common/product.util"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
+import { productPrismaToObj, purchasedProductPrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
@@ -39,7 +41,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    const schema = ProductSchema.safeParse(req.body)
+    const schema = PurchasedProductSchema.safeParse(req.body)
     if (!schema.success) {
       res.status(400).json({ error: "Invalid data" })
       return

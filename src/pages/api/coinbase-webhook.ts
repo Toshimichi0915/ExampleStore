@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { ChargeStatus } from "@/common/product"
-import { prisma } from "@/server/db"
 import coinbase from "coinbase-commerce-node"
-import { resolveCharge } from "@/server/coinbase"
+import { resolveCharge } from "@/server/coinbase.util"
+import { ChargeStatus } from "@/common/db.type"
+import { prisma } from "@/server/prisma.util"
 
 const { Webhook } = coinbase
 type ChargeResource = coinbase.ChargeResource
@@ -53,10 +53,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const code = data.event.data.code
   switch (data.event.type) {
-    case "charge:created":
+    case "charges:created":
       break
 
-    case "charge:confirmed":
+    case "charges:confirmed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.CONFIRMED },
@@ -64,14 +64,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await resolveCharge(code)
       break
 
-    case "charge:failed":
+    case "charges:failed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.FAILED },
       })
       break
 
-    case "charge:delayed":
+    case "charges:delayed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.DELAYED },
@@ -86,14 +86,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await resolveCharge(code)
       break
 
-    case "charge:pending":
+    case "charges:pending":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.PENDING },
       })
       break
 
-    case "charge:resolved":
+    case "charges:resolved":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.RESOLVED },

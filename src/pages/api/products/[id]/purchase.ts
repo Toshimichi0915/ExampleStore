@@ -1,7 +1,8 @@
-import { createCharge } from "@/server/coinbase"
-import { getUserId } from "@/server/id"
+import { createCharge } from "@/server/coinbase.util"
+import { getUserId } from "@/server/session/id.util"
 import { NextApiRequest, NextApiResponse } from "next"
-import { prisma } from "@/server/db"
+
+import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query

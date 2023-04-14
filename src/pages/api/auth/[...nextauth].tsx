@@ -1,9 +1,9 @@
 import NextAuth, { AuthOptions } from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { prisma } from "@/server/db"
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt"
 import { User, UserRole } from "@prisma/client"
+import { prisma } from "@/server/prisma.util"
 
 declare module "next-auth" {
   interface Session {

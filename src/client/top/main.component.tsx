@@ -1,0 +1,40 @@
+import { Product } from "@/common/db.type"
+import { css } from "@mui/material"
+import { ProductItem } from "@/client/top/item.component"
+
+export function Main({ products }: { products: Product[] }) {
+
+  return (
+    <main css={mainStyles}>
+      <div className="Products">
+        {products.map((product) => (
+          <ProductItem key={product.id} product={product} />
+        ))}
+      </div>
+    </main>
+  )
+}
+
+function mainStyles() {
+  return css`
+    flex: 1;
+    padding: 20px 30px;
+
+    @media (min-width: 768px) {
+      padding: 20px 100px;
+    }
+    @media (min-width: 1024px) {
+      padding: 20px 200px;
+    }
+
+    @media (min-width: 1280px) {
+      padding: 20px calc((100vw - 1024px) / 2);
+    }
+
+    & .Products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+  `
+}

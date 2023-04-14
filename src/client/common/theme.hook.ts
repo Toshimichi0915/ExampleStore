@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material"
+import { createTheme, Theme as MuiTheme } from "@mui/material"
 import { Poppins } from "next/font/google"
 import { useEffect, useMemo, useState } from "react"
 
@@ -20,10 +20,16 @@ declare module "@mui/material" {
   }
 }
 
-export const poppins = Poppins({ subsets: ["latin"], weight: "400" })
+declare module "@emotion/react" {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface Theme extends MuiTheme {
+  }
+}
+
+export const poppins = Poppins({ subsets: [ "latin" ], weight: "400" })
 
 export function useThemeOptions() {
-  const [rootElement, setRootElement] = useState<Element>()
+  const [ rootElement, setRootElement ] = useState<Element>()
 
   useEffect(() => {
     setRootElement(document.querySelector("#__next") ?? undefined)
@@ -77,6 +83,6 @@ export function useThemeOptions() {
           },
         },
       }),
-    [rootElement]
+    [ rootElement ],
   )
 }

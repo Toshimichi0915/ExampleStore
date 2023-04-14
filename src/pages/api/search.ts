@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { z } from "zod"
 import { ZodError } from "zod/lib"
-import { prisma, productPrismaToObj } from "@/server/db"
+import { productPrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
 
 export const SearchSchema = z.object({
   type: z.string(),

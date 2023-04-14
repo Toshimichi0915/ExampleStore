@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, prisma, productTypePrismaToObj } from "@/server/db"
+import { isAdmin } from "@/server/session/session.util"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
+import { productTypePrismaToObj } from "@/server/mapper.util"
+import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
