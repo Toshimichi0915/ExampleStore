@@ -35,6 +35,7 @@ export function useProductTypeEdit(productType?: ProductType): ProductTypeEdit {
     if (!response.ok) throw new Error(`Failed to edit product type: ${response.statusText}`)
   }, {
     async onSuccess() {
+      await queryClient.invalidateQueries([ "search" ])
       await queryClient.invalidateQueries([ "products" ])
       await queryClient.invalidateQueries([ "productTypes" ])
     },
@@ -50,6 +51,8 @@ export function useProductTypeEdit(productType?: ProductType): ProductTypeEdit {
     if (!response.ok) throw new Error(`Failed to delete product type: ${response.statusText}`)
   }, {
     async onSuccess() {
+      await queryClient.invalidateQueries([ "search" ])
+      await queryClient.invalidateQueries([ "products" ])
       await queryClient.invalidateQueries([ "productTypes" ])
     },
   })

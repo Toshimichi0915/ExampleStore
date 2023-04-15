@@ -38,6 +38,7 @@ export function useProductEdit(product?: Product): ProductEdit {
     if (!response.ok) throw new Error(`Failed to edit product: ${response.statusText}`)
   }, {
     async onSuccess() {
+      await queryClient.invalidateQueries([ "search" ])
       await queryClient.invalidateQueries([ "products" ])
     },
   })
@@ -52,6 +53,7 @@ export function useProductEdit(product?: Product): ProductEdit {
     if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`)
   }, {
     async onSuccess() {
+      await queryClient.invalidateQueries([ "search" ])
       await queryClient.invalidateQueries([ "products" ])
     },
   })

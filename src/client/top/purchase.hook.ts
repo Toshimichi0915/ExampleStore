@@ -20,7 +20,7 @@ export function usePurchase(product: Product): ProductItem {
     return await response.json()
   }, {
     async onSuccess() {
-      await queryClient.invalidateQueries([ "products" ])
+      await queryClient.invalidateQueries([ "search" ])
       await router.push(`/products/${product.id}`)
     },
   })
