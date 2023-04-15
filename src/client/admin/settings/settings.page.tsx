@@ -1,6 +1,6 @@
-import { Button, Theme, useTheme } from "@mui/material"
+import { Button, TextField, Theme, useTheme } from "@mui/material"
 import { ProductType, PurchasedProduct } from "@/common/db.type"
-import { useCallback, useState } from "react"
+import { ChangeEvent, useCallback, useState } from "react"
 import { paperStyles } from "@/client/common/styles"
 import { ProductEditDialog } from "@/client/admin/settings/dialog/product.component"
 import { ProductTypeEditDialog } from "@/client/admin/settings/dialog/product-type.component"
@@ -9,11 +9,14 @@ import { css } from "@emotion/react"
 import { ProductTableRow, ProductTypeTableRow } from "@/client/admin/settings/row"
 import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/admin/settings"
+import { usePassword } from "@/client/admin/settings/password.hook"
+import { signOut } from "next-auth/react"
 
 export function SettingsPage({
                                products: initialProducts,
                                productTypes: initialProductTypes,
                              }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+
   const theme = useTheme()
   const [ productEditDialogOpen, setProductEditDialogOpen ] = useState(false)
   const [ productTypeEditDialogOpen, setProductTypeEditDialogOpen ] = useState(false)
@@ -24,6 +27,16 @@ export function SettingsPage({
   const closeProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(false), [])
 
   const { products, productTypes } = useSettings(initialProducts, initialProductTypes)
+
+  const [ oldPassword, setOldPassword ] = useState("")
+  const [ newPassword, setNewPassword ] = useState("")
+  const { update, successMessage, errorMessage } = usePassword()
+
+  const changeOldPassword = useCallback((event: ChangeEvent<HTMLInputElement>) => setOldPassword(event.target.value), [])
+  const changeNewPassword = useCallback((event: ChangeEvent<HTMLInputElement>) => setNewPassword(event.target.value), [])
+  const updatePassword = useCallback(() => update(oldPassword, newPassword), [ update, oldPassword, newPassword ])
+
+  const logout = useCallback(() => signOut(), [])
 
   return (
     <>
@@ -66,6 +79,20 @@ export function SettingsPage({
               )}
           </div>
         </section>
+        <section className="Settings-Password">
+          <h2 className="Settings-PasswordTitle">Password</h2>
+          <div className="Settings-PasswordForm">
+            {successMessage && (<p className="Settings-PasswordFormSuccess">{successMessage}</p>)}
+            {errorMessage && (<p className="Settings-PasswordFormError">{errorMessage}</p>)}
+            <TextField label="Old Password" type="password" value={oldPassword} onChange={changeOldPassword} />
+            <TextField label="New Password" type="password" value={newPassword} onChange={changeNewPassword} />
+            <Button onClick={updatePassword}>Click To Change</Button>
+          </div>
+        </section>
+        <section className="Settings-SignOut">
+          <h2 className="Settings-SignOut">Sign Out</h2>
+          <Button onClick={logout}>Click to Sign Out</Button>
+        </section>
       </main>
     </>
   )
@@ -89,6 +116,10 @@ function settingsPageStyles(theme: Theme) {
       width: 1024px;
     }
 
+    & .Settings-Title {
+      margin-bottom: 0;
+    }
+
     & .Settings-ProductType {
       display: flex;
       flex-direction: column;
@@ -101,7 +132,7 @@ function settingsPageStyles(theme: Theme) {
       align-items: center;
     }
 
-    & .Settings-TableTitle {
+    & .Settings-TableTitle, & .Settings-PasswordTitle, & .Settings-SignOutTitle {
       margin: 8px 0;
     }
 
@@ -120,6 +151,22 @@ function settingsPageStyles(theme: Theme) {
 
     & .Settings-Empty {
       margin: 3px 0;
+    }
+
+    & .Settings-PasswordForm {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    & .Settings-PasswordFormSuccess {
+      color: #4caf50;
+      margin: 0;
+    }
+
+    & .Settings-PasswordFormError {
+      color: red;
+      margin: 0;
     }
   `
 }

@@ -1,7 +1,7 @@
 import { ProductType } from "@/common/db.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useMemo } from "react"
-import { ProductTypeInput } from "@/common/product.type.ts"
+import { ProductTypeInput } from "@/common/product.type"
 
 export interface ProductTypeEdit {
   edit(body: ProductTypeEditBody): void

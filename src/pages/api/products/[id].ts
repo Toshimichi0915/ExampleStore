@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { isAdmin, isProductAvailable } from "@/server/session/session.util"
-import { PurchasedProductSchema } from "@/common/product.type.ts"
+import { PurchasedProductSchema } from "@/common/product.type"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
 import { getUserId } from "@/server/session/id.util"

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { isAdmin } from "@/server/session/session.util"
-import { PurchasedProductSchema } from "@/common/product.type.ts"
+import { PurchasedProductSchema } from "@/common/product.type"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import { purchasedProductPrismaToObj } from "@/server/mapper.util"
@@ -19,7 +19,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   if (req.method === "GET") {
-    const products = await prisma.product.findMany()
+    const products = await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    })
 
     res.status(200).json(products.map(purchasedProductPrismaToObj))
   } else if (req.method === "POST") {

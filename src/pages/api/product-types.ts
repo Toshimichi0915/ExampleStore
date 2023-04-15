@@ -9,7 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const session = await getServerSession(req, res, authOptions)
 
   if (req.method === "GET") {
-    const productTypes = (await prisma.productType.findMany()).map(productTypePrismaToObj)
+    const productTypes = (await prisma.productType.findMany({
+      orderBy: { createdAt: "desc" },
+    })).map(productTypePrismaToObj)
 
     res.status(200).json(productTypes)
   } else if (req.method === "POST") {

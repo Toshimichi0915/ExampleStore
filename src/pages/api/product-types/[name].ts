@@ -4,7 +4,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import { productTypePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
-import { ProductTypeSchema } from "@/common/product.type.ts"
+import { ProductTypeSchema } from "@/common/product.type"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
@@ -36,9 +36,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(403).json({ error: "Forbidden" })
       return
     }
+
     const schema = ProductTypeSchema.safeParse(req.body)
     if (!schema.success) {
       res.status(400).json({ error: "Invalid data" })
+      return
+    }
+
+    if (schema.data.name === name) {
+      res.status(200).end()
       return
     }
 

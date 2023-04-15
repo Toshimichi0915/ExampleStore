@@ -6,8 +6,12 @@ export default SettingsPage
 
 export async function getServerSideProps() {
 
-  const products = (await prisma.product.findMany()).map(purchasedProductPrismaToObj)
-  const productTypes = (await prisma.productType.findMany()).map(productTypePrismaToObj)
+  const products = (await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
+  })).map(purchasedProductPrismaToObj)
+  const productTypes = (await prisma.productType.findMany({
+    orderBy: { createdAt: "desc" },
+  })).map(productTypePrismaToObj)
   return {
     props: {
       products,
