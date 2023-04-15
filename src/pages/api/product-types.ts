@@ -8,16 +8,17 @@ import { prisma } from "@/server/prisma.util"
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
 
-  if (!session) {
-    res.status(401).json({ error: "Unauthorized" })
-    return
-  }
-
   if (req.method === "GET") {
     const productTypes = (await prisma.productType.findMany()).map(productTypePrismaToObj)
 
     res.status(200).json(productTypes)
   } else if (req.method === "POST") {
+
+    if (!session) {
+      res.status(401).json({ error: "Unauthorized" })
+      return
+    }
+
     if (!isAdmin(session)) {
       res.status(403).json({ error: "Forbidden" })
       return
