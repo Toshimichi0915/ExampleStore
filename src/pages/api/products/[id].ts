@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { isAdmin, isProductAvailable } from "@/server/session/session.util"
-import { PurchasedProductSchema } from "@/common/product.util"
+import { PurchasedProductSchema } from "@/common/product.type.ts"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
 import { getUserId } from "@/server/session/id.util"
-import { productPrismaToObj, purchasedProductPrismaToObj } from "@/server/mapper.util"
+import { purchasedProductPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -12,11 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const userId = getUserId(req, res)
   if (!userId) {
-    res.status(401).json({ error: "Unauthorized" })
-    return
-  }
-
-  if (!session) {
     res.status(401).json({ error: "Unauthorized" })
     return
   }
@@ -40,18 +35,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    const details = req.query.details === "true"
-    if (details) {
-      if (!(await isProductAvailable(product, userId, session))) {
-        res.status(403).json({ error: "Forbidden" })
-        return
-      }
-
-      res.status(200).json(purchasedProductPrismaToObj(product))
-    } else {
-      res.status(200).json(productPrismaToObj(product))
+    if (!(await isProductAvailable(product, userId, session))) {
+      res.status(403).json({ error: "Forbidden" })
+      return
     }
+
+    res.status(200).json(purchasedProductPrismaToObj(product))
   } else if (req.method === "PUT") {
+
+    if (!session) {
+      res.status(401).json({ error: "Unauthorized" })
+      return
+    }
+
     if (!isAdmin(session)) {
       res.status(403).json({ error: "Forbidden" })
       return
@@ -76,6 +72,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).end()
   } else if (req.method === "DELETE") {
+
+    if (!session) {
+      res.status(401).json({ error: "Unauthorized" })
+      return
+    }
+
     if (!isAdmin(session)) {
       res.status(403).json({ error: "Forbidden" })
       return

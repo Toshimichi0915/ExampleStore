@@ -10,8 +10,8 @@ export interface Settings {
 
 export function useSettings(initialProducts: PurchasedProduct[], initialProductTypes: ProductType[]): Settings {
 
-  const { data: products, isSuccess: isProductSuccess } = useQuery([ "products", "details" ], async () => {
-    const response = await fetch("/api/products?details=true")
+  const { data: products, isSuccess: isProductSuccess } = useQuery([ "products" ], async () => {
+    const response = await fetch("/api/products")
     if (!response.ok) throw new Error(`Failed to fetch products: ${response.statusText}`)
     return await response.json()
   })

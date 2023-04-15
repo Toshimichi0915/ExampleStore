@@ -6,19 +6,14 @@ import { css } from "@mui/material"
 export function PurchaseHistory({ className }: { className?: string }) {
   const [ dialogOpen, setDialogOpen ] = useState(false)
 
-  const handleDialogClose = useCallback(() => {
-    setDialogOpen(false)
-  }, [])
-
-  const handleButtonClick = useCallback(() => {
-    setDialogOpen(true)
-  }, [])
+  const closeDialog = useCallback(() => setDialogOpen(false), [])
+  const clickButton = useCallback(() => setDialogOpen(true), [])
 
   return (
     <div css={purchaseHistoryStyles} className={className}>
-      <PurchaseHistoryDialog open={dialogOpen} onClose={handleDialogClose} />
+      <PurchaseHistoryDialog open={dialogOpen} onClose={closeDialog} />
       <div className="PurchaseHistory-Paper">
-        <button onClick={handleButtonClick} className="PurchaseHistory-Button">
+        <button onClick={clickButton} className="PurchaseHistory-Button">
           <ShoppingCartIcon className="PurchaseHistory-Icon" />
         </button>
       </div>

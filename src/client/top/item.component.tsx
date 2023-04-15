@@ -38,7 +38,6 @@ export function productItemStyles(theme: Theme) {
     }
 
     & .ProductItem-PurchaseButton {
-      outline: none;
       width: 100%;
       border: 2px solid ${theme.palette.primary.main};
       color: ${theme.palette.primary.main};

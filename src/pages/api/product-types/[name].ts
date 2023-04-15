@@ -4,7 +4,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"
 import { productTypePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
-import { ProductTypeSchema } from "@/common/product.util"
+import { ProductTypeSchema } from "@/common/product.type.ts"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)

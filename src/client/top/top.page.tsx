@@ -1,16 +1,27 @@
-import { useProducts } from "@/client/common/products.hook"
 import { Header } from "@/client/top/header.component"
 import { Main } from "@/client/top/main.component"
 import { css } from "@emotion/react"
 import { InferGetStaticPropsType } from "next"
 import { getStaticProps } from "@/pages"
+import { useSearch } from "@/client/top/search.hook"
+import { useSearchInputStore } from "@/client/top/search-input.store"
+import { Search } from "@/client/top/search/search.component"
+import { useMemo } from "react"
+import { SearchInput } from "@/common/search.type"
 
-export function TopPage({ products: initialProducts }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const { products } = useProducts(initialProducts)
+export function TopPage({
+                          products: initialProducts,
+                          productTypes: initialProductTypes,
+                        }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [ query, types, sort ] = useSearchInputStore((state) => [ state.query, state.types, state.sort ])
+
+  const searchInput: SearchInput = useMemo(() => ({ query, types, sort }), [ query, types, sort ])
+  const products = useSearch(searchInput, initialProducts)
 
   return (
     <div css={topPageStyles}>
       <Header />
+      <Search productTypes={initialProductTypes} />
       <Main products={products} />
     </div>
   )

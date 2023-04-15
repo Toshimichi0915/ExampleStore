@@ -1,9 +1,11 @@
 import { Product } from "@/common/db.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useMemo } from "react"
+import { PurchasedProductInput } from "@/common/product.type.ts"
 
 export interface ProductEdit {
-  edit: (body: ProductEditBody) => void
+  edit(body: ProductEditBody): void
+
   remove: () => void
 }
 
@@ -24,13 +26,14 @@ export function useProductEdit(product?: Product): ProductEdit {
 
     const url = product ? `/api/products/${product.id}` : "/api/products"
     const method = product ? "PUT" : "POST"
+    const value: PurchasedProductInput = { name, type, price: price, content }
 
     const response = await fetch(url, {
       method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name, type, price: price, content }),
+      body: JSON.stringify(value),
     })
     if (!response.ok) throw new Error(`Failed to edit product: ${response.statusText}`)
   }, {

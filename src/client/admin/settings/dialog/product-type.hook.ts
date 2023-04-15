@@ -1,9 +1,11 @@
 import { ProductType } from "@/common/db.type"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useMemo } from "react"
+import { ProductTypeInput } from "@/common/product.type.ts"
 
 export interface ProductTypeEdit {
-  edit: (body: ProductTypeEditBody) => void
+  edit(body: ProductTypeEditBody): void
+
   remove: () => void
 }
 
@@ -21,13 +23,14 @@ export function useProductTypeEdit(productType?: ProductType): ProductTypeEdit {
 
     const url = productType ? `/api/product-types/${productType.name}` : "/api/product-types"
     const method = productType ? "PUT" : "POST"
+    const value: ProductTypeInput = { name }
 
     const response = await fetch(url, {
       method,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name }),
+      body: JSON.stringify(value),
     })
     if (!response.ok) throw new Error(`Failed to edit product type: ${response.statusText}`)
   }, {

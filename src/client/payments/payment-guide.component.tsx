@@ -1,11 +1,12 @@
 import { Charge, ChargeStatus } from "@/common/db.type"
-import { ReactNode } from "react"
+import { ReactNode, useMemo } from "react"
 import { css } from "@emotion/react"
 import { InvoiceCard, PaymentUrlCard } from "@/client/payments/payment-card.component"
 
 interface PaymentStatus {
   title: string,
-  component: (charge: Charge) => ReactNode
+
+  component(charge: Charge): ReactNode
 }
 
 const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
@@ -44,7 +45,7 @@ export function PaymentGuide({ charge, className }: { charge: Charge; className?
 
   const paymentStatus = paymentStatuses[charge.status]
   const title = paymentStatus.title
-  const component = paymentStatus.component(charge)
+  const component = useMemo(() => (paymentStatus.component(charge)), [ charge, paymentStatus ])
 
   return (
     <main css={paymentGuideStyles} className={className}>

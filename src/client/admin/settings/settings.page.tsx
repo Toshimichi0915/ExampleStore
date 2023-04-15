@@ -18,21 +18,10 @@ export function SettingsPage({
   const [ productEditDialogOpen, setProductEditDialogOpen ] = useState(false)
   const [ productTypeEditDialogOpen, setProductTypeEditDialogOpen ] = useState(false)
 
-  const openProductEditDialog = useCallback(() => {
-    setProductEditDialogOpen(true)
-  }, [])
-
-  const closeProductEditDialog = useCallback(() => {
-    setProductEditDialogOpen(false)
-  }, [])
-
-  const openProductTypeEditDialog = useCallback(() => {
-    setProductTypeEditDialogOpen(true)
-  }, [])
-
-  const closeProductTypeEditDialog = useCallback(() => {
-    setProductTypeEditDialogOpen(false)
-  }, [])
+  const openProductEditDialog = useCallback(() => setProductEditDialogOpen(true), [])
+  const closeProductEditDialog = useCallback(() => setProductEditDialogOpen(false), [])
+  const openProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(true), [])
+  const closeProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(false), [])
 
   const { products, productTypes } = useSettings(initialProducts, initialProductTypes)
 

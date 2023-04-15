@@ -23,13 +23,15 @@ enum UserRole {
 }
 
 model Product {
-  id      String       @id @default(cuid())
-  name    String
-  price   Int
-  type    ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
-  typeId  String?      @map("type")
-  content String
-  charges Charge[]
+  id        String       @id @default(cuid())
+  name      String
+  price     Int
+  type      ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
+  typeId    String?      @map("type")
+  content   String
+  charges   Charge[]
+  createdAt DateTime     @default(now()) @map("created_at")
+  updatedAt DateTime     @updatedAt @map("updated_at")
 
   @@map("shop_items")
 }
@@ -37,6 +39,8 @@ model Product {
 model ProductType {
   name      String    @id @unique
   shopItems Product[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
 
   @@map("shop_item_types")
 }
@@ -48,7 +52,9 @@ model Charge {
   productId  String       @map("product")
   coinbaseId String?      @unique @map("coinbase_id")
   chargeUrl  String?      @map("charge_url")
-  userId       String
+  userId     String
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
 
   @@map("charges")
 }

@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 
 export interface ProductItem {
-  purchase: () => void
+  purchase(): void
 }
 
 export function usePurchase(product: Product): ProductItem {

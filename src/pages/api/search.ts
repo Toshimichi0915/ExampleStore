@@ -1,16 +1,18 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { z } from "zod"
 import { ZodError } from "zod/lib"
 import { productPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
+import { ChargeStatus } from "@/common/db.type"
+import { SearchSchema } from "@/common/search.type"
 
-export const SearchSchema = z.object({
-  type: z.string(),
-  skip: z.number().optional(),
-  take: z.number().optional(),
-})
+export const prismaSortOptions = {
+  new: { createdAt: "desc" },
+  old: { createdAt: "asc" },
+  expensive: { price: "desc" },
+  cheap: { price: "asc" },
+} as const
 
-export async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
     const result = SearchSchema.safeParse(req.body)
     if (!result.success) {
@@ -18,15 +20,16 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       return
     }
 
-    const { type, skip, take } = result.data
+    const { query, types, sort } = result.data
 
     const response = (
       await prisma.product.findMany({
         where: {
-          typeId: type,
+          name: { contains: query },
+          ...types.length > 0 && { typeId: { in: types } },
+          charges: { none: { NOT: { status: ChargeStatus.FAILED } } },
         },
-        skip,
-        take,
+        orderBy: prismaSortOptions[sort],
       })
     ).map((product) => productPrismaToObj(product))
 

@@ -14,7 +14,7 @@ export function TableRow({ className, children, onEdit, onDelete }: {
   onDelete: () => void
 }) {
   return (
-    <div css={tableRowStyles}>
+    <div css={tableRowStyles} className={className}>
       <p className="TableRow-ColumnName">{children}</p>
       <div className="TableRow-Buttons">
         <Button onClick={onEdit}>EDIT</Button>
@@ -33,18 +33,13 @@ export function ProductTableRow({ className, product, productTypes }: {
   const [ open, setOpen ] = useState(false)
   const { remove } = useProductEdit(product)
 
-  const openDialog = useCallback(() => {
-    setOpen(true)
-  }, [])
-
-  const closeDialog = useCallback(() => {
-    setOpen(false)
-  }, [])
+  const openDialog = useCallback(() => setOpen(true), [])
+  const closeDialog = useCallback(() => setOpen(false), [])
 
   return (
     <>
       <ProductEditDialog open={open} onClose={closeDialog} product={product} productTypes={productTypes} />
-      <TableRow onEdit={openDialog} onDelete={remove}>
+      <TableRow onEdit={openDialog} onDelete={remove} className={className}>
         ${product.price} - {product.name}
       </TableRow>
     </>
@@ -56,13 +51,8 @@ export function ProductTypeTableRow({ className, productType }: { className?: st
   const [ open, setOpen ] = useState(false)
   const { remove } = useProductTypeEdit(productType)
 
-  const openDialog = useCallback(() => {
-    setOpen(true)
-  }, [])
-
-  const closeDialog = useCallback(() => {
-    setOpen(false)
-  }, [])
+  const openDialog = useCallback(() => setOpen(true), [])
+  const closeDialog = useCallback(() => setOpen(false), [])
 
   return (
     <>
