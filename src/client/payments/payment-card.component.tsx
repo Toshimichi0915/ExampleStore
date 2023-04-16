@@ -24,7 +24,7 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
   return (
     <PaymentCard title="Payment" description="Click the URL shown below">
       <div css={paymentUrlCardStyles}>
-        <Link href={charge.chargeUrl ?? ""} className="PaymentUrlCard-ChargeUrl">
+        <Link href={charge.chargeUrl ?? ""} className="PaymentUrlCard-ChargeUrl" target="_blank" rel="noopener noreferrer">
           {charge.chargeUrl}
         </Link>
         <p className="PaymentUrlCard-Description">(Redirects to coinbase payment URL)</p>
