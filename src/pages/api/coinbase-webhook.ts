@@ -1,26 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import coinbase from "coinbase-commerce-node"
+import coinbase, { resources } from "coinbase-commerce-node"
 import { resolveCharge } from "@/server/coinbase.util"
 import { ChargeStatus } from "@/common/db.type"
 import { prisma } from "@/server/prisma.util"
+import { buffer } from "micro"
 
 const { Webhook } = coinbase
-type ChargeResource = coinbase.ChargeResource
 
 const webhookSecret = process.env.COINBASE_WEBHOOK_SECRET ?? ""
-
-interface Webhook {
-  id: number
-  scheduled_for: string
-  event: {
-    id: string
-    resource: string
-    type: string
-    api_version: string
-    created_at: string
-    data: ChargeResource
-  }
-}
 
 export const config = {
   api: {
@@ -35,28 +22,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
+  const rawBody = await buffer(req);
+  let event: resources.Event
   try {
-    Webhook.verifyEventBody(req.body, sigHeader, webhookSecret)
+    event = Webhook.verifyEventBody(rawBody.toString(), sigHeader, webhookSecret)
   } catch (e) {
     res.status(400).send("Bad request")
     return
   }
 
-  let data: Webhook
-
-  try {
-    data = JSON.parse(req.body)
-  } catch (e) {
-    res.status(400).send(`Could not parse request body: ${e}`)
-    return
-  }
-
-  const code = data.event.data.code
-  switch (data.event.type) {
-    case "charges:created":
+  const code = event.data.id
+  switch (event.type) {
+    case "charge:created":
       break
 
-    case "charges:confirmed":
+    case "charge:confirmed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.CONFIRMED },
@@ -64,14 +44,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await resolveCharge(code)
       break
 
-    case "charges:failed":
+    case "charge:failed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.FAILED },
       })
       break
 
-    case "charges:delayed":
+    case "charge:delayed":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.DELAYED },
@@ -86,14 +66,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await resolveCharge(code)
       break
 
-    case "charges:pending":
+    case "charge:pending":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.PENDING },
       })
       break
 
-    case "charges:resolved":
+    case "charge:resolved":
       await prisma.charge.update({
         where: { coinbaseId: code },
         data: { status: ChargeStatus.RESOLVED },
@@ -101,6 +81,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break
 
     default:
-      res.status(400).send(`Unknown event type: ${data.event.type}`)
+      res.status(400).send(`Unknown event type: ${event.type}`)
   }
+
+  res.status(200).end()
 }

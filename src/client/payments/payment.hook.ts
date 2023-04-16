@@ -9,6 +9,7 @@ export function useCharge(initialCharge: Charge): Charge {
     return await response.json()
   }, {
     initialData: initialCharge,
+    refetchInterval: 10000,
   })
 
   return data
