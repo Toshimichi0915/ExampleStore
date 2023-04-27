@@ -7,7 +7,7 @@ export function Header() {
   return (
     <header css={headerStyles}>
       <div>
-        <h1 className="Header-Title">Asteroid Shop</h1>
+        <h1 className="Header-Title">Genshin Store</h1>
         <p className="Header-Description">Premium Twitter Accounts</p>
       </div>
       <div>
