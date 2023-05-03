@@ -7,7 +7,7 @@ import { useProductTypeEdit } from "@/client/admin/settings/dialog/product-type.
 export function ProductTypeEditDialog({ className, open, onClose, productType }: {
   className?: string,
   open: boolean
-  onClose: () => void
+  onClose(): void
   productType?: ProductType
 }) {
 

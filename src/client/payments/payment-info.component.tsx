@@ -16,6 +16,11 @@ export function PaymentInfo({ charge, className }: { charge: Charge; className?:
     <div css={paymentInfoStyles} className={className}>
       <h1>Payment Status</h1>
       <PaymentInfoRow
+        left="Name"
+        right={charge.product.name}
+        className="PaymentInfo-PaymentInfoRow"
+      />
+      <PaymentInfoRow
         left="Status"
         right={charge.status}
         className="PaymentInfo-PaymentInfoRow"

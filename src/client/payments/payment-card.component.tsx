@@ -4,6 +4,8 @@ import Link from "next/link"
 import { css } from "@emotion/react"
 import { paperStyles } from "@/client/common/styles"
 import { ReactNode } from "react"
+import { useInvoice } from "@/client/payments/invoice.hook"
+import DownloadIcon from "@mui/icons-material/Download"
 
 function PaymentCard({ className, title, description, children }: {
   className?: string,
@@ -35,9 +37,17 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
 }
 
 export function InvoiceCard({ charge }: { charge: Charge }) {
+
+  const invoice = useInvoice(charge)
+
   return (
     <PaymentCard title="Download Invoice" description="Click the icon to download the invoice">
-      <p>Click here!</p>
+      <div css={paymentInvoiceCardStyles}>
+        <div className="InvoiceCard-Button" onClick={invoice.download}>
+          <DownloadIcon className="InvoiceCard-Button-Icon" />
+          <span className="InvoiceCard-Button-Text">Click here!</span>
+        </div>
+      </div>
     </PaymentCard>
   )
 }
@@ -57,7 +67,6 @@ function paymentCardStyles() {
   `
 }
 
-
 function paymentUrlCardStyles(theme: Theme) {
   return css`
     padding: 20px 0;
@@ -75,6 +84,34 @@ function paymentUrlCardStyles(theme: Theme) {
 
     & .PaymentUrlCard-Description {
       text-align: center;
+    }
+  `
+}
+
+function paymentInvoiceCardStyles(theme: Theme) {
+  return css`
+    display: grid;
+    place-items: center;
+
+    & .InvoiceCard-Button {
+      display: flex;
+      align-items: center;
+      flex-direction: row;
+      padding: 20px 0;
+      cursor: pointer;
+      
+      transition: color 0.2s ease-in-out;
+      &:hover {
+        color: ${theme.palette.info.light};
+      }
+    }
+    
+    & .InvoiceCard-Button-Icon {
+      font-size: 2rem;
+    }
+    
+    & .InvoiceCard-Button-Text {
+      font-size: 1.25rem;
     }
   `
 }
