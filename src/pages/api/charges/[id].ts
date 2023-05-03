@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { getUserId } from "@/server/session/id.util"
 import { prisma } from "@/server/prisma.util"
 import { chargePrismaToObj } from "@/server/mapper.util"
+import { getUserId } from "@/server/session.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const userId = getUserId(req, res)
+  const userId = await getUserId(req, res)
 
   if (!userId) {
     res.status(401).json({ error: "Unauthorized" })
@@ -25,6 +25,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
 
     if (!charge) {
+      res.status(404).json({ error: "Charge not found" })
+      return
+    }
+
+    if (charge.userId !== userId) {
       res.status(404).json({ error: "Charge not found" })
       return
     }

@@ -1,8 +1,5 @@
-import { getUserId } from "@/server/session/id.util"
 import { GetServerSidePropsContext } from "next"
-import { isProductAvailable } from "@/server/session/session.util"
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/pages/api/auth/[...nextauth]"
+import { getUserId, isProductAvailable } from "@/server/session.util"
 import { ChargeStatus } from "@/common/db.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
@@ -19,14 +16,12 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  const userId = getUserId(context.req, context.res)
+  const userId = await getUserId(context.req, context.res)
   if (!userId) {
     return {
       notFound: true,
     }
   }
-
-  const session = await getServerSession(context.req, context.res, authOptions)
 
   // pending payments
   const charge = await prisma.charge.findFirst({
@@ -59,7 +54,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  if (!(await isProductAvailable(product, userId, session))) {
+  if (!(await isProductAvailable(product, context.req, context.res))) {
     return {
       notFound: true,
     }

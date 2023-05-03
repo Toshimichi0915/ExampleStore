@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin } from "@/server/session/session.util"
+import { isAdmin } from "@/server/session.util"
 import { PurchasedProductSchema } from "@/common/product.type"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { getServerSession } from "next-auth/next"

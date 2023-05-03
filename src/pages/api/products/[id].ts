@@ -1,20 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { isAdmin, isProductAvailable } from "@/server/session/session.util"
+import { getUserId, isAdmin, isProductAvailable } from "@/server/session.util"
 import { PurchasedProductSchema } from "@/common/product.type"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "../auth/[...nextauth]"
-import { getUserId } from "@/server/session/id.util"
 import { purchasedProductPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, authOptions)
-
-  const userId = getUserId(req, res)
-  if (!userId) {
-    res.status(401).json({ error: "Unauthorized" })
-    return
-  }
 
   const { id } = req.query
 
@@ -35,13 +27,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return
     }
 
-    if (!(await isProductAvailable(product, userId, session))) {
+    if (!(await isProductAvailable(product, req, res))) {
       res.status(403).json({ error: "Forbidden" })
       return
     }
 
     res.status(200).json(purchasedProductPrismaToObj(product))
   } else if (req.method === "PUT") {
+    const session = await getServerSession(req, res, authOptions)
+
+    const userId = await getUserId(req, res)
+    if (!userId) {
+      res.status(401).json({ error: "Unauthorized" })
+      return
+    }
 
     if (!session) {
       res.status(401).json({ error: "Unauthorized" })
@@ -72,6 +71,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     res.status(200).end()
   } else if (req.method === "DELETE") {
+    const session = await getServerSession(req, res, authOptions)
+
+    const userId = await getUserId(req, res)
+    if (!userId) {
+      res.status(401).json({ error: "Unauthorized" })
+      return
+    }
 
     if (!session) {
       res.status(401).json({ error: "Unauthorized" })

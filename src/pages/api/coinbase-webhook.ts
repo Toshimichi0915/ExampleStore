@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
-  const rawBody = await buffer(req);
+  const rawBody = await buffer(req)
   let event: resources.Event
   try {
     event = Webhook.verifyEventBody(rawBody.toString(), sigHeader, webhookSecret)
