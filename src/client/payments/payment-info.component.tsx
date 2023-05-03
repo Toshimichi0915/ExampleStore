@@ -14,7 +14,7 @@ function PaymentInfoRow({ left, right, className }: { left: string; right: strin
 export function PaymentInfo({ charge, className }: { charge: Charge; className?: string }) {
   return (
     <div css={paymentInfoStyles} className={className}>
-      <h1>Payment Status</h1>
+      <h1 className="PaymentInfo-Title">Payment Status</h1>
       <PaymentInfoRow
         left="Name"
         right={charge.product.name}
@@ -41,12 +41,28 @@ export function PaymentInfo({ charge, className }: { charge: Charge; className?:
 
 function paymentInfoStyles(theme: Theme) {
   return css`
+    position: sticky;
+    top: 0;
+    height: 100vh;
     padding: 40px 60px;
     background-color: ${theme.palette.background.light};
+
+    & .PaymentInfo-Title {
+      margin-bottom: 40px;
+    }
 
     & .PaymentInfo-PaymentInfoRow {
       display: flex;
       justify-content: space-between;
+      margin: 20px 0;
+
+      & .PaymentInfoRow-Left {
+        margin: 0;
+      }
+
+      & .PaymentInfoRow-Right {
+        margin: 0;
+      }
     }
   `
 }

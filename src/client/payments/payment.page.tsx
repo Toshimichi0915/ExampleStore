@@ -21,7 +21,6 @@ function paymentPageStyles() {
   return css`
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 
     @media (min-width: 768px) {
       flex-direction: row;

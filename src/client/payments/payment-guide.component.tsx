@@ -1,7 +1,13 @@
 import { Charge, ChargeStatus } from "@/common/db.type"
 import { ReactNode, useMemo } from "react"
 import { css } from "@emotion/react"
-import { InvoiceCard, PaymentUrlCard } from "@/client/payments/payment-card.component"
+import {
+  DownloadCard,
+  InvoiceCard,
+  PaymentCard,
+  PaymentUrlCard,
+  PreviewCard,
+} from "@/client/payments/payment-card.component"
 
 interface PaymentStatus {
   title: string,
@@ -12,32 +18,48 @@ interface PaymentStatus {
 const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
   [ChargeStatus.CREATED]: {
     title: "Awaiting Payment",
-    component: (charge) => (
-      <>
-        <PaymentUrlCard charge={charge} />
-        <InvoiceCard charge={charge} />
-      </>
-    ),
+    component: (charge) => (<>
+      <PaymentUrlCard charge={charge} />
+      <InvoiceCard charge={charge} />
+    </>),
   },
   [ChargeStatus.CONFIRMED]: {
-    title: "Payment confirmed",
-    component: () => (<></>),
+    title: "Payment Confirmed",
+    component: (charge) => (<>
+      <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
+      <InvoiceCard charge={charge} />
+    </>),
   },
   [ChargeStatus.FAILED]: {
     title: "Payment Failed",
-    component: () => (<></>),
+    component: (charge) => (<>
+      <PaymentCard title="Payment Failed"
+                   description="Sorry but payment has failed. Please try again from the beginning :(" />
+      <InvoiceCard charge={charge} />
+    </>),
   },
   [ChargeStatus.DELAYED]: {
     title: "Payment Delayed",
-    component: () => (<></>),
+    component: (charge) => (<>
+      <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
+      <InvoiceCard charge={charge} />
+    </>),
   },
   [ChargeStatus.PENDING]: {
     title: "Awaiting Confirmation",
-    component: () => (<></>),
+    component: (charge) => (<>
+      <PaymentCard title="Awaiting Confirmation"
+                   description="The payment is now being processed by the blockchain..." />
+      <InvoiceCard charge={charge} />
+    </>),
   },
   [ChargeStatus.RESOLVED]: {
     title: "Payment Completed",
-    component: () => (<></>),
+    component: (charge) => (<>
+      <DownloadCard charge={charge} />
+      <PreviewCard charge={charge} />
+      <InvoiceCard charge={charge} />
+    </>),
   },
 } as const
 
@@ -58,6 +80,7 @@ export function PaymentGuide({ charge, className }: { charge: Charge; className?
 function paymentGuideStyles() {
   return css`
     padding: 40px 20px;
+    overflow: hidden;
 
     @media (min-width: 768px) {
       padding: 40px 60px;
