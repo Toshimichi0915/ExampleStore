@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import coinbase, { resources } from "coinbase-commerce-node"
+import coinbase, { ChargeResource, resources } from "coinbase-commerce-node"
 import { resolveCharge } from "@/server/coinbase.util"
 import { ChargeStatus } from "@/common/db.type"
 import { prisma } from "@/server/prisma.util"
@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return
   }
 
-  const code = event.data.id
+  const code = (event.data as ChargeResource).code
   switch (event.type) {
     case "charge:created":
       await prisma.charge.update({
