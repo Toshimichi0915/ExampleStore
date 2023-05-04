@@ -24,6 +24,7 @@ export interface Charge {
 }
 
 export const ChargeStatus = {
+  INITIALIZING: "INITIALIZING",
   CREATED: "CREATED",
   CONFIRMED: "CONFIRMED",
   FAILED: "FAILED",

@@ -34,6 +34,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const code = event.data.id
   switch (event.type) {
     case "charge:created":
+      await prisma.charge.update({
+        where: { coinbaseId: code },
+        data: { status: ChargeStatus.CREATED },
+      })
       break
 
     case "charge:confirmed":
