@@ -18,7 +18,7 @@ interface PaymentStatus {
 const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
   [ChargeStatus.INITIALIZING]: {
     title: "Initializing",
-    component: (charge) => (<>
+    component: () => (<>
       <PaymentCard title="Initializing" description="Please wait a moment..." />
     </>),
   },
