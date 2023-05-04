@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import coinbase, { ChargeResource, resources } from "coinbase-commerce-node"
-import { resolveCharge } from "@/server/coinbase.util"
 import { ChargeStatus } from "@/common/db.type"
 import { prisma } from "@/server/prisma.util"
 import { buffer } from "micro"
@@ -43,9 +42,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     case "charge:confirmed":
       await prisma.charge.update({
         where: { coinbaseId: code },
-        data: { status: ChargeStatus.CONFIRMED },
+        data: { status: ChargeStatus.RESOLVED },
       })
-      await resolveCharge(code)
       break
 
     case "charge:failed":
@@ -56,17 +54,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break
 
     case "charge:delayed":
-      await prisma.charge.update({
-        where: { coinbaseId: code },
-        data: { status: ChargeStatus.DELAYED },
-      })
-
       const validCharge = await prisma.product.findFirst({
         where: { charges: { some: { coinbaseId: code } } },
         include: { charges: { where: { NOT: { status: ChargeStatus.FAILED } } } },
       })
-      if (validCharge) {
-        await resolveCharge(code)
+      if (!validCharge) {
+        await prisma.charge.update({
+          where: { coinbaseId: code },
+          data: { status: ChargeStatus.RESOLVED },
+        })
       }
 
       break

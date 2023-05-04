@@ -53,17 +53,3 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
     product,
   )
 }
-
-export async function resolveCharge(chargeId: string): Promise<void> {
-  const res = await fetch(`https://api.commerce.coinbase.com/charges/${chargeId}/resolve`, {
-    method: "POST",
-    headers: {
-      "X-CC-Api-Key": coinbaseApiKey,
-      "X-CC-Version": "2018-03-22",
-    },
-  })
-
-  if (!res.ok) {
-    throw new Error(`Coinbase API responded with ${res.status}`)
-  }
-}

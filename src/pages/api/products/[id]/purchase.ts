@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import { prisma } from "@/server/prisma.util"
 import { getUserId } from "@/server/session.util"
+import { ChargeStatus } from "@/common/db.type"
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -35,6 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const existingCharge = await prisma.charge.findFirst({
       where: {
         productId: product.id,
+        status: { not: ChargeStatus.FAILED },
       },
     })
 

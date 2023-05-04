@@ -8,6 +8,7 @@ import {
   PaymentUrlCard,
   PreviewCard,
 } from "@/client/payments/payment-card.component"
+import { CircularProgress } from "@mui/material"
 
 interface PaymentStatus {
   title: string,
@@ -77,7 +78,7 @@ export function PaymentGuide({ charge, className }: { charge: Charge; className?
 
   return (
     <main css={paymentGuideStyles} className={className}>
-      <h1>{title}</h1>
+      <h1 className="PaymentGuide-Title">{title} {charge.status !== ChargeStatus.RESOLVED && <CircularProgress />}</h1>
       {component}
     </main>
   )
@@ -100,6 +101,12 @@ function paymentGuideStyles() {
     @media (min-width: 1280px) {
       width: 1024px;
       margin: 0 auto;
+    }
+
+    & .PaymentGuide-Title {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
   `
 }
