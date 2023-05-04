@@ -61,9 +61,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: { charges: { some: { coinbaseId: code } } },
         include: { charges: { where: { NOT: { status: ChargeStatus.FAILED } } } },
       })
-      if (validCharge) return
+      if (validCharge) {
+        await resolveCharge(code)
+      }
 
-      await resolveCharge(code)
       break
 
     case "charge:pending":
