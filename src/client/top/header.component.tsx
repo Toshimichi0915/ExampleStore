@@ -12,7 +12,7 @@ export function Header() {
       </div>
       <div>
         <Link
-          href="https://example.com"
+          href="https://t.me/Sacrifice"
           className="Header-Telegram"
         >
           <Image src="/telegram.svg" alt="" width={16} height={16} />
