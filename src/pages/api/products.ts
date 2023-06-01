@@ -26,5 +26,5 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
 
         res.status(200).json(purchasedProductPrismaToObj(product))
       })
-  })
+  }),
 )

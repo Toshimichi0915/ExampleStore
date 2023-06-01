@@ -37,5 +37,6 @@ function searchFilterPopoverStyles() {
       padding: 8px;
       gap: 10px;
       border-radius: 7px;
+      background-image: none;
   `
 }

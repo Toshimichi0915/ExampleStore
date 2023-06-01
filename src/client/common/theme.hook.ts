@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react"
 declare module "@mui/material" {
   interface TypeBackground {
     light: string
+    dark: string
   }
 
   interface Palette {
@@ -46,8 +47,10 @@ export function useThemeOptions() {
           },
           background: {
             default: "#010638",
-            light: "#162074",
-            paper: "#131742",
+            dark: "#131742",
+            light: "#2D3DC6",
+            paper: "#162074",
+
           },
           border: {
             paper: "#30415B",

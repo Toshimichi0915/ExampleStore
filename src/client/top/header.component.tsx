@@ -25,7 +25,7 @@ export function Header() {
 
 function headerStyles(theme: Theme) {
   return css`
-    background-color: ${theme.palette.background.light};
+    background-color: ${theme.palette.background.paper};
     display: flex;
     flex-direction: column;
     gap: 20px;

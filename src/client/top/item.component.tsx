@@ -28,7 +28,6 @@ export function productItemStyles(theme: Theme) {
     padding: 20px;
     border-radius: 6px;
     border: 1px solid ${theme.palette.border.paper};
-    background-color: ${theme.palette.background.paper};
 
     & .ProductItem-ProductType {
       margin: 0;

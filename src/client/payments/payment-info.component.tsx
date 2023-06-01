@@ -45,7 +45,7 @@ function paymentInfoStyles(theme: Theme) {
     top: 0;
     height: 100vh;
     padding: 40px 60px;
-    background-color: ${theme.palette.background.light};
+    background-color: ${theme.palette.background.paper};
 
     & .PaymentInfo-Title {
       margin-bottom: 40px;

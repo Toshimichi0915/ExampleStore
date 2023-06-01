@@ -41,7 +41,7 @@ type GetUserIdReturnType<T extends boolean> = T extends true ? string : string |
 export async function getUserId<T extends boolean>(
   req: IncomingMessage,
   res: ServerResponse,
-  init?: T
+  init?: T,
 ): Promise<GetUserIdReturnType<T>> {
   const session = await getIronSession(req, res, ironOptions)
   if (session.data) {
@@ -59,8 +59,8 @@ export async function getUserId<T extends boolean>(
 }
 
 export function withUserId<T extends boolean>(
-  init: T
-): Middleware<IncomingMessage, ServerResponse, [], [GetUserIdReturnType<T>]> {
+  init: T,
+): Middleware<IncomingMessage, ServerResponse, [], [ GetUserIdReturnType<T> ]> {
   return async (req, res, next) => {
     const userId = await getUserId(req, res, init)
     await next(userId as GetUserIdReturnType<T>)
@@ -70,7 +70,7 @@ export function withUserId<T extends boolean>(
 export async function isProductAvailable(
   product: string | PrismaProduct | Product,
   req: IncomingMessage & { cookies: NextApiRequestCookies },
-  res: ServerResponse
+  res: ServerResponse,
 ): Promise<boolean> {
   const session = await getServerSession(req, res, authOptions)
   if (session && isAdmin(session)) return true
@@ -100,7 +100,7 @@ export function isAdmin(session: Session): boolean {
   return session.user.roles.includes("ADMIN")
 }
 
-export function withAdminSession(): Middleware<NextApiRequest, NextApiResponse, [], [Session]> {
+export function withAdminSession(): Middleware<NextApiRequest, NextApiResponse, [], [ Session ]> {
   return async (req, res, next) => {
     const session = await getServerSession(req, res, authOptions)
     if (session && isAdmin(session)) {

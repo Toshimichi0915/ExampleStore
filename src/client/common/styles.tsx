@@ -5,7 +5,7 @@ export function paperStyles(theme: Theme) {
     padding: 20px;
     border-radius: 6px;
     border: 1px solid ${theme.palette.border.paper};
-    background-color: ${theme.palette.background.paper};
+    background-color: ${theme.palette.background.dark};
   `
 }
 
@@ -35,12 +35,12 @@ export function textAreaStyles(theme: Theme) {
   `
 }
 
-export function dialogStyles(theme: Theme) {
+export function dialogStyles() {
   return css`
     & .MuiDialog-paper {
       padding: 10px;
       border-radius: 6px;
-      border: 1px solid ${theme.palette.border.paper};
+      background-image: none;
     }
 
     & .MuiDialogContent-root {

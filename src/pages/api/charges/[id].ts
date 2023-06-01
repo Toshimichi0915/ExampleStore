@@ -4,7 +4,7 @@ import { chargePrismaToObj } from "@/server/mapper.util"
 import { withUserId } from "@/server/session.util"
 import { middleware, Middleware, withMethods } from "next-pipe"
 
-function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
+function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [ string ]> {
   return async (req, res, next) => {
     const { id } = req.query
     if (typeof id !== "string") {
@@ -38,5 +38,5 @@ export default middleware<NextApiRequest, NextApiResponse>()
 
         return res.status(200).json(chargePrismaToObj(charge, charge.product))
       })
-    })
+    }),
   )

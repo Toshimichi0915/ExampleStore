@@ -51,7 +51,7 @@ function searchTypeButtonStyles(theme: Theme) {
     transition: background-color 0.2s ease-in-out;
 
     &.SearchTypeButton-Selected {
-      background-color: ${theme.palette.background.light};
+      background-color: ${theme.palette.background.paper};
     }
   `
 }
