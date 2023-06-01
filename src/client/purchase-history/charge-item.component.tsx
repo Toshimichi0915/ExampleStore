@@ -24,7 +24,7 @@ function chargeItemStyles(theme: Theme) {
       border-radius: 4px;
       padding: 10px 15px;
       transition: background-color 0.2s;
-      gap: 3px;
+      gap: 10px;
 
       &:hover {
         background-color: ${theme.palette.background.light};
