@@ -1,4 +1,4 @@
-import { Charge } from "@/common/db.type"
+import { Charge, ChargeStatusNames } from "@/common/db.type"
 import Link from "next/link"
 import { css, Theme } from "@mui/material"
 
@@ -7,7 +7,7 @@ export function ChargeItem({ charge, className }: { charge: Charge; className?: 
     <Link href={`/products/${charge.productId}`} css={chargeItemStyles} className={className}>
       <div className="ChargeItem-Container">
         <p className="ChargeItem-ProductName">{charge.product.name}</p>
-        <p className="ChargeItem-ChargeStatus">{charge.status}</p>
+        <p className="ChargeItem-ChargeStatus">{ChargeStatusNames[charge.status]}</p>
       </div>
     </Link>
   )

@@ -1,4 +1,4 @@
-import { Charge } from "@/common/db.type"
+import { Charge, ChargeStatus, ChargeStatusNames } from "@/common/db.type"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 
@@ -12,6 +12,7 @@ function PaymentInfoRow({ left, right, className }: { left: string; right: strin
 }
 
 export function PaymentInfo({ charge, className }: { charge: Charge; className?: string }) {
+
   return (
     <div css={paymentInfoStyles} className={className}>
       <h1 className="PaymentInfo-Title">Payment Status</h1>
@@ -22,7 +23,7 @@ export function PaymentInfo({ charge, className }: { charge: Charge; className?:
       />
       <PaymentInfoRow
         left="Status"
-        right={charge.status}
+        right={ChargeStatusNames[charge.status]}
         className="PaymentInfo-PaymentInfoRow"
       />
       <PaymentInfoRow

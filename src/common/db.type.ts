@@ -34,3 +34,13 @@ export const ChargeStatus = {
 } as const
 
 export type ChargeStatus = typeof ChargeStatus[keyof typeof ChargeStatus]
+
+export const ChargeStatusNames = {
+  INITIALIZING: "Initializing",
+  CREATED: "Created",
+  CONFIRMED: "Confirmed",
+  FAILED: "Failed",
+  DELAYED: "Delayed",
+  PENDING: "Pending",
+  RESOLVED: "Completed",
+} as const satisfies { [key in ChargeStatus]: string }
