@@ -35,6 +35,8 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
       },
       metadata: {
         customer_id: userId,
+        product_id: product.id,
+        charge_id: charge.id,
       },
     })
   } catch (e) {
