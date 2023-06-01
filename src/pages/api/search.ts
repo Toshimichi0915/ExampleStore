@@ -24,7 +24,7 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
             where: {
               name: { contains: query },
               ...(types.length > 0 && { typeId: { in: types } }),
-              charges: { none: { NOT: { status: ChargeStatus.FAILED } } },
+              charges: { none: { status: ChargeStatus.RESOLVED } },
             },
             orderBy: prismaSortOptions[sort],
           })
@@ -32,5 +32,5 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
 
         res.status(200).json(response)
       })
-  })
+  }),
 )

@@ -10,7 +10,7 @@ export async function getStaticProps() {
   const products = (
     await prisma.product.findMany({
       where: {
-        charges: { none: { NOT: { status: ChargeStatus.FAILED } } },
+        charges: { none: { status: ChargeStatus.RESOLVED } },
       },
     })
   ).map((product) => productPrismaToObj(product))
