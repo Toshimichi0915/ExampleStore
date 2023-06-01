@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next"
 
 import { prisma } from "@/server/prisma.util"
 import { getUserId } from "@/server/session.util"
-import { ChargeStatus } from "@/common/db.type"
 import { middleware, withMethods } from "next-pipe"
 
 export default middleware<NextApiRequest, NextApiResponse>().pipe(
@@ -33,21 +32,9 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
         return
       }
 
-      const existingCharge = await prisma.charge.findFirst({
-        where: {
-          productId: product.id,
-          status: { not: ChargeStatus.FAILED },
-        },
-      })
-
-      if (existingCharge) {
-        res.status(409).json({ error: "Product already purchased" })
-        return
-      }
-
       const userId = await getUserId(req, res, true)
 
       res.status(200).json(await createCharge(product, userId))
     })
-  })
+  }),
 )
