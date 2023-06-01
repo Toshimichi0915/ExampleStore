@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { ZodError } from "zod/lib"
 import { productPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
 import { ChargeStatus } from "@/common/db.type"
 import { SearchSchema } from "@/common/search.type"
+import { middleware, withMethods, withValidatedBody } from "next-pipe"
 
 export const prismaSortOptions = {
   new: { createdAt: "desc" },
@@ -12,29 +12,25 @@ export const prismaSortOptions = {
   cheap: { price: "asc" },
 } as const
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === "POST") {
-    const result = SearchSchema.safeParse(req.body)
-    if (!result.success) {
-      res.status(400).json({ error: result.error as ZodError })
-      return
-    }
+export default middleware<NextApiRequest, NextApiResponse>().pipe(
+  withMethods(({ post }) => {
+    post()
+      .pipe(withValidatedBody(SearchSchema))
+      .pipe(async (req, res, next, schema) => {
+        const { query, types, sort } = schema
 
-    const { query, types, sort } = result.data
+        const response = (
+          await prisma.product.findMany({
+            where: {
+              name: { contains: query },
+              ...(types.length > 0 && { typeId: { in: types } }),
+              charges: { none: { NOT: { status: ChargeStatus.FAILED } } },
+            },
+            orderBy: prismaSortOptions[sort],
+          })
+        ).map((product) => productPrismaToObj(product))
 
-    const response = (
-      await prisma.product.findMany({
-        where: {
-          name: { contains: query },
-          ...types.length > 0 && { typeId: { in: types } },
-          charges: { none: { NOT: { status: ChargeStatus.FAILED } } },
-        },
-        orderBy: prismaSortOptions[sort],
+        res.status(200).json(response)
       })
-    ).map((product) => productPrismaToObj(product))
-
-    res.status(200).json(response)
-  } else {
-    res.status(405).json({ error: "Method not allowed" })
-  }
-}
+  })
+)

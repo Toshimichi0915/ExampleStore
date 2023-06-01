@@ -8,6 +8,8 @@ import crypto from "crypto"
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { NextApiRequestCookies } from "next/dist/server/api-utils"
+import { Middleware } from "next-pipe"
+import { NextApiRequest, NextApiResponse } from "next"
 
 const ironPassword = process.env.IRON_PASSWORD
 if (!ironPassword) {
@@ -21,8 +23,8 @@ declare module "iron-session" {
     }
 
     // original methods
-    destroy: () => void;
-    save: () => Promise<void>;
+    destroy: () => void
+    save: () => Promise<void>
   }
 }
 
@@ -36,7 +38,11 @@ export const ironOptions: IronSessionOptions = {
 
 type GetUserIdReturnType<T extends boolean> = T extends true ? string : string | undefined
 
-export async function getUserId<T extends boolean>(req: IncomingMessage, res: ServerResponse, init?: T): Promise<GetUserIdReturnType<T>> {
+export async function getUserId<T extends boolean>(
+  req: IncomingMessage,
+  res: ServerResponse,
+  init?: T
+): Promise<GetUserIdReturnType<T>> {
   const session = await getIronSession(req, res, ironOptions)
   if (session.data) {
     return session.data.uid
@@ -52,12 +58,20 @@ export async function getUserId<T extends boolean>(req: IncomingMessage, res: Se
   }
 }
 
+export function withUserId<T extends boolean>(
+  init: T
+): Middleware<IncomingMessage, ServerResponse, [], [GetUserIdReturnType<T>]> {
+  return async (req, res, next) => {
+    const userId = await getUserId(req, res, init)
+    await next(userId as GetUserIdReturnType<T>)
+  }
+}
+
 export async function isProductAvailable(
   product: string | PrismaProduct | Product,
   req: IncomingMessage & { cookies: NextApiRequestCookies },
-  res: ServerResponse,
+  res: ServerResponse
 ): Promise<boolean> {
-
   const session = await getServerSession(req, res, authOptions)
   if (session && isAdmin(session)) return true
 
@@ -84,4 +98,15 @@ export async function isProductAvailable(
 
 export function isAdmin(session: Session): boolean {
   return session.user.roles.includes("ADMIN")
+}
+
+export function withAdminSession(): Middleware<NextApiRequest, NextApiResponse, [], [Session]> {
+  return async (req, res, next) => {
+    const session = await getServerSession(req, res, authOptions)
+    if (session && isAdmin(session)) {
+      await next(session)
+    } else {
+      res.status(401).json({ error: "Unauthorized" })
+    }
+  }
 }

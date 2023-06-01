@@ -1,42 +1,42 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "@/server/prisma.util"
 import { chargePrismaToObj } from "@/server/mapper.util"
-import { getUserId } from "@/server/session.util"
+import { withUserId } from "@/server/session.util"
+import { middleware, Middleware, withMethods } from "next-pipe"
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const userId = await getUserId(req, res)
-
-  if (!userId) {
-    res.status(401).json({ error: "Unauthorized" })
-    return
-  }
-
-  const { id } = req.query
-  if (typeof id !== "string") {
-    res.status(400).json({ error: "Invalid id" })
-    return
-  }
-
-  if (req.method === "GET") {
-
-    const charge = await prisma.charge.findUnique({
-      where: { id },
-      include: { product: true },
-    })
-
-    if (!charge) {
-      res.status(404).json({ error: "Charge not found" })
+function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
+  return async (req, res, next) => {
+    const { id } = req.query
+    if (typeof id !== "string") {
+      res.status(400).json({ error: "Invalid id" })
       return
     }
 
-    if (charge.userId !== userId) {
-      res.status(404).json({ error: "Charge not found" })
-      return
-    }
-
-    return res.status(200).json(chargePrismaToObj(charge, charge.product))
-
-  } else {
-    res.status(405).json({ error: "Method not allowed" })
+    await next(id)
   }
 }
+
+export default middleware<NextApiRequest, NextApiResponse>()
+  .pipe(withUserId(true), withChargeId())
+  .pipe(
+    withMethods(({ get }) => {
+      get().pipe(async (req, res, next, userId, id) => {
+        const charge = await prisma.charge.findUnique({
+          where: { id },
+          include: { product: true },
+        })
+
+        if (!charge) {
+          res.status(404).json({ error: "Charge not found" })
+          return
+        }
+
+        if (charge.userId !== userId) {
+          res.status(404).json({ error: "Charge not found" })
+          return
+        }
+
+        return res.status(200).json(chargePrismaToObj(charge, charge.product))
+      })
+    })
+  )

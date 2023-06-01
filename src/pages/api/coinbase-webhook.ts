@@ -3,6 +3,7 @@ import coinbase, { ChargeResource, resources } from "coinbase-commerce-node"
 import { ChargeStatus } from "@/common/db.type"
 import { prisma } from "@/server/prisma.util"
 import { buffer } from "micro"
+import { middleware } from "next-pipe"
 
 const { Webhook } = coinbase
 
@@ -14,7 +15,7 @@ export const config = {
   },
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, res) => {
   const sigHeader = req.headers["x-cc-webhook-signature"]
   if (typeof sigHeader !== "string") {
     res.status(400).send("Bad request")
@@ -86,4 +87,4 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   res.status(200).end()
-}
+})
