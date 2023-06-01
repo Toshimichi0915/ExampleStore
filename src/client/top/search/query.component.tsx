@@ -23,12 +23,18 @@ export function SearchQuery({ className }: { className?: string }) {
 function searchQueryStyles(theme: Theme) {
   return css`
     display: flex;
+    width: 80%;
     justify-content: center;
     align-items: center;
     border: 1px solid ${theme.palette.border.paper};
     border-radius: 3px;
 
+    @media (min-width: 768px) {
+      width: 400px;
+    }
+
     & .SearchQuery-Input {
+      flex: 1;
       background-color: transparent;
       padding: 10px 20px;
       border: none;

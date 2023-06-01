@@ -29,7 +29,7 @@ export function SearchSortPopoverButton({ className, sort }: { className?: strin
 
   return (
     <button css={searchSortPopoverButtonStyles} className={classNames.join(" ")} onClick={updateCurrentSort}>
-      {sort}
+      {sort.charAt(0).toUpperCase() + sort.slice(1)}
     </button>
   )
 }

@@ -16,7 +16,7 @@ export function SearchSortPopover({ className, open, onClose, anchorEl }: {
 }) {
 
   return (
-    <Popover open={open} onClose={onClose} anchorEl={anchorEl} className={className} css={searchSortPopperStyles}
+    <Popover open={open} onClose={onClose} anchorEl={anchorEl} className={className} css={searchSortPopoverStyles}
              anchorOrigin={anchorOrigin}>
       {sortOptions.map((option) => (
         <SearchSortPopoverButton key={option} sort={option} />
@@ -25,7 +25,7 @@ export function SearchSortPopover({ className, open, onClose, anchorEl }: {
   )
 }
 
-function searchSortPopperStyles() {
+function searchSortPopoverStyles() {
   return css`
     & .MuiPopover-paper {
       display: flex;
