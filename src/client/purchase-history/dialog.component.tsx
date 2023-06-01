@@ -23,11 +23,12 @@ export function PurchaseHistoryDialog({ className, open, onClose }: {
     <Dialog open={open} onClose={onClose} className={className} css={[ dialogStyles, purchaseHistoryDialogStyles ]}>
       <DialogTitle className="PurchaseHistoryDialog-Title">Purchase History</DialogTitle>
       <DialogContent className="PurchaseHistoryDialog-Content">
-        {loaded ? history.map((charge) => (
-          <ChargeItem key={charge.id} charge={charge} className="PurchaseHistoryDialog-ChargeCard" />
-        )) : (
-          <p>Loading...</p>
-        )
+        {loaded ?
+          history.length > 0 ? history.map((charge) => (
+              <ChargeItem key={charge.id} charge={charge} className="PurchaseHistoryDialog-ChargeCard" />
+            ))
+            : <p>No purchase yet.</p>
+          : <p>Loading...</p>
         }
 
         {router.pathname !== "/" && (
