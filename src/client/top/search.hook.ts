@@ -21,7 +21,7 @@ export function useSearch(input: SearchInput, initialData: Product[]): Product[]
   })
 
   useEffect(() => {
-    refetch()
+    refetch().catch((e) => console.error(e))
   }, [ input, refetch ])
 
   return data

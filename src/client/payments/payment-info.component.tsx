@@ -1,4 +1,4 @@
-import { Charge, ChargeStatus, ChargeStatusNames } from "@/common/db.type"
+import { Charge, ChargeStatusNames } from "@/common/db.type"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 

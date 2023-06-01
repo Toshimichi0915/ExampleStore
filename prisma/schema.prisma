@@ -61,10 +61,10 @@ model Charge {
 
 enum ChargeStatus {
   INITIALIZING @map("initializing")
-  CREATED   @map("created")
-  CONFIRMED @map("confirmed")
-  FAILED    @map("failed")
-  DELAYED   @map("delayed")
-  PENDING   @map("pending")
-  RESOLVED  @map("resolved")
+  CREATED      @map("created")
+  CONFIRMED    @map("confirmed")
+  FAILED       @map("failed")
+  DELAYED      @map("delayed")
+  PENDING      @map("pending")
+  RESOLVED     @map("resolved")
 }
