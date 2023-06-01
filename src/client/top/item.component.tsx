@@ -22,6 +22,9 @@ export function ProductItem({ product }: { product: Product }) {
 
 export function productItemStyles(theme: Theme) {
   return css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 20px;
     border-radius: 6px;
     border: 1px solid ${theme.palette.border.paper};
