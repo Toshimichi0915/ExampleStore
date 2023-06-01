@@ -23,7 +23,7 @@ export const useSearchInputStore = create<SearchInputStore>((set) => ({
     set({ query })
   },
 
-  sort: "new",
+  sort: "expensive",
   setSort(sort) {
     set({ sort })
   },
