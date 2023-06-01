@@ -7,13 +7,9 @@ import { useThemeOptions } from "@/client/common/theme.hook"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PurchaseHistory } from "@/client/purchase-history/history.component"
 import { GlobalTheme } from "@/client/common/theme.component"
-import NextProgress from "next-progress"
+import NextNProgress from "nextjs-progressbar"
 
 const queryClient = new QueryClient()
-
-const nextProgressOptions = {
-  showSpinner: false,
-} as const
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const theme = useThemeOptions()
@@ -31,7 +27,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
             <ThemeProvider theme={theme}>
               <CssBaseline />
               <GlobalTheme />
-              <NextProgress delay={300} options={nextProgressOptions} />
+              <NextNProgress
+                color="rgb(59 130 246)"
+                options={{
+                  showSpinner: false,
+                }}
+              />
               <PurchaseHistory />
               <Component {...pageProps} />
             </ThemeProvider>
