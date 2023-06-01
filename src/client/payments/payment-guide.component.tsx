@@ -94,13 +94,11 @@ function paymentGuideStyles() {
     }
 
     @media (min-width: 1024px) {
-      width: 768px;
-      margin: 0 auto;
+      padding: 40px 124px;
     }
 
     @media (min-width: 1280px) {
-      width: 1024px;
-      margin: 0 auto;
+      padding: 40px 160px;
     }
 
     & .PaymentGuide-Title {

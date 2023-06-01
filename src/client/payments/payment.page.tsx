@@ -11,7 +11,7 @@ export function PaymentPage({ charge: initialCharge }: InferGetServerSidePropsTy
 
   return (
     <div css={paymentPageStyles}>
-      <PaymentGuide charge={charge} />
+      <PaymentGuide charge={charge} className="PaymentPage-PaymentGuide" />
       <PaymentInfo charge={charge} />
     </div>
   )
@@ -25,6 +25,10 @@ function paymentPageStyles() {
     @media (min-width: 768px) {
       flex-direction: row;
       min-height: 100vh;
+    }
+
+    .PaymentPage-PaymentGuide {
+      flex: 1;
     }
   `
 }
