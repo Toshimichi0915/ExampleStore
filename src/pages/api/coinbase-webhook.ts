@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import coinbase, { ChargeResource, resources } from "coinbase-commerce-node"
-import { ChargeStatus } from "@/common/db.type"
+import { Charge, ChargeStatus, Product } from "@/common/db.type"
+import { Charge as PrismaCharge, Product as PrismaProduct } from "@prisma/client"
 import { prisma } from "@/server/prisma.util"
 import { buffer } from "micro"
 import { middleware } from "next-pipe"
@@ -13,6 +14,19 @@ export const config = {
   api: {
     bodyParser: false,
   },
+}
+
+async function resolveCharge(charge: Charge | PrismaCharge, product: Product | PrismaProduct) {
+  await prisma.$transaction([
+    prisma.charge.update({
+      where: { id: charge.id },
+      data: { status: ChargeStatus.RESOLVED },
+    }),
+    prisma.charge.updateMany({
+      where: { NOT: { id: charge.id }, productId: product.id },
+      data: { status: ChargeStatus.INVALIDATED },
+    }),
+  ])
 }
 
 export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, res) => {
@@ -32,6 +46,20 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, re
   }
 
   const code = (event.data as ChargeResource).code
+
+  const charge = await prisma.charge.findUnique({
+    where: { coinbaseId: code },
+    include: { product: true },
+  })
+
+  if (!charge) {
+    throw new Error(`Charge not found: ${code}`)
+  }
+
+  // This is an edge case where other buyers already paid for the product.
+  // We need this buyer to contact the support, so we can refund the payment.
+  if (charge.status === ChargeStatus.INVALIDATED) return
+
   switch (event.type) {
     case "charge:created":
       await prisma.charge.update({
@@ -41,10 +69,7 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, re
       break
 
     case "charge:confirmed":
-      await prisma.charge.update({
-        where: { coinbaseId: code },
-        data: { status: ChargeStatus.RESOLVED },
-      })
+      await resolveCharge(charge, charge.product)
       break
 
     case "charge:failed":
@@ -55,17 +80,7 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, re
       break
 
     case "charge:delayed":
-      const validCharge = await prisma.product.findFirst({
-        where: { charges: { some: { coinbaseId: code } } },
-        include: { charges: { where: { NOT: { status: ChargeStatus.FAILED } } } },
-      })
-      if (!validCharge) {
-        await prisma.charge.update({
-          where: { coinbaseId: code },
-          data: { status: ChargeStatus.RESOLVED },
-        })
-      }
-
+      await resolveCharge(charge, charge.product)
       break
 
     case "charge:pending":
@@ -76,10 +91,7 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(async (req, re
       break
 
     case "charge:resolved":
-      await prisma.charge.update({
-        where: { coinbaseId: code },
-        data: { status: ChargeStatus.RESOLVED },
-      })
+      await resolveCharge(charge, charge.product)
       break
 
     default:

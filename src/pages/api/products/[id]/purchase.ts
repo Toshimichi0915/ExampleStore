@@ -34,7 +34,16 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
 
       const userId = await getUserId(req, res, true)
 
-      res.status(200).json(await createCharge(product, userId))
+      try {
+        res.status(200).json(await createCharge(product, userId))
+      } catch (e) {
+        if (e instanceof Error) {
+          res.status(400).json({ error: e.message })
+        } else {
+          // this shouldn't happen
+          throw e
+        }
+      }
     })
   }),
 )

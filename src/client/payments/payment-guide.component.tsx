@@ -68,6 +68,14 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
       <InvoiceCard charge={charge} />
     </>),
   },
+  [ChargeStatus.INVALIDATED]: {
+    title: "Payment Invalidated",
+    component: (charge) => (<>
+      <PaymentCard title="Another person has sent crypto currency earlier."
+                   description="If you already sent your crypto currency, contact support for refund." />
+      <InvoiceCard charge={charge} />
+    </>),
+  },
 } as const
 
 export function PaymentGuide({ charge, className }: { charge: Charge; className?: string }) {

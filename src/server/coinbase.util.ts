@@ -3,7 +3,7 @@ import coinbase from "coinbase-commerce-node"
 import { promisify } from "util"
 import { chargePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
-import { Charge, Product } from "@/common/db.type"
+import { Charge, ChargeStatus, Product } from "@/common/db.type"
 
 const { Client } = coinbase
 const { Charge } = coinbase.resources
@@ -14,11 +14,22 @@ const coinbaseApiKey: string = process.env.COINBASE_API_KEY ?? ""
 Client.init(coinbaseApiKey)
 
 export async function createCharge(product: Product | PrismaProduct, userId: string): Promise<Charge> {
-  const charge = await prisma.charge.create({
-    data: {
-      productId: product.id,
-      userId,
-    },
+
+  const charge = await prisma.$transaction(async () => {
+    const existingCharge = await prisma.charge.findFirst({
+      where: { productId: product.id, status: ChargeStatus.RESOLVED },
+    })
+
+    if (existingCharge) {
+      throw new Error("Product already purchased")
+    }
+
+    return prisma.charge.create({
+      data: {
+        productId: product.id,
+        userId,
+      },
+    })
   })
 
   const create = promisify(Charge.create).bind(Charge)

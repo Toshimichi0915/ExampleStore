@@ -67,4 +67,5 @@ enum ChargeStatus {
   DELAYED      @map("delayed")
   PENDING      @map("pending")
   RESOLVED     @map("resolved")
+  INVALIDATED  @map("invalidated")
 }
