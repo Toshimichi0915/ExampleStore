@@ -1,6 +1,7 @@
 import { SettingsPage } from "@/client/admin/settings/settings.page"
 import { prisma } from "@/server/prisma.util"
 import { productTypePrismaToObj, purchasedProductPrismaToObj } from "@/server/mapper.util"
+import { getEnvironment } from "@/server/environment"
 
 export default SettingsPage
 
@@ -10,15 +11,20 @@ export async function getServerSideProps() {
       orderBy: { createdAt: "desc" },
     })
   ).map(purchasedProductPrismaToObj)
+
   const productTypes = (
     await prisma.productType.findMany({
       orderBy: { createdAt: "desc" },
     })
   ).map(productTypePrismaToObj)
+
+  const environment = await getEnvironment()
+
   return {
     props: {
       products,
       productTypes,
+      environment,
     },
   }
 }

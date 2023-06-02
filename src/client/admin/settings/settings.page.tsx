@@ -11,10 +11,12 @@ import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/admin/settings"
 import { usePassword } from "@/client/admin/settings/password.hook"
 import { signOut } from "next-auth/react"
+import { useEnvironment } from "@/client/common/env.hook"
 
 export function SettingsPage({
   products: initialProducts,
   productTypes: initialProductTypes,
+  environment: initialEnvironment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const theme = useTheme()
   const [productEditDialogOpen, setProductEditDialogOpen] = useState(false)
@@ -26,6 +28,17 @@ export function SettingsPage({
   const closeProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(false), [])
 
   const { products, productTypes } = useSettings(initialProducts, initialProductTypes)
+  const { environment, edit } = useEnvironment(initialEnvironment)
+  const [telegramUrl, setTelegramUrl] = useState(environment.telegramUrl)
+
+  const changeTelegramUrl = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setTelegramUrl(event.target.value),
+    []
+  )
+
+  const updateEnvironment = useCallback(() => {
+    edit({ ...environment, telegramUrl })
+  }, [edit, environment, telegramUrl])
 
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
@@ -35,6 +48,7 @@ export function SettingsPage({
     (event: ChangeEvent<HTMLInputElement>) => setOldPassword(event.target.value),
     []
   )
+
   const changeNewPassword = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => setNewPassword(event.target.value),
     []
@@ -85,6 +99,13 @@ export function SettingsPage({
             ) : (
               <p className="Settings-Empty">Empty :(</p>
             )}
+          </div>
+        </section>
+        <section className="Settings-TelegramUrl">
+          <h2 className="Settings-TelegramUrlTitle">Set Telegram URL</h2>
+          <div className="Settings-TelegramUrlForm">
+            <TextField label="Telegram URL" type="text" value={telegramUrl} onChange={changeTelegramUrl} />
+            <Button onClick={updateEnvironment}>Click To Change</Button>
           </div>
         </section>
         <section className="Settings-Password">
@@ -141,6 +162,7 @@ function settingsPageStyles(theme: Theme) {
     }
 
     & .Settings-TableTitle,
+    & .Settings-TelegramUrlTitle,
     & .Settings-PasswordTitle,
     & .Settings-SignOutTitle {
       margin: 8px 0;
@@ -163,6 +185,7 @@ function settingsPageStyles(theme: Theme) {
       margin: 3px 0;
     }
 
+    & .Settings-TelegramUrlForm,
     & .Settings-PasswordForm {
       display: flex;
       flex-direction: column;

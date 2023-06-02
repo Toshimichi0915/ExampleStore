@@ -18,6 +18,7 @@ function mainStyles() {
   return css`
     flex: 1;
     padding: 0 30px;
+    margin-bottom: 30px;
 
     @media (min-width: 768px) {
       padding: 0 100px;

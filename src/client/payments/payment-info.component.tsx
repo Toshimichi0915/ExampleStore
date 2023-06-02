@@ -1,9 +1,7 @@
-import { Charge, ChargeStatusNames } from "@/common/db.type"
+import { Charge, ChargeStatusNames, Environment } from "@/common/db.type"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 import Link from "next/link"
-
-const telegramUrl = process.env.TELEGRAM_URL
 
 function PaymentInfoRow({ left, right, className }: { left: string; right: string; className?: string }) {
   return (
@@ -14,7 +12,15 @@ function PaymentInfoRow({ left, right, className }: { left: string; right: strin
   )
 }
 
-export function PaymentInfo({ charge, className }: { charge: Charge; className?: string }) {
+export function PaymentInfo({
+  charge,
+  environment,
+  className,
+}: {
+  charge: Charge
+  environment: Environment
+  className?: string
+}) {
   return (
     <div css={paymentInfoStyles} className={className}>
       <div className="PaymentInfo-Container">
@@ -27,7 +33,7 @@ export function PaymentInfo({ charge, className }: { charge: Charge; className?:
       <p className="PaymentInfo-Note">
         Note: it might take a while for the transaction to be processed. If the payment does not complete in 24 hours,
         please contact us via{" "}
-        <Link className="PaymentInfo-Telegram" href={telegramUrl ?? ""}>
+        <Link className="PaymentInfo-Telegram" href={environment.telegramUrl}>
           Telegram
         </Link>
       </p>

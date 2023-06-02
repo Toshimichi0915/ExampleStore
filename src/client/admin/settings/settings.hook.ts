@@ -27,6 +27,6 @@ export function useSettings(initialProducts: PurchasedProduct[], initialProductT
       productTypes: productTypes ?? initialProductTypes,
       loaded: isProductSuccess && isProductTypeSuccess,
     }),
-    [products, productTypes, initialProducts, initialProductTypes, isProductSuccess, isProductTypeSuccess]
+    [products, initialProducts, productTypes, initialProductTypes, isProductSuccess, isProductTypeSuccess]
   )
 }

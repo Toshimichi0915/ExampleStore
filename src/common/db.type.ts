@@ -46,3 +46,8 @@ export const ChargeStatusNames = {
   RESOLVED: "Completed",
   INVALIDATED: "Invalidated",
 } as const satisfies { [key in ChargeStatus]: string }
+
+export interface Environment {
+  telegramUrl: string
+  termsOfService?: object
+}

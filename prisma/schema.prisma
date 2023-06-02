@@ -71,3 +71,14 @@ enum ChargeStatus {
 
   @@map("charge_status")
 }
+
+model Environment {
+  id             String @id @default("_")
+  telegramUrl    String @default("https://example.com") @map("telegram_url")
+  termsOfService Json?  @map("terms_of_service")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("environment")
+}

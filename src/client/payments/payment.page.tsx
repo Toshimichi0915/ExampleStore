@@ -5,13 +5,16 @@ import { css } from "@emotion/react"
 import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/products/[id]"
 
-export function PaymentPage({ charge: initialCharge }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export function PaymentPage({
+  charge: initialCharge,
+  environment: initialEnvironment,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const charge = useCharge(initialCharge)
 
   return (
     <div css={paymentPageStyles}>
       <PaymentGuide charge={charge} className="PaymentPage-PaymentGuide" />
-      <PaymentInfo charge={charge} />
+      <PaymentInfo charge={charge} environment={initialEnvironment} />
     </div>
   )
 }

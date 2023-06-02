@@ -8,10 +8,12 @@ import { useSearchInputStore } from "@/client/top/search-input.store"
 import { Search } from "@/client/top/search/search.component"
 import { useMemo } from "react"
 import { SearchInput } from "@/common/search.type"
+import { Footer } from "@/client/top/footer.component"
 
 export function TopPage({
   products: initialProducts,
   productTypes: initialProductTypes,
+  environment: initialEnvironment,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [query, types, sort] = useSearchInputStore((state) => [state.query, state.types, state.sort])
 
@@ -20,9 +22,10 @@ export function TopPage({
 
   return (
     <div css={topPageStyles}>
-      <Header />
+      <Header environment={initialEnvironment} />
       <Search productTypes={initialProductTypes} />
       <Main products={products} />
+      <Footer environment={initialEnvironment} />
     </div>
   )
 }

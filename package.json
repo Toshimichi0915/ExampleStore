@@ -10,7 +10,7 @@
     "fmt": "prettier --write ."
   },
   "prisma": {
-    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
