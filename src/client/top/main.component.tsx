@@ -3,7 +3,6 @@ import { css } from "@mui/material"
 import { ProductItem } from "@/client/top/item.component"
 
 export function Main({ products }: { products: Product[] }) {
-
   return (
     <main css={mainStyles}>
       <div className="Main-Products">

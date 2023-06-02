@@ -4,11 +4,8 @@ import { useCallback, useMemo } from "react"
 import { Theme } from "@mui/material"
 import { css } from "@emotion/react"
 
-export function SearchFilterPopoverButton({ className, type }: {
-  className?: string
-  type: ProductType
-}) {
-  const [ types, addType, removeType ] = useSearchInputStore((state) => [ state.types, state.addType, state.removeType ])
+export function SearchFilterPopoverButton({ className, type }: { className?: string; type: ProductType }) {
+  const [types, addType, removeType] = useSearchInputStore((state) => [state.types, state.addType, state.removeType])
   const selected = types.includes(type.name)
 
   const updateCurrentFilter = useCallback(() => {
@@ -17,10 +14,10 @@ export function SearchFilterPopoverButton({ className, type }: {
     } else {
       addType(type.name)
     }
-  }, [ addType, removeType, selected, type ])
+  }, [addType, removeType, selected, type])
 
   const classNames = useMemo(() => {
-    const values = [ "FilterPopoverButton" ]
+    const values = ["FilterPopoverButton"]
 
     if (selected) {
       values.push("FilterPopoverButton-Selected")
@@ -31,7 +28,7 @@ export function SearchFilterPopoverButton({ className, type }: {
     }
 
     return values
-  }, [ className, selected ])
+  }, [className, selected])
 
   return (
     <button css={searchFilterPopoverButtonStyles} className={classNames.join(" ")} onClick={updateCurrentFilter}>

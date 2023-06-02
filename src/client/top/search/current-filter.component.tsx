@@ -1,11 +1,8 @@
 import { useSearchInputStore } from "@/client/top/search-input.store"
 import { css } from "@emotion/react"
 
-export function SearchCurrentFilter({ className }: {
-  className?: string,
-}) {
-
-  const types = useSearchInputStore(state => state.types)
+export function SearchCurrentFilter({ className }: { className?: string }) {
+  const types = useSearchInputStore((state) => state.types)
 
   let typeName: string
   if (types.length > 1) {

@@ -3,7 +3,6 @@ import Link from "next/link"
 import Image from "next/image"
 
 export function Header() {
-
   return (
     <header css={headerStyles}>
       <div>
@@ -11,10 +10,7 @@ export function Header() {
         <p className="Header-Description">Premium Twitter Accounts</p>
       </div>
       <div>
-        <Link
-          href="https://t.me/Sacrifice"
-          className="Header-Telegram"
-        >
+        <Link href="https://t.me/Sacrifice" className="Header-Telegram">
           <Image src="/telegram.svg" alt="" width={16} height={16} />
           <span className="Header-Telegram-Text">TELEGRAM</span>
         </Link>
@@ -51,7 +47,7 @@ function headerStyles(theme: Theme) {
     }
 
     & .Header-Telegram {
-      background-color: #458EFC;
+      background-color: #458efc;
       padding: 8px 11px;
       border-radius: 3px;
       display: inline-flex;

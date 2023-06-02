@@ -23,14 +23,13 @@ declare module "@mui/material" {
 
 declare module "@emotion/react" {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface Theme extends MuiTheme {
-  }
+  export interface Theme extends MuiTheme {}
 }
 
-export const poppins = Poppins({ subsets: [ "latin" ], weight: "400" })
+export const poppins = Poppins({ subsets: ["latin"], weight: "400" })
 
 export function useThemeOptions() {
-  const [ rootElement, setRootElement ] = useState<Element>()
+  const [rootElement, setRootElement] = useState<Element>()
 
   useEffect(() => {
     setRootElement(document.querySelector("#__next") ?? undefined)
@@ -50,7 +49,6 @@ export function useThemeOptions() {
             dark: "#131742",
             light: "#2D3DC6",
             paper: "#162074",
-
           },
           border: {
             paper: "#30415B",
@@ -86,6 +84,6 @@ export function useThemeOptions() {
           },
         },
       }),
-    [ rootElement ],
+    [rootElement]
   )
 }

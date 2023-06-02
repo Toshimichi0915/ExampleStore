@@ -7,18 +7,17 @@ const name = "placeholder"
 const password = "De1eteMe"
 
 async function main(): Promise<void> {
-
   await prisma.user.upsert({
     where: { name },
     update: {
       name: name,
       password: await bcrypt.hash(password, 10),
-      roles: [ "ADMIN" ],
+      roles: ["ADMIN"],
     },
     create: {
       name: name,
       password: await bcrypt.hash(password, 10),
-      roles: [ "ADMIN" ],
+      roles: ["ADMIN"],
     },
   })
 }

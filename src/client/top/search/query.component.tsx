@@ -5,12 +5,14 @@ import { Theme } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
 
 export function SearchQuery({ className }: { className?: string }) {
+  const [query, setQuery] = useSearchInputStore((state) => [state.query, state.setQuery])
 
-  const [ query, setQuery ] = useSearchInputStore((state) => ([ state.query, state.setQuery ]))
-
-  const updateQuery = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    setQuery(event.target.value)
-  }, [ setQuery ])
+  const updateQuery = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      setQuery(event.target.value)
+    },
+    [setQuery]
+  )
 
   return (
     <div css={searchQueryStyles} className={className}>
@@ -43,7 +45,7 @@ function searchQueryStyles(theme: Theme) {
       outline: none;
 
       &::placeholder {
-        color: #BDBDBD;
+        color: #bdbdbd;
         text-align: center;
       }
     }

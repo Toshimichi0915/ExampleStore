@@ -14,7 +14,6 @@ const coinbaseApiKey: string = process.env.COINBASE_API_KEY ?? ""
 Client.init(coinbaseApiKey)
 
 export async function createCharge(product: Product | PrismaProduct, userId: string): Promise<Charge> {
-
   const charge = await prisma.$transaction(async () => {
     const existingCharge = await prisma.charge.findFirst({
       where: { productId: product.id, status: ChargeStatus.RESOLVED },
@@ -63,6 +62,6 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
         chargeUrl: data.hosted_url,
       },
     }),
-    product,
+    product
   )
 }

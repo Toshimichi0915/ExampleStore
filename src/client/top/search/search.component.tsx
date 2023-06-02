@@ -7,8 +7,7 @@ import { useMediaQuery } from "@mui/material"
 import { SearchCurrentFilter } from "@/client/top/search/current-filter.component"
 import { SearchFilter } from "@/client/top/search/filter.component"
 
-export function Search({ className, productTypes }: { className?: string, productTypes: ProductType[] }) {
-
+export function Search({ className, productTypes }: { className?: string; productTypes: ProductType[] }) {
   const isMobile = !useMediaQuery("(min-width: 768px)")
 
   if (isMobile) {

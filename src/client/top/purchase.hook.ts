@@ -8,24 +8,29 @@ export interface ProductItem {
 }
 
 export function usePurchase(product: Product): ProductItem {
-
   const router = useRouter()
   const queryClient = useQueryClient()
 
-  const { mutate } = useMutation(async () => {
-    const response = await fetch(`/api/products/${product.id}/purchase`, {
-      method: "POST",
-    })
-    if (!response.ok) throw new Error(`Failed to purchase product: ${response.statusText}`)
-    return await response.json()
-  }, {
-    async onSuccess() {
-      await queryClient.invalidateQueries([ "search" ])
-      await router.push(`/products/${product.id}`)
+  const { mutate } = useMutation(
+    async () => {
+      const response = await fetch(`/api/products/${product.id}/purchase`, {
+        method: "POST",
+      })
+      if (!response.ok) throw new Error(`Failed to purchase product: ${response.statusText}`)
+      return await response.json()
     },
-  })
+    {
+      async onSuccess() {
+        await queryClient.invalidateQueries(["search"])
+        await router.push(`/products/${product.id}`)
+      },
+    }
+  )
 
-  return useMemo(() => ({
-    purchase: mutate,
-  }), [ mutate ])
+  return useMemo(
+    () => ({
+      purchase: mutate,
+    }),
+    [mutate]
+  )
 }

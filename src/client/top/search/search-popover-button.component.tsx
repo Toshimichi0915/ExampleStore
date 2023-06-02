@@ -4,17 +4,16 @@ import { useCallback, useMemo } from "react"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 
-export function SearchSortPopoverButton({ className, sort }: { className?: string, sort: SortOption }) {
-
-  const [ currentSort, setCurrentSort ] = useSearchInputStore((state) => [ state.sort, state.setSort ])
+export function SearchSortPopoverButton({ className, sort }: { className?: string; sort: SortOption }) {
+  const [currentSort, setCurrentSort] = useSearchInputStore((state) => [state.sort, state.setSort])
   const selected = currentSort === sort
 
   const updateCurrentSort = useCallback(() => {
     setCurrentSort(sort)
-  }, [ setCurrentSort, sort ])
+  }, [setCurrentSort, sort])
 
   const classNames = useMemo(() => {
-    const values = [ "SearchSortPopoverButton" ]
+    const values = ["SearchSortPopoverButton"]
 
     if (selected) {
       values.push("SearchSortPopoverButton-Selected")
@@ -25,7 +24,7 @@ export function SearchSortPopoverButton({ className, sort }: { className?: strin
     }
 
     return values
-  }, [ className, selected ])
+  }, [className, selected])
 
   return (
     <button css={searchSortPopoverButtonStyles} className={classNames.join(" ")} onClick={updateCurrentSort}>

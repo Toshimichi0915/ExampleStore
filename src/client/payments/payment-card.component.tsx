@@ -9,15 +9,19 @@ import DownloadIcon from "@mui/icons-material/Download"
 import { useProductContent } from "@/client/payments/purchased-product.hook"
 import { useDownload } from "@/common/download.hook"
 
-export function PaymentCard({ className, title, description, children }: {
-  className?: string,
-  title: string,
+export function PaymentCard({
+  className,
+  title,
+  description,
+  children,
+}: {
+  className?: string
+  title: string
   description: string
   children?: ReactNode
 }) {
-
   return (
-    <section className={className} css={[ paperStyles, paymentCardStyles ]}>
+    <section className={className} css={[paperStyles, paymentCardStyles]}>
       <h2 className="PaymentCard-Title">{title}</h2>
       <p className="PaymentCard-Description">{description}</p>
       {children}
@@ -29,8 +33,12 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
   return (
     <PaymentCard title="Payment" description="Click the URL shown below">
       <div css={paymentUrlCardStyles}>
-        <Link href={charge.chargeUrl ?? ""} className="PaymentUrlCard-ChargeUrl" target="_blank"
-              rel="noopener noreferrer">
+        <Link
+          href={charge.chargeUrl ?? ""}
+          className="PaymentUrlCard-ChargeUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {charge.chargeUrl}
         </Link>
         <p className="PaymentUrlCard-Description">(Redirects to coinbase payment URL)</p>
@@ -40,7 +48,6 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
 }
 
 export function InvoiceCard({ charge }: { charge: Charge }) {
-
   const invoice = useInvoice(charge)
 
   return (
@@ -56,13 +63,12 @@ export function InvoiceCard({ charge }: { charge: Charge }) {
 }
 
 export function DownloadCard({ charge }: { charge: Charge }) {
-
   const { product, loading } = useProductContent(charge)
   const blob = useMemo(() => {
     if (typeof Blob === "undefined") return undefined
     if (!product) return undefined
-    return new Blob([ product.content ], { type: "plain/text" })
-  }, [ product ])
+    return new Blob([product.content], { type: "plain/text" })
+  }, [product])
 
   const { download } = useDownload(`${product?.name ?? "product"}.txt`, blob)
 
@@ -79,14 +85,16 @@ export function DownloadCard({ charge }: { charge: Charge }) {
 }
 
 export function PreviewCard({ charge }: { charge: Charge }) {
-
   const { product, loading } = useProductContent(charge)
 
   return (
     <PaymentCard title="Preview" description="You can preview the product content">
       <div css={previewCardStyles}>
-        <TextareaAutosize value={loading ? "Loading..." : product?.content} readOnly={true}
-                          className="PreviewCard-Textarea" />
+        <TextareaAutosize
+          value={loading ? "Loading..." : product?.content}
+          readOnly={true}
+          className="PreviewCard-Textarea"
+        />
       </div>
     </PaymentCard>
   )
@@ -193,7 +201,7 @@ function previewCardStyles(theme: Theme) {
     & .PreviewCard-Textarea {
       width: 100%;
       background-color: #000020;
-      border: 1px solid #313A53;
+      border: 1px solid #313a53;
       border-radius: 3px;
       color: white;
       padding: 10px;

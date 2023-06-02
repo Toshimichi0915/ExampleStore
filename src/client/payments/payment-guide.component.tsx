@@ -11,7 +11,7 @@ import {
 import { CircularProgress } from "@mui/material"
 
 interface PaymentStatus {
-  title: string,
+  title: string
 
   component(charge: Charge): ReactNode
 }
@@ -19,71 +19,93 @@ interface PaymentStatus {
 const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
   [ChargeStatus.INITIALIZING]: {
     title: "Initializing",
-    component: () => (<>
-      <PaymentCard title="Initializing" description="Please wait a moment..." />
-    </>),
+    component: () => (
+      <>
+        <PaymentCard title="Initializing" description="Please wait a moment..." />
+      </>
+    ),
   },
   [ChargeStatus.CREATED]: {
     title: "Awaiting Payment",
-    component: (charge) => (<>
-      <PaymentUrlCard charge={charge} />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentUrlCard charge={charge} />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.CONFIRMED]: {
     title: "Payment Confirmed",
-    component: (charge) => (<>
-      <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.FAILED]: {
     title: "Payment Failed",
-    component: (charge) => (<>
-      <PaymentCard title="Payment Failed"
-                   description="Sorry but payment has failed. Please try again from the beginning :(" />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentCard
+          title="Payment Failed"
+          description="Sorry but payment has failed. Please try again from the beginning :("
+        />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.DELAYED]: {
     title: "Payment Delayed",
-    component: (charge) => (<>
-      <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentCard title="Payment Confirmed" description="The item you ordered will arrive very soon..." />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.PENDING]: {
     title: "Awaiting Confirmation",
-    component: (charge) => (<>
-      <PaymentCard title="Awaiting Confirmation"
-                   description="The payment is now being processed by the blockchain..." />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentCard
+          title="Awaiting Confirmation"
+          description="The payment is now being processed by the blockchain..."
+        />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.RESOLVED]: {
     title: "Payment Completed",
-    component: (charge) => (<>
-      <DownloadCard charge={charge} />
-      <PreviewCard charge={charge} />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <DownloadCard charge={charge} />
+        <PreviewCard charge={charge} />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
   [ChargeStatus.INVALIDATED]: {
     title: "Payment Invalidated",
-    component: (charge) => (<>
-      <PaymentCard title="Another person has sent crypto currency earlier."
-                   description="If you already sent your crypto currency, contact support for refund." />
-      <InvoiceCard charge={charge} />
-    </>),
+    component: (charge) => (
+      <>
+        <PaymentCard
+          title="Another person has sent crypto currency earlier."
+          description="If you already sent your crypto currency, contact support for refund."
+        />
+        <InvoiceCard charge={charge} />
+      </>
+    ),
   },
 } as const
 
 export function PaymentGuide({ charge, className }: { charge: Charge; className?: string }) {
   const paymentStatus = paymentStatuses[charge.status]
   const title = paymentStatus.title
-  const component = useMemo(() => paymentStatus.component(charge), [ charge, paymentStatus ])
+  const component = useMemo(() => paymentStatus.component(charge), [charge, paymentStatus])
 
-  const showCircularProgress = !([ ChargeStatus.RESOLVED, ChargeStatus.INVALIDATED ] as string[]).includes(charge.status)
+  const showCircularProgress = !([ChargeStatus.RESOLVED, ChargeStatus.INVALIDATED] as string[]).includes(charge.status)
 
   return (
     <main css={paymentGuideStyles} className={className}>

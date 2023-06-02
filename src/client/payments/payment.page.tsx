@@ -6,7 +6,6 @@ import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/products/[id]"
 
 export function PaymentPage({ charge: initialCharge }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
   const charge = useCharge(initialCharge)
 
   return (

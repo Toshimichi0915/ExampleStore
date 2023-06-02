@@ -4,16 +4,17 @@ import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/login"
 
 export function LoginPage({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
   return (
     <div css={loginPageStyles}>
-      <main css={[ paperStyles ]} className="Login-Container">
+      <main css={[paperStyles]} className="Login-Container">
         <h1 className="Login-Title">Login</h1>
         <form className="Login-Form" method="post" action="/api/auth/callback/credentials">
           <TextField label="Username" name="name" />
           <TextField label="Password" name="password" type="password" />
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <Button type="submit" className="Login-Submit">LOGIN</Button>
+          <Button type="submit" className="Login-Submit">
+            LOGIN
+          </Button>
         </form>
       </main>
     </div>
@@ -47,7 +48,7 @@ function loginPageStyles(theme: Theme) {
 
     & .Login-Submit {
       font-size: 1rem;
-      color: ${theme.palette.text.primary}
+      color: ${theme.palette.text.primary};
     }
   `
 }

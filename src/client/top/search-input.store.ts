@@ -30,7 +30,7 @@ export const useSearchInputStore = create<SearchInputStore>((set) => ({
 
   types: [],
   addType(type: string) {
-    set((state) => ({ types: [ ...state.types, type ] }))
+    set((state) => ({ types: [...state.types, type] }))
   },
   removeType(type: string) {
     set((state) => ({ types: state.types.filter((t) => t !== type) }))

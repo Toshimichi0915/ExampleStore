@@ -4,25 +4,28 @@ import { Product } from "@/common/db.type"
 import { useEffect } from "react"
 
 export function useSearch(input: SearchInput, initialData: Product[]): Product[] {
+  const { data, refetch } = useQuery(
+    ["search"],
+    async () => {
+      const response = await fetch("/api/search", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      })
 
-  const { data, refetch } = useQuery([ "search" ], async () => {
-    const response = await fetch("/api/search", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(input),
-    })
-
-    if (!response.ok) throw new Error(`Failed to search: ${response.statusText}`)
-    return await response.json()
-  }, {
-    initialData,
-  })
+      if (!response.ok) throw new Error(`Failed to search: ${response.statusText}`)
+      return await response.json()
+    },
+    {
+      initialData,
+    }
+  )
 
   useEffect(() => {
     refetch().catch((e) => console.error(e))
-  }, [ input, refetch ])
+  }, [input, refetch])
 
   return data
 }

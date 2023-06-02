@@ -10,12 +10,12 @@ import { useMemo } from "react"
 import { SearchInput } from "@/common/search.type"
 
 export function TopPage({
-                          products: initialProducts,
-                          productTypes: initialProductTypes,
-                        }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [ query, types, sort ] = useSearchInputStore((state) => [ state.query, state.types, state.sort ])
+  products: initialProducts,
+  productTypes: initialProductTypes,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [query, types, sort] = useSearchInputStore((state) => [state.query, state.types, state.sort])
 
-  const searchInput: SearchInput = useMemo(() => ({ query, types, sort }), [ query, types, sort ])
+  const searchInput: SearchInput = useMemo(() => ({ query, types, sort }), [query, types, sort])
   const products = useSearch(searchInput, initialProducts)
 
   return (

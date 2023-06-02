@@ -5,15 +5,17 @@ import { SearchFilterPopover } from "@/client/top/search/filter-popover.componen
 import { css } from "@emotion/react"
 import FilterListIcon from "@mui/icons-material/FilterList"
 
-export function SearchFilter({ className, productTypes: initialProductTypes }: {
+export function SearchFilter({
+  className,
+  productTypes: initialProductTypes,
+}: {
   className?: string
   productTypes: ProductType[]
 }) {
-
   const productTypes = useProductTypes(initialProductTypes)
 
-  const [ open, setOpen ] = useState(false)
-  const [ anchorEl, setAnchorEl ] = useState<HTMLElement | null>()
+  const [open, setOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>()
   const ref = useRef<HTMLDivElement>(null)
 
   const openPopover = useCallback(() => {
@@ -21,13 +23,15 @@ export function SearchFilter({ className, productTypes: initialProductTypes }: {
     setAnchorEl(ref.current)
   }, [])
 
-  const closePopover = useCallback((() => setOpen(false)), [])
+  const closePopover = useCallback(() => setOpen(false), [])
 
   return (
     <>
       <SearchFilterPopover productTypes={productTypes} open={open} onClose={closePopover} anchorEl={anchorEl} />
       <div css={searchFilterStyles} className={className} ref={ref}>
-        <button className="SearchFilterStyles-Button" onClick={openPopover}>Filter <FilterListIcon /></button>
+        <button className="SearchFilterStyles-Button" onClick={openPopover}>
+          Filter <FilterListIcon />
+        </button>
       </div>
     </>
   )

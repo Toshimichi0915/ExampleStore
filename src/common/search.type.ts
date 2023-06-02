@@ -1,8 +1,8 @@
 import { z } from "zod"
 
-export const sortOptions = [ "expensive", "cheap", "new", "old" ] as const
+export const sortOptions = ["expensive", "cheap", "new", "old"] as const
 
-export type SortOption = typeof sortOptions[number]
+export type SortOption = (typeof sortOptions)[number]
 
 export const SearchSchema = z.object({
   query: z.string().default(""),

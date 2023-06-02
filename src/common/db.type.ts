@@ -34,7 +34,7 @@ export const ChargeStatus = {
   INVALIDATED: "INVALIDATED",
 } as const
 
-export type ChargeStatus = typeof ChargeStatus[keyof typeof ChargeStatus]
+export type ChargeStatus = (typeof ChargeStatus)[keyof typeof ChargeStatus]
 
 export const ChargeStatusNames = {
   INITIALIZING: "Initializing",

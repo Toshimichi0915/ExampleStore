@@ -10,56 +10,68 @@ export interface ProductEdit {
 }
 
 export interface ProductEditBody {
-  name: string,
-  type: string,
-  price: number,
+  name: string
+  type: string
+  price: number
   content: string
 }
 
 export function useProductEdit(product?: Product): ProductEdit {
-
   const queryClient = useQueryClient()
 
-  const { mutate: edit } = useMutation(async ({ product, name, type, price, content }: ProductEditBody & {
-    product?: Product
-  }) => {
+  const { mutate: edit } = useMutation(
+    async ({
+      product,
+      name,
+      type,
+      price,
+      content,
+    }: ProductEditBody & {
+      product?: Product
+    }) => {
+      const url = product ? `/api/products/${product.id}` : "/api/products"
+      const method = product ? "PUT" : "POST"
+      const value: PurchasedProductInput = { name, type, price: price, content }
 
-    const url = product ? `/api/products/${product.id}` : "/api/products"
-    const method = product ? "PUT" : "POST"
-    const value: PurchasedProductInput = { name, type, price: price, content }
-
-    const response = await fetch(url, {
-      method,
-      headers: {
-        "Content-Type": "application/json",
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(value),
+      })
+      if (!response.ok) throw new Error(`Failed to edit product: ${response.statusText}`)
+    },
+    {
+      async onSuccess() {
+        await queryClient.invalidateQueries(["search"])
+        await queryClient.invalidateQueries(["products"])
       },
-      body: JSON.stringify(value),
-    })
-    if (!response.ok) throw new Error(`Failed to edit product: ${response.statusText}`)
-  }, {
-    async onSuccess() {
-      await queryClient.invalidateQueries([ "search" ])
-      await queryClient.invalidateQueries([ "products" ])
+    }
+  )
+
+  const { mutate: remove } = useMutation(
+    async ({ product }: { product?: Product }) => {
+      if (!product) return
+
+      const response = await fetch(`/api/products/${product.id}`, {
+        method: "DELETE",
+      })
+      if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`)
     },
-  })
+    {
+      async onSuccess() {
+        await queryClient.invalidateQueries(["search"])
+        await queryClient.invalidateQueries(["products"])
+      },
+    }
+  )
 
-  const { mutate: remove } = useMutation(async ({ product }: { product?: Product }) => {
-
-    if (!product) return
-
-    const response = await fetch(`/api/products/${product.id}`, {
-      method: "DELETE",
-    })
-    if (!response.ok) throw new Error(`Failed to delete product: ${response.statusText}`)
-  }, {
-    async onSuccess() {
-      await queryClient.invalidateQueries([ "search" ])
-      await queryClient.invalidateQueries([ "products" ])
-    },
-  })
-
-  return useMemo(() => ({
-    edit: (body) => edit({ product, ...body }),
-    remove: () => remove({ product }),
-  }), [ remove, edit, product ])
+  return useMemo(
+    () => ({
+      edit: (body) => edit({ product, ...body }),
+      remove: () => remove({ product }),
+    }),
+    [remove, edit, product]
+  )
 }

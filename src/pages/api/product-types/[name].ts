@@ -6,7 +6,7 @@ import { prisma } from "@/server/prisma.util"
 import { ProductTypeSchema } from "@/common/product.type"
 import { Middleware, middleware, suppress, withMethods, withServerSession, withValidatedBody } from "next-pipe"
 
-function withProductTypeId(): Middleware<NextApiRequest, NextApiResponse, [], [ string ]> {
+function withProductTypeId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
   return async (req, res, next) => {
     const { name } = req.query
     if (typeof name !== "string") {
@@ -70,7 +70,7 @@ export default middleware<NextApiRequest, NextApiResponse>()
       del()
         .pipe(suppress(withAdminSession()))
         .pipe(async (req, res, next, name) => {
-          const [ , deleted ] = await prisma.$transaction([
+          const [, deleted] = await prisma.$transaction([
             prisma.product.updateMany({
               where: { typeId: name },
               data: { typeId: undefined },
@@ -84,5 +84,5 @@ export default middleware<NextApiRequest, NextApiResponse>()
           }
           res.status(200).end()
         })
-    }),
+    })
   )

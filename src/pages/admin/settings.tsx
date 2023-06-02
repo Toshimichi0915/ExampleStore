@@ -5,13 +5,16 @@ import { productTypePrismaToObj, purchasedProductPrismaToObj } from "@/server/ma
 export default SettingsPage
 
 export async function getServerSideProps() {
-
-  const products = (await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-  })).map(purchasedProductPrismaToObj)
-  const productTypes = (await prisma.productType.findMany({
-    orderBy: { createdAt: "desc" },
-  })).map(productTypePrismaToObj)
+  const products = (
+    await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    })
+  ).map(purchasedProductPrismaToObj)
+  const productTypes = (
+    await prisma.productType.findMany({
+      orderBy: { createdAt: "desc" },
+    })
+  ).map(productTypePrismaToObj)
   return {
     props: {
       products,

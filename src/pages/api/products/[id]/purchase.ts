@@ -45,5 +45,5 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
         }
       }
     })
-  }),
+  })
 )

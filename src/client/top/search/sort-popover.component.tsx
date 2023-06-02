@@ -8,16 +8,26 @@ const anchorOrigin = {
   horizontal: "left",
 } as const
 
-export function SearchSortPopover({ className, open, onClose, anchorEl }: {
-  className?: string,
-  open: boolean,
-  onClose: () => void,
+export function SearchSortPopover({
+  className,
+  open,
+  onClose,
+  anchorEl,
+}: {
+  className?: string
+  open: boolean
+  onClose: () => void
   anchorEl: Element | null | undefined
 }) {
-
   return (
-    <Popover open={open} onClose={onClose} anchorEl={anchorEl} className={className} css={searchSortPopoverStyles}
-             anchorOrigin={anchorOrigin}>
+    <Popover
+      open={open}
+      onClose={onClose}
+      anchorEl={anchorEl}
+      className={className}
+      css={searchSortPopoverStyles}
+      anchorOrigin={anchorOrigin}
+    >
       {sortOptions.map((option) => (
         <SearchSortPopoverButton key={option} sort={option} />
       ))}

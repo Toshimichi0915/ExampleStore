@@ -5,8 +5,8 @@ import { purchasedProductPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
 import { Middleware, middleware, NextPipe, suppress, withMethods, withValidatedBody } from "next-pipe"
 
-function withProductId(): Middleware<NextApiRequest, NextApiResponse, [], [ string ]> {
-  return async (req, res, next: NextPipe<[ string ]>) => {
+function withProductId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
+  return async (req, res, next: NextPipe<[string]>) => {
     const { id } = req.query
 
     if (typeof id !== "string") {
@@ -75,5 +75,5 @@ export default middleware<NextApiRequest, NextApiResponse>()
 
           res.status(200).end()
         })
-    }),
+    })
   )

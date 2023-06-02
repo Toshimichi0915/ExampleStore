@@ -9,19 +9,30 @@ const anchorOrigin = {
   horizontal: "left",
 } as const
 
-export function SearchFilterPopover({ className, productTypes: initialProductTypes, open, onClose, anchorEl }: {
+export function SearchFilterPopover({
+  className,
+  productTypes: initialProductTypes,
+  open,
+  onClose,
+  anchorEl,
+}: {
   className?: string
   productTypes: ProductType[]
-  open: boolean,
-  onClose: () => void,
+  open: boolean
+  onClose: () => void
   anchorEl: Element | null | undefined
 }) {
-
   const types = useProductTypes(initialProductTypes)
 
   return (
-    <Popover open={open} onClose={onClose} anchorEl={anchorEl} className={className} css={searchFilterPopoverStyles}
-             anchorOrigin={anchorOrigin}>
+    <Popover
+      open={open}
+      onClose={onClose}
+      anchorEl={anchorEl}
+      className={className}
+      css={searchFilterPopoverStyles}
+      anchorOrigin={anchorOrigin}
+    >
       {types.map((type) => (
         <SearchFilterPopoverButton type={type} key={type.name} />
       ))}

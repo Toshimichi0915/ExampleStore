@@ -7,11 +7,10 @@ const labelColor = "#313A53"
 const valueColor = "#000000"
 
 interface Invoice {
-  download(): void;
+  download(): void
 }
 
 export function useInvoice(charge: Charge): Invoice {
-
   const poppins = useFont("Poppins-Regular", "/fonts/Poppins-Regular.ttf")
   const poppinsMedium = useFont("Poppins-Medium", "/fonts/Poppins-Medium.ttf")
 
@@ -23,10 +22,7 @@ export function useInvoice(charge: Charge): Invoice {
     })
 
     // add fonts
-    await Promise.all([
-      poppins.install(pdf),
-      poppinsMedium.install(pdf),
-    ])
+    await Promise.all([poppins.install(pdf), poppinsMedium.install(pdf)])
 
     // title
     pdf.setFont(poppinsMedium.name)
@@ -86,15 +82,19 @@ export function useInvoice(charge: Charge): Invoice {
     pdf.setFontSize(16)
     pdf.setTextColor(valueColor)
 
-    const text = "It might take a while for the transaction to be processed. If the payment does not complete in 24 hours, please contact us via Telegram (Click this message to open in browser)."
+    const text =
+      "It might take a while for the transaction to be processed. If the payment does not complete in 24 hours, please contact us via Telegram (Click this message to open in browser)."
     const telegram = "https://t.me/example"
     const split = pdf.splitTextToSize(text, 350)
     pdf.textWithLink(split, 30, 555, { url: telegram })
 
     pdf.save("invoice.pdf")
-  }, [ poppins, poppinsMedium, charge ])
+  }, [poppins, poppinsMedium, charge])
 
-  return useMemo(() => ({
-    download,
-  }), [ download ])
+  return useMemo(
+    () => ({
+      download,
+    }),
+    [download]
+  )
 }

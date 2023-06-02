@@ -13,13 +13,12 @@ import { usePassword } from "@/client/admin/settings/password.hook"
 import { signOut } from "next-auth/react"
 
 export function SettingsPage({
-                               products: initialProducts,
-                               productTypes: initialProductTypes,
-                             }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
+  products: initialProducts,
+  productTypes: initialProductTypes,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const theme = useTheme()
-  const [ productEditDialogOpen, setProductEditDialogOpen ] = useState(false)
-  const [ productTypeEditDialogOpen, setProductTypeEditDialogOpen ] = useState(false)
+  const [productEditDialogOpen, setProductEditDialogOpen] = useState(false)
+  const [productTypeEditDialogOpen, setProductTypeEditDialogOpen] = useState(false)
 
   const openProductEditDialog = useCallback(() => setProductEditDialogOpen(true), [])
   const closeProductEditDialog = useCallback(() => setProductEditDialogOpen(false), [])
@@ -28,13 +27,19 @@ export function SettingsPage({
 
   const { products, productTypes } = useSettings(initialProducts, initialProductTypes)
 
-  const [ oldPassword, setOldPassword ] = useState("")
-  const [ newPassword, setNewPassword ] = useState("")
+  const [oldPassword, setOldPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
   const { update, successMessage, errorMessage } = usePassword()
 
-  const changeOldPassword = useCallback((event: ChangeEvent<HTMLInputElement>) => setOldPassword(event.target.value), [])
-  const changeNewPassword = useCallback((event: ChangeEvent<HTMLInputElement>) => setNewPassword(event.target.value), [])
-  const updatePassword = useCallback(() => update(oldPassword, newPassword), [ update, oldPassword, newPassword ])
+  const changeOldPassword = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setOldPassword(event.target.value),
+    []
+  )
+  const changeNewPassword = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setNewPassword(event.target.value),
+    []
+  )
+  const updatePassword = useCallback(() => update(oldPassword, newPassword), [update, oldPassword, newPassword])
 
   const logout = useCallback(() => signOut(), [])
 
@@ -47,7 +52,9 @@ export function SettingsPage({
         <section className="Settings-ProductType">
           <div className="Settings-TableHeader">
             <h2 className="Settings-TableTitle">Product Types</h2>
-            <Button className="Settings-AddButton" onClick={openProductTypeEditDialog}>Add new...</Button>
+            <Button className="Settings-AddButton" onClick={openProductTypeEditDialog}>
+              Add new...
+            </Button>
           </div>
           <div css={paperStyles(theme)}>
             {productTypes.length > 0 ? (
@@ -64,26 +71,27 @@ export function SettingsPage({
         <section className="Settings-Product">
           <div className="Settings-TableHeader">
             <h2 className="Settings-TableTitle">Products</h2>
-            <Button className="Settings-AddButton" onClick={openProductEditDialog}>Add new...</Button>
+            <Button className="Settings-AddButton" onClick={openProductEditDialog}>
+              Add new...
+            </Button>
           </div>
           <div css={paperStyles(theme)}>
-            {
-              products.length > 0 ? (
-                <div className="Settings-TableBody">
-                  {products.map((product: PurchasedProduct) => (
-                    <ProductTableRow key={product.id} product={product} productTypes={productTypes} />
-                  ))}
-                </div>
-              ) : (
-                <p className="Settings-Empty">Empty :(</p>
-              )}
+            {products.length > 0 ? (
+              <div className="Settings-TableBody">
+                {products.map((product: PurchasedProduct) => (
+                  <ProductTableRow key={product.id} product={product} productTypes={productTypes} />
+                ))}
+              </div>
+            ) : (
+              <p className="Settings-Empty">Empty :(</p>
+            )}
           </div>
         </section>
         <section className="Settings-Password">
           <h2 className="Settings-PasswordTitle">Password</h2>
           <div className="Settings-PasswordForm">
-            {successMessage && (<p className="Settings-PasswordFormSuccess">{successMessage}</p>)}
-            {errorMessage && (<p className="Settings-PasswordFormError">{errorMessage}</p>)}
+            {successMessage && <p className="Settings-PasswordFormSuccess">{successMessage}</p>}
+            {errorMessage && <p className="Settings-PasswordFormError">{errorMessage}</p>}
             <TextField label="Old Password" type="password" value={oldPassword} onChange={changeOldPassword} />
             <TextField label="New Password" type="password" value={newPassword} onChange={changeNewPassword} />
             <Button onClick={updatePassword}>Click To Change</Button>
@@ -132,7 +140,9 @@ function settingsPageStyles(theme: Theme) {
       align-items: center;
     }
 
-    & .Settings-TableTitle, & .Settings-PasswordTitle, & .Settings-SignOutTitle {
+    & .Settings-TableTitle,
+    & .Settings-PasswordTitle,
+    & .Settings-SignOutTitle {
       margin: 8px 0;
     }
 

@@ -15,46 +15,65 @@ import { dialogStyles, textAreaStyles } from "@/client/common/styles"
 import { css } from "@emotion/react"
 import { useProductEdit } from "@/client/admin/settings/dialog/product.hook"
 
-export function ProductEditDialog({ className, open, onClose, product, productTypes }: {
+export function ProductEditDialog({
+  className,
+  open,
+  onClose,
+  product,
+  productTypes,
+}: {
   className?: string
   open: boolean
   onClose: () => void
   product?: PurchasedProduct
   productTypes: ProductType[]
 }) {
+  const initialProductBody = useMemo(
+    () => ({
+      name: product?.name ?? "",
+      type: (product?.type && productTypes.find((t) => t.name == product?.type)?.name) ?? "",
+      price: product?.price.toString() ?? "",
+      content: product?.content ?? "",
+    }),
+    [product, productTypes]
+  )
 
-  const initialProductBody = useMemo(() => ({
-    name: product?.name ?? "",
-    type: (product?.type && productTypes.find((t) => t.name == product?.type)?.name) ?? "",
-    price: product?.price.toString() ?? "",
-    content: product?.content ?? "",
-  }), [ product, productTypes ])
-
-  const [ productBody, setProductBody ] = useState(initialProductBody)
+  const [productBody, setProductBody] = useState(initialProductBody)
   useEffect(() => {
     setProductBody(initialProductBody)
-  }, [ initialProductBody, product ])
+  }, [initialProductBody, product])
 
-  const setName = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setProductBody((prev) => ({ ...prev, name: e.target.value }))
-  }, [ setProductBody ])
+  const setName = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProductBody((prev) => ({ ...prev, name: e.target.value }))
+    },
+    [setProductBody]
+  )
 
-  const setType = useCallback((e: SelectChangeEvent) => {
-    setProductBody((prev) => ({ ...prev, type: e.target.value }))
-  }, [ setProductBody ])
+  const setType = useCallback(
+    (e: SelectChangeEvent) => {
+      setProductBody((prev) => ({ ...prev, type: e.target.value }))
+    },
+    [setProductBody]
+  )
 
-  const setPrice = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setProductBody((prev) => ({ ...prev, price: e.target.value }))
-  }, [ setProductBody ])
+  const setPrice = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProductBody((prev) => ({ ...prev, price: e.target.value }))
+    },
+    [setProductBody]
+  )
 
-  const setContent = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
-    setProductBody((prev) => ({ ...prev, content: e.target.value }))
-  }, [ setProductBody ])
+  const setContent = useCallback(
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
+      setProductBody((prev) => ({ ...prev, content: e.target.value }))
+    },
+    [setProductBody]
+  )
 
   const productEdit = useProductEdit(product)
 
   const submit = useCallback(() => {
-
     const price = Number(productBody.price)
     if (isNaN(price)) return
 
@@ -66,11 +85,10 @@ export function ProductEditDialog({ className, open, onClose, product, productTy
     })
 
     onClose()
-
-  }, [ onClose, productBody.content, productBody.name, productBody.price, productBody.type, productEdit ])
+  }, [onClose, productBody.content, productBody.name, productBody.price, productBody.type, productEdit])
 
   return (
-    <Dialog open={open} onClose={onClose} css={[ dialogStyles, productDialogStyles ]} className={className}>
+    <Dialog open={open} onClose={onClose} css={[dialogStyles, productDialogStyles]} className={className}>
       <DialogTitle>Edit Product</DialogTitle>
       <DialogContent>
         <Select className="ProductDialog-Type" value={productBody.type} onChange={setType}>
@@ -80,8 +98,13 @@ export function ProductEditDialog({ className, open, onClose, product, productTy
             </MenuItem>
           ))}
         </Select>
-        <TextField label="name" size="small" className="ProductDialog-Name" value={productBody.name}
-                   onChange={setName} />
+        <TextField
+          label="name"
+          size="small"
+          className="ProductDialog-Name"
+          value={productBody.name}
+          onChange={setName}
+        />
         <div className="ProductDialog-Price">
           <TextField label="price" size="small" type="number" value={productBody.price} onChange={setPrice} />
           <p className="ProductDialog-Currency">USD</p>

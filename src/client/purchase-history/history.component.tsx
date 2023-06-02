@@ -4,7 +4,7 @@ import { PurchaseHistoryDialog } from "@/client/purchase-history/dialog.componen
 import { css } from "@mui/material"
 
 export function PurchaseHistory({ className }: { className?: string }) {
-  const [ dialogOpen, setDialogOpen ] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const closeDialog = useCallback(() => setDialogOpen(false), [])
   const clickButton = useCallback(() => setDialogOpen(true), [])

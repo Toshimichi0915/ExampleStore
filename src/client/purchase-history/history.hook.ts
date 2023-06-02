@@ -8,7 +8,7 @@ export interface PurchaseHistory {
 }
 
 export function usePurchaseHistory(): PurchaseHistory {
-  const { data, isSuccess } = useQuery([ "products", "charges" ], async () => {
+  const { data, isSuccess } = useQuery(["products", "charges"], async () => {
     const response = await fetch("/api/charges")
     if (!response.ok) throw new Error(`Failed to fetch charges: ${response.statusText}`)
     return await response.json()
@@ -19,6 +19,6 @@ export function usePurchaseHistory(): PurchaseHistory {
       history: data,
       loaded: isSuccess,
     }),
-    [ data, isSuccess ],
+    [data, isSuccess]
   )
 }

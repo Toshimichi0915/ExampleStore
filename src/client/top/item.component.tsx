@@ -4,11 +4,10 @@ import { usePurchase } from "@/client/top/purchase.hook"
 import { paperStyles } from "@/client/common/styles"
 
 export function ProductItem({ product }: { product: Product }) {
-
   const { purchase } = usePurchase(product)
 
   return (
-    <div css={[ paperStyles, productItemStyles ]}>
+    <div css={[paperStyles, productItemStyles]}>
       <div>
         <p className="ProductItem-ProductType">{product.type}</p>
         <p className="ProductItem-ProductName">{product.name}</p>

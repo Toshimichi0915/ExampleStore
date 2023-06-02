@@ -3,11 +3,13 @@ import { useProductTypes } from "@/client/top/search/product-type.hook"
 import { css } from "@emotion/react"
 import { SearchTypeButton } from "@/client/top/search/type-button.component"
 
-export function SearchType({ className, productTypes: initialProductTypes }: {
-  className?: string,
+export function SearchType({
+  className,
+  productTypes: initialProductTypes,
+}: {
+  className?: string
   productTypes: ProductType[]
 }) {
-
   const productTypes = useProductTypes(initialProductTypes)
 
   return (

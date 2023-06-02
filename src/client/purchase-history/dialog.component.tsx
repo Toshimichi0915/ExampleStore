@@ -7,32 +7,42 @@ import { dialogStyles } from "@/client/common/styles"
 import Link from "next/link"
 import { css } from "@emotion/react"
 
-export function PurchaseHistoryDialog({ className, open, onClose }: {
-  className?: string,
-  open: boolean;
-  onClose: () => void,
+export function PurchaseHistoryDialog({
+  className,
+  open,
+  onClose,
+}: {
+  className?: string
+  open: boolean
+  onClose: () => void
 }) {
   const router = useRouter()
   const { history, loaded } = usePurchaseHistory()
 
   useEffect(() => {
     onClose()
-  }, [ onClose, router.pathname ])
+  }, [onClose, router.pathname])
 
   return (
-    <Dialog open={open} onClose={onClose} className={className} css={[ dialogStyles, purchaseHistoryDialogStyles ]}>
+    <Dialog open={open} onClose={onClose} className={className} css={[dialogStyles, purchaseHistoryDialogStyles]}>
       <DialogTitle className="PurchaseHistoryDialog-Title">Purchase History</DialogTitle>
       <DialogContent className="PurchaseHistoryDialog-Content">
-        {loaded ?
-          history.length > 0 ? history.map((charge) => (
+        {loaded ? (
+          history.length > 0 ? (
+            history.map((charge) => (
               <ChargeItem key={charge.id} charge={charge} className="PurchaseHistoryDialog-ChargeCard" />
             ))
-            : <p>No purchase yet.</p>
-          : <p>Loading...</p>
-        }
+          ) : (
+            <p>No purchase yet.</p>
+          )
+        ) : (
+          <p>Loading...</p>
+        )}
 
         {router.pathname !== "/" && (
-          <Link href="/" className="PurchaseHistoryDialog-TopNavigation">→ View all products</Link>
+          <Link href="/" className="PurchaseHistoryDialog-TopNavigation">
+            → View all products
+          </Link>
         )}
       </DialogContent>
     </Dialog>

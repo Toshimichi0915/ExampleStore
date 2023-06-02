@@ -7,8 +7,13 @@ import { useProductEdit } from "@/client/admin/settings/dialog/product.hook"
 import { ProductTypeEditDialog } from "@/client/admin/settings/dialog/product-type.component"
 import { useProductTypeEdit } from "@/client/admin/settings/dialog/product-type.hook"
 
-export function TableRow({ className, children, onEdit, onDelete }: {
-  className?: string,
+export function TableRow({
+  className,
+  children,
+  onEdit,
+  onDelete,
+}: {
+  className?: string
   children: ReactNode
   onEdit: () => void
   onDelete: () => void
@@ -24,13 +29,16 @@ export function TableRow({ className, children, onEdit, onDelete }: {
   )
 }
 
-export function ProductTableRow({ className, product, productTypes }: {
-  className?: string,
-  product: PurchasedProduct,
+export function ProductTableRow({
+  className,
+  product,
+  productTypes,
+}: {
+  className?: string
+  product: PurchasedProduct
   productTypes: ProductType[]
 }) {
-
-  const [ open, setOpen ] = useState(false)
+  const [open, setOpen] = useState(false)
   const { remove } = useProductEdit(product)
 
   const openDialog = useCallback(() => setOpen(true), [])
@@ -46,9 +54,8 @@ export function ProductTableRow({ className, product, productTypes }: {
   )
 }
 
-export function ProductTypeTableRow({ className, productType }: { className?: string, productType: ProductType }) {
-
-  const [ open, setOpen ] = useState(false)
+export function ProductTypeTableRow({ className, productType }: { className?: string; productType: ProductType }) {
+  const [open, setOpen] = useState(false)
   const { remove } = useProductTypeEdit(productType)
 
   const openDialog = useCallback(() => setOpen(true), [])

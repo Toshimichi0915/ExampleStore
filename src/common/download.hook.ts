@@ -15,9 +15,12 @@ export function useDownload(name: string, blob: Blob | undefined): Download {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-  }, [ name, blob ])
+  }, [name, blob])
 
-  return useMemo(() => ({
-    download,
-  }), [ download ])
+  return useMemo(
+    () => ({
+      download,
+    }),
+    [download]
+  )
 }
