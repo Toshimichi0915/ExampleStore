@@ -79,14 +79,17 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
 } as const
 
 export function PaymentGuide({ charge, className }: { charge: Charge; className?: string }) {
-
   const paymentStatus = paymentStatuses[charge.status]
   const title = paymentStatus.title
-  const component = useMemo(() => (paymentStatus.component(charge)), [ charge, paymentStatus ])
+  const component = useMemo(() => paymentStatus.component(charge), [ charge, paymentStatus ])
+
+  const showCircularProgress = !([ ChargeStatus.RESOLVED, ChargeStatus.INVALIDATED ] as string[]).includes(charge.status)
 
   return (
     <main css={paymentGuideStyles} className={className}>
-      <h1 className="PaymentGuide-Title">{title} {charge.status !== ChargeStatus.RESOLVED && <CircularProgress />}</h1>
+      <h1 className="PaymentGuide-Title">
+        {title} {showCircularProgress && <CircularProgress />}
+      </h1>
       {component}
     </main>
   )
