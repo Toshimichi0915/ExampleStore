@@ -13,6 +13,9 @@ export async function getStaticProps() {
       where: {
         charges: { none: { status: ChargeStatus.RESOLVED } },
       },
+      orderBy: {
+        price: "desc",
+      },
     })
   ).map((product) => productPrismaToObj(product))
 
