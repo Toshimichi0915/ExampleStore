@@ -72,7 +72,9 @@ export function SettingsEnvironment({
                 </button>
               </div>
             </div>
-            <EditorContent className="Settings-TosBody" editor={editor} />
+            <div className="Settings-TosBodyContainer">
+              <EditorContent className="Settings-TosBody" editor={editor} />
+            </div>
           </>
         )}
       </div>
@@ -127,6 +129,23 @@ function settingsEnvironmentStyles(theme: Theme) {
     & .Settings-TosButtonActive {
       border: 1px solid transparent;
       background-color: ${theme.palette.background.light};
+    }
+
+    & .Settings-TosBodyContainer {
+      max-height: 50vh;
+      overflow: scroll;
+      overflow-x: hidden;
+      border: solid 1px ${theme.palette.border.paper};
+      margin-top: 5px;
+      border-radius: 3px;
+    }
+
+    & .Settings-TosBody {
+      padding: 5px;
+
+      & .ProseMirror:focus {
+        outline: none;
+      }
     }
   `
 }
