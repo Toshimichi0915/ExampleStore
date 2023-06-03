@@ -7,7 +7,7 @@ import { prisma } from "@/server/prisma.util"
 
 const EnvironmentSchema = z.object({
   telegramUrl: z.string(),
-  termsOfService: z.object({}).optional(),
+  termsOfService: z.object({}).passthrough().optional(),
 })
 
 export default middleware<NextApiRequest, NextApiResponse>().pipe(

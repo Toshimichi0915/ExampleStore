@@ -1,13 +1,12 @@
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 import Link from "next/link"
-import { Environment } from "@/common/db.type"
 
-export function Footer({ environment }: { environment: Environment }) {
+export function Footer() {
   return (
     <footer css={footerStyles}>
       <p className="Footer-Text Footer-Copyright">© 2023 Genshin Store</p>
-      <Link href={environment.telegramUrl} className="Footer-Text Footer-Tos">
+      <Link href="/tos" className="Footer-Text Footer-Tos">
         Terms of service
       </Link>
     </footer>

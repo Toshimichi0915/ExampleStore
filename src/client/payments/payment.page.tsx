@@ -13,7 +13,7 @@ export function PaymentPage({
 
   return (
     <div css={paymentPageStyles}>
-      <PaymentGuide charge={charge} className="PaymentPage-PaymentGuide" />
+      <PaymentGuide charge={charge} className="Payment-PaymentGuide" />
       <PaymentInfo charge={charge} environment={initialEnvironment} />
     </div>
   )
@@ -29,7 +29,7 @@ function paymentPageStyles() {
       min-height: 100vh;
     }
 
-    .PaymentPage-PaymentGuide {
+    .Payment-PaymentGuide {
       flex: 1;
     }
   `
