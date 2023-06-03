@@ -11,6 +11,7 @@ export interface PurchasedProduct extends Product {
 
 export interface ProductType {
   name: string
+  weight: number
 }
 
 export interface Charge {

@@ -14,7 +14,11 @@ export function SettingsProductTypes({ productTypes, className }: { productTypes
 
   return (
     <>
-      <ProductTypeEditDialog open={productTypeEditDialogOpen} onClose={closeProductTypeEditDialog} />
+      <ProductTypeEditDialog
+        open={productTypeEditDialogOpen}
+        onClose={closeProductTypeEditDialog}
+        productTypes={productTypes}
+      />
       <section className={className} css={settingsTableStyles}>
         <div className="Settings-TableHeader">
           <h2 className="Settings-TableTitle">Product Types</h2>
@@ -26,7 +30,7 @@ export function SettingsProductTypes({ productTypes, className }: { productTypes
           {productTypes.length > 0 ? (
             <div className="Settings-TableBody">
               {productTypes.map((productType: ProductType) => (
-                <ProductTypeTableRow key={productType.name} productType={productType} />
+                <ProductTypeTableRow key={productType.name} productType={productType} productTypes={productTypes} />
               ))}
             </div>
           ) : (

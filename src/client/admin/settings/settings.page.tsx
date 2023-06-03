@@ -5,7 +5,7 @@ import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/admin/settings"
 import { SettingsPassword } from "@/client/admin/settings/password.component"
 import { SettingsSignOut } from "@/client/admin/settings/signout.component"
-import { SettingsProducts, SettingsProductTypes } from "@/client/admin/settings/table"
+import { SettingsProducts, SettingsProductTypes } from "@/client/admin/settings/table.component"
 import { SettingsEnvironment } from "@/client/admin/settings/environment.component"
 
 export function SettingsPage({

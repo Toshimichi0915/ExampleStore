@@ -3,17 +3,12 @@ import { withAdminSession } from "@/server/session.util"
 import { productTypePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/prisma.util"
 import { middleware, withMethods } from "next-pipe"
+import { getProductTypes } from "@/server/db"
 
 export default middleware<NextApiRequest, NextApiResponse>().pipe(
   withMethods(({ get, post }) => {
     get().pipe(async (req, res) => {
-      const productTypes = (
-        await prisma.productType.findMany({
-          orderBy: { createdAt: "desc" },
-        })
-      ).map(productTypePrismaToObj)
-
-      res.status(200).json(productTypes)
+      res.status(200).json(await getProductTypes())
     })
 
     post()

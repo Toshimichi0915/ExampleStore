@@ -1,13 +1,13 @@
 import { TopPage } from "@/client/top/top.page"
 import { prisma } from "@/server/prisma.util"
-import { productPrismaToObj, productTypePrismaToObj } from "@/server/mapper.util"
+import { productPrismaToObj } from "@/server/mapper.util"
 import { ChargeStatus } from "@/common/db.type"
-import { getEnvironment } from "@/server/environment"
+import { getEnvironment, getProductTypes } from "@/server/db"
 
 export default TopPage
 
 export async function getStaticProps() {
-  const productTypes = (await prisma.productType.findMany()).map(productTypePrismaToObj)
+  const productTypes = await getProductTypes()
   const products = (
     await prisma.product.findMany({
       where: {

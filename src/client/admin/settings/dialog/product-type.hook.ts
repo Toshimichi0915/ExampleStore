@@ -6,14 +6,18 @@ import { ProductTypeInput } from "@/common/product.type"
 export interface ProductTypeEdit {
   edit(body: ProductTypeEditBody): void
 
-  remove: () => void
+  remove(): void
+
+  moveUp(): void
+
+  moveDown(): void
 }
 
 export interface ProductTypeEditBody {
   name: string
 }
 
-export function useProductTypeEdit(productType?: ProductType): ProductTypeEdit {
+export function useProductTypeEdit(productTypes: ProductType[], productType?: ProductType): ProductTypeEdit {
   const queryClient = useQueryClient()
 
   const { mutate: edit } = useMutation(
@@ -63,11 +67,50 @@ export function useProductTypeEdit(productType?: ProductType): ProductTypeEdit {
     }
   )
 
+  const { mutate: move } = useMutation(
+    async ({
+      productType,
+      productTypes,
+      delta,
+    }: {
+      productType?: ProductType
+      productTypes: ProductType[]
+      delta: number
+    }) => {
+      if (!productType) return
+
+      const swapAgainst = productTypes[productTypes.indexOf(productType) + delta]
+      if (!swapAgainst) return
+
+      const response = await fetch(`/api/product-types/swap`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name1: productType.name,
+          name2: swapAgainst.name,
+        }),
+      })
+
+      if (!response.ok) throw new Error(`Failed to move product type up: ${response.statusText}`)
+    },
+    {
+      async onSuccess() {
+        await queryClient.invalidateQueries(["search"])
+        await queryClient.invalidateQueries(["products"])
+        await queryClient.invalidateQueries(["productTypes"])
+      },
+    }
+  )
+
   return useMemo(
     () => ({
       edit: (body) => edit({ productType, ...body }),
       remove: () => remove({ productType }),
+      moveUp: () => move({ productType, productTypes, delta: -1 }),
+      moveDown: () => move({ productType, productTypes, delta: 1 }),
     }),
-    [remove, edit, productType]
+    [edit, productType, remove, move, productTypes]
   )
 }

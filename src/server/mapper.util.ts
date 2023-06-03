@@ -30,6 +30,7 @@ export function purchasedProductPrismaToObj(product: PrismaProduct): PurchasedPr
 export function productTypePrismaToObj(productType: PrismaProductType): ProductType {
   return {
     name: productType.name,
+    weight: productType.weight,
   }
 }
 

@@ -9,11 +9,13 @@ export function ProductTypeEditDialog({
   open,
   onClose,
   productType,
+  productTypes,
 }: {
   className?: string
   open: boolean
   onClose(): void
   productType?: ProductType
+  productTypes: ProductType[]
 }) {
   const initialProductTypeBody = useMemo(
     () => ({
@@ -34,7 +36,7 @@ export function ProductTypeEditDialog({
     [setProductTypeBody]
   )
 
-  const productTypeEdit = useProductTypeEdit(productType)
+  const productTypeEdit = useProductTypeEdit(productTypes, productType)
 
   const submit = useCallback(() => {
     productTypeEdit.edit(productTypeBody)

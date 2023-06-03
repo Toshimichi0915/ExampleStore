@@ -41,6 +41,7 @@ model ProductType {
   shopItems Product[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
+  weight    Int?       @unique @default(autoincrement())
 
   @@map("shop_item_types")
 }

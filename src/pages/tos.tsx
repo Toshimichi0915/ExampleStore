@@ -1,5 +1,5 @@
 import { TosPage } from "@/client/tos/tos.page"
-import { getEnvironment } from "@/server/environment"
+import { getEnvironment } from "@/server/db"
 
 export default TosPage
 
