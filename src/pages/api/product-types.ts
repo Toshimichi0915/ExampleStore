@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { withAdminSession } from "@/server/session.util"
 import { productTypePrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { middleware, withMethods } from "next-pipe"
 import { getProductTypes } from "@/server/db"
 

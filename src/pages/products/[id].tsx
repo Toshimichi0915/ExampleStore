@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from "next"
 import { getUserId, isProductAvailable } from "@/server/session.util"
 import { ChargeStatus } from "@/common/db.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { PaymentPage } from "@/client/payments/payment.page"
 import { getEnvironment } from "@/server/db"
 

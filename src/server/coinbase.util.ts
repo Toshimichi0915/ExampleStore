@@ -2,7 +2,7 @@ import { Product as PrismaProduct } from "@prisma/client"
 import coinbase from "coinbase-commerce-node"
 import { promisify } from "util"
 import { chargePrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { Charge, ChargeStatus, Product } from "@/common/db.type"
 
 const { Client } = coinbase

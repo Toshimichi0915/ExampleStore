@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { chargePrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { withUserId } from "@/server/session.util"
 import { middleware, withMethods } from "next-pipe"
 

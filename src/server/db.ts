@@ -1,5 +1,5 @@
 import { Environment, ProductType } from "@/common/db.type"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { productTypePrismaToObj } from "@/server/mapper.util"
 
 export async function getEnvironment(): Promise<Environment> {

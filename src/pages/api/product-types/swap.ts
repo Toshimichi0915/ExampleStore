@@ -2,7 +2,7 @@ import { z } from "zod"
 import { middleware, suppress, withValidatedBody } from "next-pipe"
 import { NextApiRequest, NextApiResponse } from "next"
 import { withAdminSession } from "@/server/session.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 
 export const SwapSchema = z.object({
   name1: z.string(),

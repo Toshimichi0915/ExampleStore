@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { withAdminSession } from "@/server/session.util"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { productTypePrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { ProductTypeSchema } from "@/common/product.type"
 import { Middleware, middleware, suppress, withMethods, withServerSession, withValidatedBody } from "next-pipe"
 

@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import coinbase, { ChargeResource, resources } from "coinbase-commerce-node"
 import { Charge, ChargeStatus, Product } from "@/common/db.type"
 import { Charge as PrismaCharge, Product as PrismaProduct } from "@prisma/client"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { buffer } from "micro"
 import { middleware } from "next-pipe"
 

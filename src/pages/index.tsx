@@ -1,5 +1,5 @@
 import { TopPage } from "@/client/top/top.page"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { productPrismaToObj } from "@/server/mapper.util"
 import { ChargeStatus } from "@/common/db.type"
 import { getEnvironment, getProductTypes } from "@/server/db"

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { productPrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { ChargeStatus } from "@/common/db.type"
 import { SearchSchema } from "@/common/search.type"
 import { middleware, withMethods, withValidatedBody } from "next-pipe"

@@ -1,7 +1,7 @@
 import { Product as PrismaProduct } from "@prisma/client"
 import { Session } from "next-auth"
 import { ChargeStatus, Product } from "@/common/db.type"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { IncomingMessage, ServerResponse } from "http"
 import { getIronSession, IronSessionOptions } from "iron-session"
 import crypto from "crypto"

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { authOptions } from "@/pages/api/auth/[...nextauth]"
 import { PasswordSchema } from "@/common/password.type"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import bcrypt from "bcrypt"
 import { middleware, withMethods, withServerSession, withValidatedBody } from "next-pipe"
 

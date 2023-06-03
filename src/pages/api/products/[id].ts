@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { isProductAvailable, withAdminSession } from "@/server/session.util"
 import { PurchasedProductSchema } from "@/common/product.type"
 import { purchasedProductPrismaToObj } from "@/server/mapper.util"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { Middleware, middleware, NextPipe, suppress, withMethods, withValidatedBody } from "next-pipe"
 
 function withProductId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {

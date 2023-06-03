@@ -1,5 +1,5 @@
 import { SettingsPage } from "@/client/admin/settings/settings.page"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { purchasedProductPrismaToObj } from "@/server/mapper.util"
 import { getEnvironment, getProductTypes } from "@/server/db"
 

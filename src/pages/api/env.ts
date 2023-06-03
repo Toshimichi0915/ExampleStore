@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { getEnvironment } from "@/server/db"
 import { withAdminSession } from "@/server/session.util"
 import { z } from "zod"
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 
 const EnvironmentSchema = z.object({
   telegramUrl: z.string(),

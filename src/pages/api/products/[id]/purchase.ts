@@ -1,7 +1,7 @@
 import { createCharge } from "@/server/coinbase.util"
 import { NextApiRequest, NextApiResponse } from "next"
 
-import { prisma } from "@/server/prisma.util"
+import { prisma } from "@/server/global.type"
 import { getUserId } from "@/server/session.util"
 import { middleware, withMethods } from "next-pipe"
 
