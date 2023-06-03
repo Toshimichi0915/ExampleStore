@@ -1,4 +1,3 @@
-import { Theme } from "@mui/material"
 import { useSettings } from "@/client/admin/settings/settings.hook"
 import { css } from "@emotion/react"
 import { InferGetServerSidePropsType } from "next"
