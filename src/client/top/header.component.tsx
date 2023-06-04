@@ -1,6 +1,5 @@
 import { css, Theme } from "@mui/material"
 import Link from "next/link"
-import Image from "next/image"
 import { Environment } from "@/common/db.type"
 import TelegramIcon from "@mui/icons-material/Telegram"
 

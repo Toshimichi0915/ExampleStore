@@ -23,17 +23,17 @@ enum UserRole {
 }
 
 model Product {
-  id        String       @id @default(cuid())
-  name      String
-  price     Int
-  type      ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
-  typeId    String?      @map("type")
-  content   String
-  hasWarranty Boolean?   @map("has_warranty")
-  hasOriginalMail Boolean? @map("has_original_mail")
-  charges   Charge[]
-  createdAt DateTime     @default(now()) @map("created_at")
-  updatedAt DateTime     @updatedAt @map("updated_at")
+  id              String       @id @default(cuid())
+  name            String
+  price           Int
+  type            ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
+  typeId          String?      @map("type")
+  content         String
+  hasWarranty     Boolean      @default(false) @map("has_warranty")
+  hasOriginalMail Boolean      @default(false) @map("has_original_mail")
+  charges         Charge[]
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
 
   @@map("shop_items")
 }
@@ -43,7 +43,7 @@ model ProductType {
   shopItems Product[]
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @updatedAt @map("updated_at")
-  weight    Int?       @unique @default(autoincrement())
+  weight    Int?      @unique @default(autoincrement())
 
   @@map("shop_item_types")
 }
