@@ -7,24 +7,27 @@ export interface Font {
   install(pdf: jsPDF): Promise<void>
 }
 
-async function loadFont(path: string): Promise<ArrayBuffer> {
-  if (typeof window === "undefined") return Promise.resolve(new ArrayBuffer(0))
-  const response = await fetch(path)
-  if (!response.ok) throw new Error(`Failed to fetch font: ${response.statusText}`)
-  return await response.arrayBuffer()
+async function loadFont(path: string): Promise<ArrayBuffer | undefined> {
+  try {
+    if (typeof window === "undefined") return undefined
+    const response = await fetch(path)
+    if (!response.ok) {
+      console.error(`Failed to fetch font: ${response.statusText}`)
+      return undefined
+    }
+    return await response.arrayBuffer()
+  } catch (e) {
+    console.error(e)
+    return undefined
+  }
 }
 
 export function useFont(name: string, path: string, style?: string): Font {
   const promise = useMemo(() => loadFont(path), [path])
   const install = useCallback(
     async (pdf: jsPDF) => {
-      let data: ArrayBuffer
-      try {
-        data = await promise
-      } catch (e) {
-        console.error(e)
-        return
-      }
+      const data = await promise
+      if (!data) return
 
       const fileName = name + ".ttf"
       pdf.addFileToVFS(fileName, Buffer.from(data).toString("base64"))
