@@ -24,7 +24,7 @@ export function TopPage({
     <div css={topPageStyles}>
       <Header environment={initialEnvironment} />
       <Search productTypes={initialProductTypes} />
-      <Main products={products} />
+      <Main products={products} environment={initialEnvironment} />
       <Footer />
     </div>
   )

@@ -1,13 +1,13 @@
-import { Product } from "@/common/db.type"
+import { Environment, Product } from "@/common/db.type"
 import { css } from "@mui/material"
 import { ProductItem } from "@/client/top/item.component"
 
-export function Main({ products }: { products: Product[] }) {
+export function Main({ products, environment }: { products: Product[]; environment: Environment }) {
   return (
     <main css={mainStyles}>
       <div className="Main-Products">
         {products.map((product) => (
-          <ProductItem key={product.id} product={product} />
+          <ProductItem key={product.id} product={product} environment={environment} />
         ))}
       </div>
     </main>

@@ -14,6 +14,8 @@ export function productPrismaToObj(product: PrismaProduct | Product): Product {
     name: product.name,
     type: type,
     price: product.price,
+    hasWarranty: product.hasWarranty,
+    hasOriginalMail: product.hasOriginalMail,
   }
 }
 
@@ -24,6 +26,8 @@ export function purchasedProductPrismaToObj(product: PrismaProduct): PurchasedPr
     type: product.typeId,
     price: product.price,
     content: product.content,
+    hasWarranty: product.hasWarranty,
+    hasOriginalMail: product.hasOriginalMail,
   }
 }
 

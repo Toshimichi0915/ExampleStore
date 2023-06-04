@@ -1,21 +1,27 @@
-import { Product } from "@/common/db.type"
+import { Environment, Product } from "@/common/db.type"
 import { css, Theme } from "@mui/material"
-import { usePurchase } from "@/client/top/purchase.hook"
 import { paperStyles } from "@/client/common/styles"
+import { ProductDialog } from "@/client/top/product-dialog.component"
+import { useCallback, useState } from "react"
 
-export function ProductItem({ product }: { product: Product }) {
-  const { purchase } = usePurchase(product)
+export function ProductItem({ product, environment }: { product: Product; environment: Environment }) {
+  const [open, setOpen] = useState(false)
+  const openDialog = useCallback(() => setOpen(true), [])
+  const onClose = useCallback(() => setOpen(false), [])
 
   return (
-    <div css={[paperStyles, productItemStyles]}>
-      <div>
-        <p className="ProductItem-ProductType">{product.type}</p>
-        <p className="ProductItem-ProductName">{product.name}</p>
+    <>
+      <ProductDialog product={product} open={open} onClose={onClose} environment={environment} />
+      <div css={[paperStyles, productItemStyles]}>
+        <div>
+          <p className="ProductItem-ProductType">{product.type}</p>
+          <p className="ProductItem-ProductName">{product.name}</p>
+        </div>
+        <button className="ProductItem-PurchaseButton" onClick={openDialog}>
+          PURCHASE - ${product.price}
+        </button>
       </div>
-      <button className="ProductItem-PurchaseButton" onClick={purchase}>
-        PURCHASE - ${product.price}
-      </button>
-    </div>
+    </>
   )
 }
 

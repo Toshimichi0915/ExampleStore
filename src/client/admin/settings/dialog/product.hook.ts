@@ -14,6 +14,8 @@ export interface ProductEditBody {
   type: string
   price: number
   content: string
+  hasWarranty: boolean
+  hasOriginalMail: boolean
 }
 
 export function useProductEdit(product?: Product): ProductEdit {
@@ -26,12 +28,14 @@ export function useProductEdit(product?: Product): ProductEdit {
       type,
       price,
       content,
+      hasWarranty,
+      hasOriginalMail,
     }: ProductEditBody & {
       product?: Product
     }) => {
       const url = product ? `/api/products/${product.id}` : "/api/products"
       const method = product ? "PUT" : "POST"
-      const value: PurchasedProductInput = { name, type, price: price, content }
+      const value: PurchasedProductInput = { name, type, price, content, hasWarranty, hasOriginalMail }
 
       const response = await fetch(url, {
         method,

@@ -3,6 +3,8 @@ export interface Product {
   name: string
   type: string | null
   price: number
+  hasWarranty: boolean
+  hasOriginalMail: boolean
 }
 
 export interface PurchasedProduct extends Product {

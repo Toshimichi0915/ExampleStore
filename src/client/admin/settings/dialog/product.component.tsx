@@ -2,6 +2,7 @@ import { ProductType, PurchasedProduct } from "@/common/db.type"
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
 import {
   Button,
+  Checkbox,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -34,6 +35,8 @@ export function ProductEditDialog({
       type: (product?.type && productTypes.find((t) => t.name == product?.type)?.name) ?? "",
       price: product?.price.toString() ?? "",
       content: product?.content ?? "",
+      hasWarranty: product?.hasWarranty ?? false,
+      hasOriginalMail: product?.hasOriginalMail ?? false,
     }),
     [product, productTypes]
   )
@@ -71,6 +74,20 @@ export function ProductEditDialog({
     [setProductBody]
   )
 
+  const setHasWarranty = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProductBody((prev) => ({ ...prev, hasWarranty: e.target.checked }))
+    },
+    [setProductBody]
+  )
+
+  const setHasOriginalMail = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProductBody((prev) => ({ ...prev, hasOriginalMail: e.target.checked }))
+    },
+    [setProductBody]
+  )
+
   const productEdit = useProductEdit(product)
 
   const submit = useCallback(() => {
@@ -82,10 +99,12 @@ export function ProductEditDialog({
       type: productBody.type,
       price: price,
       content: productBody.content,
+      hasWarranty: productBody.hasWarranty,
+      hasOriginalMail: productBody.hasOriginalMail,
     })
 
     onClose()
-  }, [onClose, productBody.content, productBody.name, productBody.price, productBody.type, productEdit])
+  }, [onClose, productBody, productEdit])
 
   return (
     <Dialog open={open} onClose={onClose} css={[dialogStyles, productDialogStyles]} className={className}>
@@ -117,6 +136,16 @@ export function ProductEditDialog({
           value={productBody.content}
           onChange={setContent}
         />
+        <div>
+          <label className="ProductDialog-Checkbox">
+            Has Warranty
+            <Checkbox checked={productBody.hasWarranty} onChange={setHasWarranty} />
+          </label>
+          <label className="ProductDialog-Checkbox">
+            Has Original Mail
+            <Checkbox checked={productBody.hasOriginalMail} onChange={setHasOriginalMail} />
+          </label>
+        </div>
         <Button onClick={submit}>OK</Button>
       </DialogContent>
     </Dialog>
@@ -138,6 +167,12 @@ function productDialogStyles() {
     & .ProductDialog-Currency {
       margin-top: 0;
       margin-bottom: 0;
+    }
+
+    & .ProductDialog-Checkbox {
+      display: flex;
+      align-items: center;
+      justify-content: end;
     }
   `
 }
