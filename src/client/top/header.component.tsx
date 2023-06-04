@@ -2,6 +2,7 @@ import { css, Theme } from "@mui/material"
 import Link from "next/link"
 import Image from "next/image"
 import { Environment } from "@/common/db.type"
+import TelegramIcon from "@mui/icons-material/Telegram"
 
 export function Header({ environment }: { environment: Environment }) {
   return (
@@ -12,7 +13,7 @@ export function Header({ environment }: { environment: Environment }) {
       </div>
       <div>
         <Link href={environment.telegramUrl} className="Header-Telegram">
-          <Image src="/telegram.svg" alt="" width={16} height={16} />
+          <TelegramIcon />
           <span className="Header-Telegram-Text">TELEGRAM</span>
         </Link>
       </div>
@@ -55,10 +56,7 @@ function headerStyles(theme: Theme) {
       align-items: center;
       gap: 10px;
       text-decoration: none;
-    }
-
-    & .Header-Telegram-Text {
-      color: white;
+      color: ${theme.palette.text.primary};
     }
   `
 }
