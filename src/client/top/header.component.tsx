@@ -22,7 +22,7 @@ export function Header({ environment }: { environment: Environment }) {
           <CellTowerIcon />
           <span className="Header-Telegram-Text">CHANNEL</span>
         </Link>
-        <Link href={environment.email} className="Header-Email Header-SocialIcon">
+        <Link href={`mailto:${environment.email}`} className="Header-Email Header-SocialIcon">
           <EmailIcon />
           <span className="Header-Telegram-Text">EMAIL</span>
         </Link>
