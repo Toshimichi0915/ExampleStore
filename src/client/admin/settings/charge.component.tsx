@@ -9,10 +9,12 @@ export function SettingsCharge({ className, productTypes }: { className?: string
   const { chargeId, setChargeId, search, result } = useChargeSearch()
   const changeChargeId = useCallback((event: ChangeEvent<HTMLInputElement>) => setChargeId(event.target.value), [])
 
+  const [searched, setSearched] = useState(false)
   const [open, setOpen] = useState(false)
   const onClose = useCallback(() => setOpen(false), [])
 
   const onClick = useCallback(() => {
+    setSearched(true)
     setOpen(true)
     search()
   }, [search])
@@ -43,7 +45,7 @@ export function SettingsCharge({ className, productTypes }: { className?: string
           </Button>
         </div>
         {result.errored && <p className="SettingsCharge-Error">An error occurred while checking that charge ID</p>}
-        {!result.pending && !result.charge && !result.errored && (
+        {searched && !result.pending && !result.charge && !result.errored && (
           <p className="SettingsCharge-Error">The specified charge ID does not exist</p>
         )}
       </section>
