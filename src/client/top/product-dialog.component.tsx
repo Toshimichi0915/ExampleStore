@@ -50,7 +50,6 @@ export function ProductDialog({
   const notes = []
   if (product.unswappable) notes.push("This product cannot be swapped to other accounts")
   if (product.hasOriginalMail) notes.push("This product contains an original email")
-  if (product.note) notes.push(product.note)
 
   return (
     <Dialog css={[dialogStyles, productDialogStyles]} className={className} open={open} onClose={onClose}>
@@ -66,6 +65,7 @@ export function ProductDialog({
             ))}
           </div>
         )}
+        {product.note && <div className="ProductDialog-Note">{product.note}</div>}
         <form className="ProductDialog-Form">
           <label className="ProductDialog-Tos">
             You must agree our
