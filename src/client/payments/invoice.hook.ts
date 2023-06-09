@@ -66,7 +66,7 @@ export function useInvoice(charge: Charge): Invoice {
     pdf.setTextColor(valueColor)
     const id = charge.id
     const baseUrl = typeof window === "undefined" ? "" : window.location.origin
-    const url = `${baseUrl}/products/${charge.product.id}`
+    const url = `${baseUrl}/charges/${charge.id}`
     const clickNavigation = "(Click to open in browser)"
     pdf.text(id, 410 - pdf.getTextWidth(id), 195)
     pdf.textWithLink(clickNavigation, 410 - pdf.getTextWidth(clickNavigation), 215, { url })
