@@ -4,7 +4,7 @@ import { css, Theme } from "@mui/material"
 
 export function ChargeItem({ charge, className }: { charge: Charge; className?: string }) {
   return (
-    <Link href={`/products/${charge.productId}`} css={chargeItemStyles} className={className}>
+    <Link href={`/charges/${charge.id}`} css={chargeItemStyles} className={className}>
       <div className="ChargeItem-Container">
         <p className="ChargeItem-ProductName">{charge.product.name}</p>
         <p className="ChargeItem-ChargeStatus">{ChargeStatusNames[charge.status]}</p>

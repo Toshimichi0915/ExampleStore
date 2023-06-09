@@ -3,7 +3,7 @@ import { PaymentGuide } from "@/client/payments/payment-guide.component"
 import { PaymentInfo } from "@/client/payments/payment-info.component"
 import { css } from "@emotion/react"
 import { InferGetServerSidePropsType } from "next"
-import { getServerSideProps } from "@/pages/products/[id]"
+import { getServerSideProps } from "@/pages/charges/[id]"
 
 export function PaymentPage({
   charge: initialCharge,
