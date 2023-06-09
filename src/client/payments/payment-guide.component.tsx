@@ -80,8 +80,16 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
     title: "Payment Completed",
     component: (charge) => (
       <>
-        <DownloadCard charge={charge} />
+        <PaymentCard
+          title="Thank you for your purchase!"
+          description={[
+            `If you haven't provided reputation or vouch on flipd.gg/Genshin, we would appreciate it if you could do so.`,
+            `We typically respond within 24 hours.`,
+            `If you have any concerns or questions, please feel free to contact us.`,
+          ]}
+        />
         <PreviewCard charge={charge} />
+        <DownloadCard charge={charge} />
         <InvoiceCard charge={charge} />
       </>
     ),

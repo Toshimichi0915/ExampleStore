@@ -17,13 +17,21 @@ export function PaymentCard({
 }: {
   className?: string
   title: string
-  description: string
+  description: string | string[]
   children?: ReactNode
 }) {
+  const arr = Array.isArray(description) ? description : [description]
+
   return (
     <section className={className} css={[paperStyles, paymentCardStyles]}>
       <h2 className="PaymentCard-Title">{title}</h2>
-      <p className="PaymentCard-Description">{description}</p>
+      <div className="PaymentCard-Description">
+        {arr.map((text) => (
+          <p className="PaymentCard-Text" key={text}>
+            {text}
+          </p>
+        ))}
+      </div>
       {children}
     </section>
   )
@@ -110,6 +118,12 @@ function paymentCardStyles() {
     }
 
     & .PaymentCard-Description {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    & .PaymentCard-Text {
       margin: 0;
     }
   `
