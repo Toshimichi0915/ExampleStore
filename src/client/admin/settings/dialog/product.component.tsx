@@ -37,6 +37,7 @@ export function ProductEditDialog({
       content: product?.content ?? "",
       hasWarranty: product?.hasWarranty ?? false,
       hasOriginalMail: product?.hasOriginalMail ?? false,
+      note: product?.note ?? "",
     }),
     [product, productTypes]
   )
@@ -88,6 +89,13 @@ export function ProductEditDialog({
     [setProductBody]
   )
 
+  const setNote = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setProductBody((prev) => ({ ...prev, note: e.target.value }))
+    },
+    [setProductBody]
+  )
+
   const productEdit = useProductEdit(product)
 
   const submit = useCallback(() => {
@@ -101,6 +109,7 @@ export function ProductEditDialog({
       content: productBody.content,
       hasWarranty: productBody.hasWarranty,
       hasOriginalMail: productBody.hasOriginalMail,
+      note: productBody.note,
     })
 
     onClose()
@@ -137,6 +146,7 @@ export function ProductEditDialog({
           onChange={setContent}
         />
         <div>
+          <TextField fullWidth label="Note" onChange={setNote} value={productBody.note} />
           <label className="ProductDialog-Checkbox">
             Has Warranty
             <Checkbox checked={productBody.hasWarranty} onChange={setHasWarranty} />

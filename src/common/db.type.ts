@@ -1,10 +1,11 @@
 export interface Product {
   id: string
   name: string
-  type: string | null
+  type?: string | null | undefined
   price: number
   hasWarranty: boolean
   hasOriginalMail: boolean
+  note?: string | null | undefined
 }
 
 export interface PurchasedProduct extends Product {
@@ -20,8 +21,8 @@ export interface Charge {
   id: string
   productId: string
   userId: string
-  coinbaseId?: string
-  chargeUrl?: string
+  coinbaseId?: string | null | undefined
+  chargeUrl?: string | null | undefined
   status: ChargeStatus
   product: Product
 }
@@ -52,5 +53,5 @@ export const ChargeStatusNames = {
 
 export interface Environment {
   telegramUrl: string
-  termsOfService?: object
+  termsOfService?: object | null | undefined
 }

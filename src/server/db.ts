@@ -14,7 +14,7 @@ export async function getEnvironment(): Promise<Environment> {
 
   return {
     telegramUrl: settings.telegramUrl,
-    ...(termsOfService && { termsOfService }),
+    termsOfService,
   }
 }
 

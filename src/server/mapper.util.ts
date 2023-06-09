@@ -12,10 +12,11 @@ export function productPrismaToObj(product: PrismaProduct | Product): Product {
   return {
     id: product.id,
     name: product.name,
-    type: type,
+    type,
     price: product.price,
     hasWarranty: product.hasWarranty,
     hasOriginalMail: product.hasOriginalMail,
+    note: product.note,
   }
 }
 
@@ -28,6 +29,7 @@ export function purchasedProductPrismaToObj(product: PrismaProduct): PurchasedPr
     content: product.content,
     hasWarranty: product.hasWarranty,
     hasOriginalMail: product.hasOriginalMail,
+    note: product.note,
   }
 }
 
@@ -44,8 +46,8 @@ export function chargePrismaToObj(charge: PrismaCharge, product: Product | Prism
     productId: charge.productId,
     userId: charge.userId,
     status: charge.status,
-    ...(charge.coinbaseId && { coinbaseId: charge.coinbaseId }),
-    ...(charge.chargeUrl && { chargeUrl: charge.chargeUrl }),
+    coinbaseId: charge.coinbaseId,
+    chargeUrl: charge.chargeUrl,
     product: productPrismaToObj(product),
   }
 }

@@ -31,6 +31,7 @@ model Product {
   content         String
   hasWarranty     Boolean      @default(false) @map("has_warranty")
   hasOriginalMail Boolean      @default(false) @map("has_original_mail")
+  note            String?
   charges         Charge[]
   createdAt       DateTime     @default(now()) @map("created_at")
   updatedAt       DateTime     @updatedAt @map("updated_at")
