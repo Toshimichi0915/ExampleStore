@@ -9,6 +9,7 @@ import {
   PreviewCard,
 } from "@/client/payments/payment-card.component"
 import { CircularProgress } from "@mui/material"
+import Link from "next/link"
 
 interface PaymentStatus {
   title: string
@@ -80,14 +81,19 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
     title: "Payment Completed",
     component: (charge) => (
       <>
-        <PaymentCard
-          title="Thank you for your purchase!"
-          description={[
-            `If you haven't provided reputation or vouch on flipd.gg/Genshin, we would appreciate it if you could do so.`,
-            `We typically respond within 24 hours.`,
-            `If you have any concerns or questions, please feel free to contact us.`,
-          ]}
-        />
+        <PaymentCard title="Thank you for your purchase!">
+          <div className="PaymentCard-Description">
+            <p className="PaymentCard-Text">
+              If you haven&apos;t provided reputation or vouch on{" "}
+              <Link href="https://flipd.gg/Genshin" className="PaymentCard-TextUrl">
+                flipd.gg/Genshin
+              </Link>
+              , we would appreciate it if you could do so.
+            </p>
+            <p className="PaymentCard-Text">We typically respond within 24 hours.</p>
+            <p className="PaymentCard-Text">If you have any concerns or questions, please feel free to contact us.</p>
+          </div>
+        </PaymentCard>
         <PreviewCard charge={charge} />
         <DownloadCard charge={charge} />
         <InvoiceCard charge={charge} />
