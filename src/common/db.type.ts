@@ -3,7 +3,7 @@ export interface Product {
   name: string
   type?: string | null | undefined
   price: number
-  hasWarranty: boolean
+  unswappable: boolean
   hasOriginalMail: boolean
   note?: string | null | undefined
 }

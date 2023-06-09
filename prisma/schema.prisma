@@ -29,7 +29,7 @@ model Product {
   type            ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
   typeId          String?      @map("type")
   content         String
-  hasWarranty     Boolean      @default(false) @map("has_warranty")
+  unswappable Boolean      @default(false) @map("unswappable")
   hasOriginalMail Boolean      @default(false) @map("has_original_mail")
   note            String?
   charges         Charge[]

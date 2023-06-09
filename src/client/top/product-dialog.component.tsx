@@ -48,8 +48,8 @@ export function ProductDialog({
   )
 
   const notes = []
-  if (product.hasWarranty) notes.push("This product has warranty you can use if the product did not work")
-  if (product.hasOriginalMail) notes.push("This product has original mail address")
+  if (product.unswappable) notes.push("This product cannot be swapped to other accounts")
+  if (product.hasOriginalMail) notes.push("This product contains an original email")
   if (product.note) notes.push(product.note)
 
   return (

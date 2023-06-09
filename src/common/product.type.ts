@@ -5,7 +5,7 @@ export const PurchasedProductSchema = z.object({
   type: z.string().nullable(),
   price: z.number(),
   content: z.string(),
-  hasWarranty: z.boolean(),
+  unswappable: z.boolean(),
   hasOriginalMail: z.boolean(),
   note: z.string().optional(),
 })

@@ -35,7 +35,7 @@ export function ProductEditDialog({
       type: (product?.type && productTypes.find((t) => t.name == product?.type)?.name) ?? "",
       price: product?.price.toString() ?? "",
       content: product?.content ?? "",
-      hasWarranty: product?.hasWarranty ?? false,
+      unswappable: product?.unswappable ?? false,
       hasOriginalMail: product?.hasOriginalMail ?? false,
       note: product?.note ?? "",
     }),
@@ -75,9 +75,9 @@ export function ProductEditDialog({
     [setProductBody]
   )
 
-  const setHasWarranty = useCallback(
+  const setunswappable = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      setProductBody((prev) => ({ ...prev, hasWarranty: e.target.checked }))
+      setProductBody((prev) => ({ ...prev, unswappable: e.target.checked }))
     },
     [setProductBody]
   )
@@ -107,7 +107,7 @@ export function ProductEditDialog({
       type: productBody.type,
       price: price,
       content: productBody.content,
-      hasWarranty: productBody.hasWarranty,
+      unswappable: productBody.unswappable,
       hasOriginalMail: productBody.hasOriginalMail,
       note: productBody.note,
     })
@@ -148,11 +148,11 @@ export function ProductEditDialog({
         <div>
           <TextField fullWidth label="Note" onChange={setNote} value={productBody.note} />
           <label className="ProductDialog-Checkbox">
-            Has Warranty
-            <Checkbox checked={productBody.hasWarranty} onChange={setHasWarranty} />
+            Unswappable
+            <Checkbox checked={productBody.unswappable} onChange={setunswappable} />
           </label>
           <label className="ProductDialog-Checkbox">
-            Has Original Mail
+            Original Mail
             <Checkbox checked={productBody.hasOriginalMail} onChange={setHasOriginalMail} />
           </label>
         </div>

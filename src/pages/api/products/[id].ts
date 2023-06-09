@@ -45,10 +45,10 @@ export default middleware<NextApiRequest, NextApiResponse>()
       put()
         .pipe(suppress(withAdminSession()), withValidatedBody(PurchasedProductSchema))
         .pipe(async (req, res, next, id, schema) => {
-          const { name, type: typeId, price, content, hasWarranty, hasOriginalMail, note } = schema
+          const { name, type: typeId, price, content, unswappable, hasOriginalMail, note } = schema
           const product = await prisma.product.update({
             where: { id },
-            data: { name, typeId, price, content, hasWarranty, hasOriginalMail, note },
+            data: { name, typeId, price, content, unswappable, hasOriginalMail, note },
           })
 
           if (!product) {

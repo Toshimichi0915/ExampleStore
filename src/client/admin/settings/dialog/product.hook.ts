@@ -14,7 +14,7 @@ export interface ProductEditBody {
   type: string
   price: number
   content: string
-  hasWarranty: boolean
+  unswappable: boolean
   hasOriginalMail: boolean
   note: string
 }
@@ -29,7 +29,7 @@ export function useProductEdit(product?: Product): ProductEdit {
       type,
       price,
       content,
-      hasWarranty,
+      unswappable,
       hasOriginalMail,
       note,
     }: ProductEditBody & {
@@ -42,7 +42,7 @@ export function useProductEdit(product?: Product): ProductEdit {
         type,
         price,
         content,
-        hasWarranty,
+        unswappable,
         hasOriginalMail,
         note: note || undefined,
       }
