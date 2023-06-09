@@ -29,7 +29,7 @@ model Product {
   type            ProductType? @relation(fields: [typeId], references: [name], onDelete: SetNull, onUpdate: Cascade)
   typeId          String?      @map("type")
   content         String
-  unswappable Boolean      @default(false) @map("unswappable")
+  unswappable     Boolean      @default(false) @map("unswappable")
   hasOriginalMail Boolean      @default(false) @map("has_original_mail")
   note            String?
   charges         Charge[]
@@ -77,9 +77,12 @@ enum ChargeStatus {
 }
 
 model Environment {
-  id             String @id @default("_")
-  telegramUrl    String @default("https://example.com") @map("telegram_url")
-  termsOfService Json?  @map("terms_of_service")
+  id             String  @id @default("_")
+  telegramUrl    String  @default("https://example.com") @map("telegram_url")
+  channelUrl     String  @default("https://example.com") @map("channel_url")
+  mailTo         String  @default("test@example.com") @map("mail_to")
+  campaign       String? @map("campaign")
+  termsOfService Json?   @map("terms_of_service")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

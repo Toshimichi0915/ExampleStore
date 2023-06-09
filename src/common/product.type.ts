@@ -7,7 +7,7 @@ export const PurchasedProductSchema = z.object({
   content: z.string(),
   unswappable: z.boolean(),
   hasOriginalMail: z.boolean(),
-  note: z.string().optional(),
+  note: z.string().optional().nullable(),
 })
 
 export type PurchasedProductInput = z.input<typeof PurchasedProductSchema>

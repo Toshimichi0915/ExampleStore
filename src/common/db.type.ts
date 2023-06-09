@@ -53,5 +53,8 @@ export const ChargeStatusNames = {
 
 export interface Environment {
   telegramUrl: string
+  channelUrl: string
+  mailTo: string
+  campaign?: string | null | undefined
   termsOfService?: object | null | undefined
 }
