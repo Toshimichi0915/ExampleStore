@@ -80,7 +80,7 @@ model Environment {
   id             String  @id @default("_")
   telegramUrl    String  @default("https://example.com") @map("telegram_url")
   channelUrl     String  @default("https://example.com") @map("channel_url")
-  mailTo         String  @default("test@example.com") @map("mail_to")
+  email          String  @default("test@example.com") @map("email")
   campaign       String? @map("campaign")
   termsOfService Json?   @map("terms_of_service")
 

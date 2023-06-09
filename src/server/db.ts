@@ -15,7 +15,7 @@ export async function getEnvironment(): Promise<Environment> {
   return {
     telegramUrl: settings.telegramUrl,
     channelUrl: settings.channelUrl,
-    mailTo: settings.mailTo,
+    email: settings.email,
     campaign: settings.campaign,
     termsOfService,
   }

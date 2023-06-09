@@ -22,9 +22,9 @@ export function Header({ environment }: { environment: Environment }) {
           <CellTowerIcon />
           <span className="Header-Telegram-Text">CHANNEL</span>
         </Link>
-        <Link href={environment.mailTo} className="Header-MailTo Header-SocialIcon">
+        <Link href={environment.email} className="Header-Email Header-SocialIcon">
           <EmailIcon />
-          <span className="Header-Telegram-Text">MAIL TO</span>
+          <span className="Header-Telegram-Text">EMAIL</span>
         </Link>
       </div>
       {environment.campaign && (
@@ -97,7 +97,7 @@ function headerStyles(theme: Theme) {
       background-color: #e87929;
     }
 
-    & .Header-MailTo {
+    & .Header-Email {
       background-color: #de3791;
     }
 

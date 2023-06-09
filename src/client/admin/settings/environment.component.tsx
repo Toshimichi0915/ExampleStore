@@ -27,8 +27,8 @@ export function SettingsEnvironment({
   const changeChannelUrl = useCallback((event: ChangeEvent<HTMLInputElement>) => setChannelUrl(event.target.value), [])
 
   // mail
-  const [mailTo, setMailTo] = useState(environment.mailTo)
-  const changeMailTo = useCallback((event: ChangeEvent<HTMLInputElement>) => setMailTo(event.target.value), [])
+  const [email, setEmail] = useState(environment.email)
+  const changeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value), [])
 
   // news
   const [campaign, setCampaign] = useState(environment.campaign)
@@ -67,18 +67,18 @@ export function SettingsEnvironment({
       ...environment,
       telegramUrl,
       channelUrl,
-      mailTo,
+      email,
       campaign: campaign || "",
       termsOfService: editor?.getJSON(),
     })
-  }, [edit, environment, telegramUrl, channelUrl, mailTo, campaign, editor])
+  }, [edit, environment, telegramUrl, channelUrl, email, campaign, editor])
 
   return (
     <section className={className} css={settingsEnvironmentStyles}>
       <h2 className="Settings-Environment">Environment</h2>
       <TextField label="Telegram URL" type="text" value={telegramUrl} onChange={changeTelegramUrl} />
       <TextField label="Channel URL" type="text" value={channelUrl} onChange={changeChannelUrl} />
-      <TextField label="Mail To" type="text" value={mailTo} onChange={changeMailTo} />
+      <TextField label="Email" type="text" value={email} onChange={changeEmail} />
       <TextField label="Campaign" type="text" value={campaign} onChange={changeCampaign} />
       <div className="Settings-Tos">
         {editor && (

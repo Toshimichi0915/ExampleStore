@@ -8,7 +8,7 @@ import { prisma } from "@/server/global.type"
 const EnvironmentSchema = z.object({
   telegramUrl: z.string(),
   channelUrl: z.string(),
-  mailTo: z.string(),
+  email: z.string(),
   campaign: z.string().optional().nullable(),
   termsOfService: z.object({}).passthrough().optional(),
 })
