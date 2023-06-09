@@ -4,6 +4,7 @@ import { PurchasedProductSchema } from "@/common/product.type"
 import { purchasedProductPrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/global.type"
 import { middleware, suppress, withMethods, withValidatedBody } from "next-pipe"
+import { ChargeStatus } from "@/common/db.type"
 
 export default middleware<NextApiRequest, NextApiResponse>().pipe(
   suppress(withAdminSession()),
@@ -11,6 +12,9 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
     get().pipe(async (req, res) => {
       const products = await prisma.product.findMany({
         orderBy: { createdAt: "desc" },
+        where: {
+          charges: { none: { status: ChargeStatus.RESOLVED } },
+        },
       })
 
       res.status(200).json(products.map(purchasedProductPrismaToObj))

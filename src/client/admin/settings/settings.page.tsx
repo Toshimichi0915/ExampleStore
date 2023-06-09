@@ -6,6 +6,7 @@ import { SettingsPassword } from "@/client/admin/settings/password.component"
 import { SettingsSignOut } from "@/client/admin/settings/signout.component"
 import { SettingsProducts, SettingsProductTypes } from "@/client/admin/settings/table.component"
 import { SettingsEnvironment } from "@/client/admin/settings/environment.component"
+import { SettingsCharge } from "@/client/admin/settings/charge.component"
 
 export function SettingsPage({
   products: initialProducts,
@@ -18,6 +19,7 @@ export function SettingsPage({
     <>
       <main css={settingsPageStyles}>
         <h1 className="Settings-Title">Settings</h1>
+        <SettingsCharge productTypes={productTypes} />
         <SettingsProductTypes productTypes={productTypes} />
         <SettingsProducts products={products} productTypes={productTypes} />
         <SettingsEnvironment environment={initialEnvironment} />

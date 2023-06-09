@@ -51,6 +51,19 @@ export const ChargeStatusNames = {
   INVALIDATED: "Invalidated",
 } as const satisfies { [key in ChargeStatus]: string }
 
+export type ChargeStatusKeys = [
+  "INITIALIZING",
+  "CREATED",
+  "CONFIRMED",
+  "FAILED",
+  "DELAYED",
+  "PENDING",
+  "RESOLVED",
+  "INVALIDATED"
+]
+
+export const ChargeStatusKeys = Object.keys(ChargeStatus) as ChargeStatusKeys
+
 export interface Environment {
   telegramUrl: string
   channelUrl: string

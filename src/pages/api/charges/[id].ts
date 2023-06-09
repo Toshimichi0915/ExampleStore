@@ -1,8 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "@/server/global.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
-import { withUserId } from "@/server/session.util"
-import { middleware, Middleware, withMethods } from "next-pipe"
+import { withAdminSession, withUserId } from "@/server/session.util"
+import { middleware, Middleware, suppress, withMethods, withValidatedBody } from "next-pipe"
+import { ChargeStatus, ChargeStatusKeys } from "@/common/db.type"
+import { z } from "zod"
 
 function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
   return async (req, res, next) => {
@@ -16,27 +18,44 @@ function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [string
   }
 }
 
+const ChargeSchema = z.object({
+  status: z.enum(ChargeStatusKeys),
+})
+
 export default middleware<NextApiRequest, NextApiResponse>()
-  .pipe(withUserId(true), withChargeId())
+  .pipe(withChargeId())
   .pipe(
-    withMethods(({ get }) => {
-      get().pipe(async (req, res, next, userId, id) => {
-        const charge = await prisma.charge.findUnique({
-          where: { id },
-          include: { product: true },
+    withMethods(({ get, put }) => {
+      get()
+        .pipe(withUserId(true))
+        .pipe(async (req, res, next, id, userId) => {
+          const charge = await prisma.charge.findUnique({
+            where: { id },
+            include: { product: true },
+          })
+
+          if (!charge) {
+            res.status(404).json({ error: "Charge not found" })
+            return
+          }
+
+          if (charge.userId !== userId) {
+            res.status(404).json({ error: "Charge not found" })
+            return
+          }
+
+          return res.status(200).json(chargePrismaToObj(charge, charge.product))
         })
 
-        if (!charge) {
-          res.status(404).json({ error: "Charge not found" })
-          return
-        }
+      put()
+        .pipe(suppress(withAdminSession()), withValidatedBody(ChargeSchema))
+        .pipe(async (req, res, next, id, body) => {
+          await prisma.charge.update({
+            where: { id },
+            data: { status: body.status },
+          })
 
-        if (charge.userId !== userId) {
-          res.status(404).json({ error: "Charge not found" })
-          return
-        }
-
-        return res.status(200).json(chargePrismaToObj(charge, charge.product))
-      })
+          res.status(200).end()
+        })
     })
   )

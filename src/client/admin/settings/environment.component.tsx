@@ -31,7 +31,7 @@ export function SettingsEnvironment({
   const changeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value), [])
 
   // news
-  const [campaign, setCampaign] = useState(environment.campaign)
+  const [campaign, setCampaign] = useState(environment.campaign ?? "")
   const changeCampaign = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => setCampaign(event.target.value ?? ""),
     []
@@ -44,9 +44,9 @@ export function SettingsEnvironment({
   })
 
   const newTosButtonClassName = (lambda: (editor: Editor) => boolean) => {
-    const classNames = ["Settings-TosButton"]
+    const classNames = ["SettingsEnvironment-TosButton"]
     if (editor && lambda(editor)) {
-      classNames.push("Settings-TosButtonActive")
+      classNames.push("SettingsEnvironment-TosButtonActive")
     }
 
     return classNames.join(" ")
@@ -75,17 +75,17 @@ export function SettingsEnvironment({
 
   return (
     <section className={className} css={settingsEnvironmentStyles}>
-      <h2 className="Settings-Environment">Environment</h2>
+      <h2 className="SettingsEnvironment-Title">Environment</h2>
       <TextField label="Telegram URL" type="text" value={telegramUrl} onChange={changeTelegramUrl} />
       <TextField label="Channel URL" type="text" value={channelUrl} onChange={changeChannelUrl} />
       <TextField label="Email" type="text" value={email} onChange={changeEmail} />
       <TextField label="Campaign" type="text" value={campaign} onChange={changeCampaign} />
-      <div className="Settings-Tos">
+      <div className="SettingsEnvironment-Tos">
         {editor && (
           <>
-            <div className="Settings-TosMenu">
-              <p className="Settings-TosTitle">Terms of Service</p>
-              <div className="Settings-TosButtons">
+            <div className="SettingsEnvironment-TosMenu">
+              <p className="SettingsEnvironment-TosTitle">Terms of Service</p>
+              <div className="SettingsEnvironment-TosButtons">
                 <button className={pClassName} onClick={onPClick}>
                   p
                 </button>
@@ -97,8 +97,8 @@ export function SettingsEnvironment({
                 </button>
               </div>
             </div>
-            <div className="Settings-TosBodyContainer">
-              <EditorContent className="Settings-TosBody" editor={editor} />
+            <div className="SettingsEnvironment-TosBodyContainer">
+              <EditorContent className="SettingsEnvironment-TosBody" editor={editor} />
             </div>
           </>
         )}
@@ -114,11 +114,11 @@ function settingsEnvironmentStyles(theme: Theme) {
     flex-direction: column;
     gap: 10px;
 
-    & .Settings-Environment {
+    & .SettingsEnvironment-Title {
       margin: 8px 0;
     }
 
-    & .Settings-Tos {
+    & .SettingsEnvironment-Tos {
       border: 1px solid ${theme.palette.border.paper};
       border-radius: 4px;
       padding: 8px;
@@ -131,18 +131,18 @@ function settingsEnvironmentStyles(theme: Theme) {
       }
     }
 
-    & .Settings-TosTitle {
+    & .SettingsEnvironment-TosTitle {
       margin: 0;
       font-size: 1.1rem;
     }
 
-    & .Settings-TosMenu {
+    & .SettingsEnvironment-TosMenu {
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    & .Settings-TosButton {
+    & .SettingsEnvironment-TosButton {
       background-color: transparent;
       color: ${theme.palette.text.primary};
       border: 1px solid ${theme.palette.border.paper};
@@ -151,12 +151,12 @@ function settingsEnvironmentStyles(theme: Theme) {
       margin: 0 2px;
     }
 
-    & .Settings-TosButtonActive {
+    & .SettingsEnvironment-TosButtonActive {
       border: 1px solid transparent;
       background-color: ${theme.palette.background.light};
     }
 
-    & .Settings-TosBodyContainer {
+    & .SettingsEnvironment-TosBodyContainer {
       max-height: 50vh;
       overflow: scroll;
       overflow-x: hidden;
@@ -165,7 +165,7 @@ function settingsEnvironmentStyles(theme: Theme) {
       border-radius: 3px;
     }
 
-    & .Settings-TosBody {
+    & .SettingsEnvironment-TosBody {
       padding: 5px;
 
       & .ProseMirror:focus {
