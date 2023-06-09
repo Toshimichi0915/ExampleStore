@@ -68,6 +68,7 @@ export interface Environment {
   telegramUrl: string
   channelUrl: string
   email: string
+  flipd: string
   campaign?: string | null | undefined
   termsOfService?: object | null | undefined
 }

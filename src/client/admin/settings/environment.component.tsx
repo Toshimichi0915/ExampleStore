@@ -30,6 +30,10 @@ export function SettingsEnvironment({
   const [email, setEmail] = useState(environment.email)
   const changeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value), [])
 
+  // flipd
+  const [flipd, setFlipd] = useState(environment.flipd)
+  const changeFlipd = useCallback((event: ChangeEvent<HTMLInputElement>) => setFlipd(event.target.value), [])
+
   // news
   const [campaign, setCampaign] = useState(environment.campaign ?? "")
   const changeCampaign = useCallback(
@@ -68,6 +72,7 @@ export function SettingsEnvironment({
       telegramUrl,
       channelUrl,
       email,
+      flipd,
       campaign: campaign || "",
       termsOfService: editor?.getJSON(),
     })
@@ -79,6 +84,7 @@ export function SettingsEnvironment({
       <TextField label="Telegram URL" type="text" value={telegramUrl} onChange={changeTelegramUrl} />
       <TextField label="Channel URL" type="text" value={channelUrl} onChange={changeChannelUrl} />
       <TextField label="Email" type="text" value={email} onChange={changeEmail} />
+      <TextField label="Flipd" type="text" value={flipd} onChange={changeFlipd} />
       <TextField label="Campaign" type="text" value={campaign} onChange={changeCampaign} />
       <div className="SettingsEnvironment-Tos">
         {editor && (

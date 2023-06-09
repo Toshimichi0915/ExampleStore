@@ -17,6 +17,7 @@ export async function getEnvironment(): Promise<Environment> {
     channelUrl: settings.channelUrl,
     email: settings.email,
     campaign: settings.campaign,
+    flipd: settings.flipd,
     termsOfService,
   }
 }

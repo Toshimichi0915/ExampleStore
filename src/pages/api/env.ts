@@ -9,6 +9,7 @@ const EnvironmentSchema = z.object({
   telegramUrl: z.string(),
   channelUrl: z.string(),
   email: z.string(),
+  flipd: z.string(),
   campaign: z.string().optional().nullable(),
   termsOfService: z.object({}).passthrough().optional(),
 })

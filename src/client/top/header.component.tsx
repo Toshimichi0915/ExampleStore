@@ -5,6 +5,7 @@ import TelegramIcon from "@mui/icons-material/Telegram"
 import CellTowerIcon from "@mui/icons-material/CellTower"
 import EmailIcon from "@mui/icons-material/Email"
 import CampaignIcon from "@mui/icons-material/Campaign"
+import Image from "next/image"
 
 export function Header({ environment }: { environment: Environment }) {
   return (
@@ -16,15 +17,19 @@ export function Header({ environment }: { environment: Environment }) {
       <div className="Header-Social">
         <Link href={environment.telegramUrl} className="Header-Telegram Header-SocialIcon">
           <TelegramIcon />
-          <span className="Header-Telegram-Text">TELEGRAM</span>
+          <span className="Header-Social-Text">TELEGRAM</span>
         </Link>
         <Link href={environment.channelUrl} className="Header-Channel Header-SocialIcon">
           <CellTowerIcon />
-          <span className="Header-Telegram-Text">CHANNEL</span>
+          <span className="Header-Social-Text">CHANNEL</span>
         </Link>
         <Link href={`mailto:${environment.email}`} className="Header-Email Header-SocialIcon">
           <EmailIcon />
-          <span className="Header-Telegram-Text">EMAIL</span>
+          <span className="Header-Social-Text">EMAIL</span>
+        </Link>
+        <Link href={environment.flipd} className="Header-Flipd Header-SocialIcon">
+          <Image src="/flipd.png" alt="" width={22} height={22} />
+          <span className="Header-Social-Text">FLIPD</span>
         </Link>
       </div>
       {environment.campaign && (
@@ -65,8 +70,13 @@ function headerStyles(theme: Theme) {
     }
 
     & .Header-Social {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 20px;
+
+      @media (min-width: 1024px) {
+        grid-template-columns: 150px 150px 150px 150px;
+      }
     }
 
     & .Header-SocialIcon {
@@ -76,7 +86,6 @@ function headerStyles(theme: Theme) {
       align-items: center;
       justify-content: center;
       gap: 10px;
-      width: 150px;
       text-decoration: none;
       color: ${theme.palette.text.primary};
 
@@ -94,11 +103,15 @@ function headerStyles(theme: Theme) {
     }
 
     & .Header-Channel {
-      background-color: #e87929;
+      background-color: #2948d5;
     }
 
     & .Header-Email {
-      background-color: #de3791;
+      background-color: #2431be;
+    }
+
+    & .Header-Flipd {
+      background-color: #123180;
     }
 
     & .Header-Campaign {
