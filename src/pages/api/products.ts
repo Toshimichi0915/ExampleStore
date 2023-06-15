@@ -23,9 +23,9 @@ export default middleware<NextApiRequest, NextApiResponse>().pipe(
     post()
       .pipe(withValidatedBody(PurchasedProductSchema))
       .pipe(async (req, res, next, schema) => {
-        const { name, type: typeId, price, content } = schema
+        const { name, type: typeId, price, content, unswappable, hasOriginalMail, note } = schema
         const product = await prisma.product.create({
-          data: { name, typeId, price, content },
+          data: { name, typeId, price, content, unswappable, hasOriginalMail, note },
         })
 
         res.status(200).json(purchasedProductPrismaToObj(product))
