@@ -1,6 +1,6 @@
 import { Environment, Product } from "@/common/db.type"
 import { dialogStyles } from "@/client/common/styles"
-import { Checkbox, Dialog, DialogContent, DialogTitle, Theme } from "@mui/material"
+import { Checkbox, Dialog, DialogContent, DialogTitle, TextareaAutosize, Theme } from "@mui/material"
 import { css } from "@emotion/react"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import TelegramIcon from "@mui/icons-material/Telegram"
@@ -65,7 +65,11 @@ export function ProductDialog({
             ))}
           </div>
         )}
-        {product.note && <div className="ProductDialog-Note">{product.note}</div>}
+        {product.note && (
+          <div className="ProductDialog-NoteContainer">
+            <TextareaAutosize className="ProductDialog-Note" value={product.note} disabled={true} />
+          </div>
+        )}
         <form className="ProductDialog-Form">
           <label className="ProductDialog-Tos">
             <p>
@@ -106,10 +110,21 @@ function productDialogStyles(theme: Theme) {
       justify-content: space-between;
     }
 
-    & .ProductDialog-Note {
+    & .ProductDialog-NoteContainer {
       background-color: ${theme.palette.background.paper};
-      padding: 10px 20px;
+      padding: 16px 20px;
+    }
+
+    & .ProductDialog-Note {
       border-radius: 3px;
+      background-color: transparent;
+      width: 100%;
+      font-family: ${theme.typography.fontFamily};
+      font-size: ${theme.typography.body1.fontSize};
+      color: ${theme.palette.text.primary};
+      outline: none;
+      border: none;
+      resize: none;
     }
 
     & .ProductDialog-Form {

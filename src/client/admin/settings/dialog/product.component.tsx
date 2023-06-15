@@ -75,7 +75,7 @@ export function ProductEditDialog({
     [setProductBody]
   )
 
-  const setunswappable = useCallback(
+  const setUnswappable = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setProductBody((prev) => ({ ...prev, unswappable: e.target.checked }))
     },
@@ -90,7 +90,7 @@ export function ProductEditDialog({
   )
 
   const setNote = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+    (e: ChangeEvent<HTMLTextAreaElement>) => {
       setProductBody((prev) => ({ ...prev, note: e.target.value }))
     },
     [setProductBody]
@@ -145,11 +145,17 @@ export function ProductEditDialog({
           value={productBody.content}
           onChange={setContent}
         />
+        <TextareaAutosize
+          css={textAreaStyles}
+          placeholder="Product note here"
+          aria-label="Product Note"
+          onChange={setNote}
+          value={productBody.note}
+        />
         <div>
-          <TextField fullWidth label="Note" onChange={setNote} value={productBody.note} />
           <label className="ProductDialog-Checkbox">
             Unswappable
-            <Checkbox checked={productBody.unswappable} onChange={setunswappable} />
+            <Checkbox checked={productBody.unswappable} onChange={setUnswappable} />
           </label>
           <label className="ProductDialog-Checkbox">
             Original Mail
