@@ -68,11 +68,13 @@ export function ProductDialog({
         {product.note && <div className="ProductDialog-Note">{product.note}</div>}
         <form className="ProductDialog-Form">
           <label className="ProductDialog-Tos">
-            You must agree our
-            <Link href="/tos" className="ProductDialog-TosLink">
-              Terms of Service
-            </Link>
-            to purchase this product
+            <p>
+              You must agree our
+              <Link href="/tos" className="ProductDialog-TosLink">
+                Terms of Service
+              </Link>
+              to purchase this product
+            </p>
             <Checkbox required={true} checked={checked} onChange={updateChecked} />
           </label>
           <div className="ProductDialog-Buttons">
@@ -133,6 +135,11 @@ function productDialogStyles(theme: Theme) {
     & .ProductDialog-Buttons {
       display: flex;
       gap: 20px;
+      flex-direction: column;
+
+      @media (min-width: 768px) {
+        flex-direction: row;
+      }
     }
 
     & .ProductDialog-Button {
@@ -142,19 +149,25 @@ function productDialogStyles(theme: Theme) {
       background-color: transparent;
       font-family: ${theme.typography.fontFamily};
       font-size: 0.9rem;
-      padding: 4px 0;
       border-radius: 6px;
       transition: all 0.3s ease-in-out;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 20px;
+      justify-content: space-between;
+      padding: 4px 20px;
+      min-height: 3rem;
 
       &:hover {
         background-color: white;
         border-color: black;
         color: black;
         cursor: pointer;
+      }
+
+      @media (min-width: 768px) {
+        min-height: unset;
+        justify-content: center;
+        gap: 20px;
       }
     }
   `
