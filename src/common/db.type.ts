@@ -25,6 +25,7 @@ export interface Charge {
   chargeUrl?: string | null | undefined
   status: ChargeStatus
   product: Product
+  createdAt: string
 }
 
 export const ChargeStatus = {

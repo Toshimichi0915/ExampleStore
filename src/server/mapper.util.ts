@@ -49,5 +49,6 @@ export function chargePrismaToObj(charge: PrismaCharge, product: Product | Prism
     coinbaseId: charge.coinbaseId,
     chargeUrl: charge.chargeUrl,
     product: productPrismaToObj(product),
+    createdAt: charge.createdAt.toUTCString(),
   }
 }
