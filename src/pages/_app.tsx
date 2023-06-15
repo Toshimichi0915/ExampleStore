@@ -17,7 +17,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <>
       <Head>
-        <title>Dashboard</title>
+        <title>Genshin Store</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <QueryClientProvider client={queryClient}>
