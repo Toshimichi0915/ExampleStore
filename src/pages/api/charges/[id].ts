@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { prisma } from "@/server/global.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
 import { withAdminSession, withUserId } from "@/server/session.util"
-import { middleware, Middleware, suppress, withMethods, withValidatedBody } from "next-pipe"
-import { ChargeStatus, ChargeStatusKeys } from "@/common/db.type"
+import { middleware, Middleware, suppress, withMethods, withServerSession, withValidatedBody } from "next-pipe"
+import { ChargeStatusKeys } from "@/common/db.type"
 import { z } from "zod"
+import { authOptions } from "@/pages/api/auth/[...nextauth]"
 
 function withChargeId(): Middleware<NextApiRequest, NextApiResponse, [], [string]> {
   return async (req, res, next) => {
@@ -27,8 +28,8 @@ export default middleware<NextApiRequest, NextApiResponse>()
   .pipe(
     withMethods(({ get, put }) => {
       get()
-        .pipe(withUserId(true))
-        .pipe(async (req, res, next, id, userId) => {
+        .pipe(withUserId(true), withServerSession(authOptions, false))
+        .pipe(async (req, res, next, id, userId, session) => {
           const charge = await prisma.charge.findUnique({
             where: { id },
             include: { product: true },
@@ -39,7 +40,7 @@ export default middleware<NextApiRequest, NextApiResponse>()
             return
           }
 
-          if (charge.userId !== userId) {
+          if (charge.userId !== userId && !session?.user.roles.includes("ADMIN")) {
             res.status(404).json({ error: "Charge not found" })
             return
           }
