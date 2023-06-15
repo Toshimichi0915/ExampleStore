@@ -13,6 +13,8 @@ const coinbaseApiKey: string = process.env.COINBASE_API_KEY ?? ""
 
 Client.init(coinbaseApiKey)
 
+const nextAuthUrl = process.env.NEXTAUTH_URL
+
 export async function createCharge(product: Product | PrismaProduct, userId: string): Promise<Charge> {
   const charge = await prisma.$transaction(async () => {
     const existingCharge = await prisma.charge.findFirst({
@@ -48,6 +50,8 @@ export async function createCharge(product: Product | PrismaProduct, userId: str
         product_id: product.id,
         charge_id: charge.id,
       },
+      redirect_url: `${nextAuthUrl}/charges/${charge.id}`,
+      cancel_url: `${nextAuthUrl}/charges/${charge.id}`,
     })
   } catch (e) {
     await prisma.charge.delete({ where: { id: charge.id } })
