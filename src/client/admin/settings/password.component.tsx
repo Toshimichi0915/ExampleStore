@@ -1,9 +1,9 @@
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, memo, useCallback, useState } from "react"
 import { usePassword } from "@/client/admin/settings/password.hook"
 import { Button, TextField } from "@mui/material"
 import { css } from "@emotion/react"
 
-export function SettingsPassword({ className }: { className?: string }) {
+export const SettingsPassword = memo(function SettingsPassword({ className }: { className?: string }) {
   const [oldPassword, setOldPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const { update, successMessage, errorMessage } = usePassword()
@@ -31,7 +31,7 @@ export function SettingsPassword({ className }: { className?: string }) {
       </div>
     </section>
   )
-}
+})
 
 export function settingsPasswordStyles() {
   return css`

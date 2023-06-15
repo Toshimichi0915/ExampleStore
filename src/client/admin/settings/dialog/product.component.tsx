@@ -1,5 +1,5 @@
 import { ProductType, PurchasedProduct } from "@/common/db.type"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from "react"
 import {
   Button,
   Checkbox,
@@ -16,7 +16,7 @@ import { dialogStyles, textAreaStyles } from "@/client/common/styles"
 import { css } from "@emotion/react"
 import { useProductEdit } from "@/client/admin/settings/dialog/product.hook"
 
-export function ProductEditDialog({
+export const ProductEditDialog = memo(function ProductEditDialog({
   className,
   open,
   onClose,
@@ -166,7 +166,7 @@ export function ProductEditDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})
 
 function productDialogStyles() {
   return css`

@@ -9,11 +9,11 @@ import {
 } from "@/common/db.type"
 import { dialogStyles } from "@/client/common/styles"
 import { css } from "@emotion/react"
-import { useCallback, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import { ProductEditDialog } from "@/client/admin/settings/dialog/product.component"
 import { useChargeEdit } from "@/client/admin/settings/dialog/charge.hook"
 
-export function ChargeEditDialog({
+export const ChargeEditDialog = memo(function ChargeEditDialog({
   className,
   open,
   onClose,
@@ -72,7 +72,7 @@ export function ChargeEditDialog({
       </Dialog>
     </>
   )
-}
+})
 
 function chargeEditDialogStyles() {
   return css`

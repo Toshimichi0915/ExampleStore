@@ -1,12 +1,12 @@
 import { useEnvironment } from "@/client/admin/settings/environment.hook"
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, memo, useCallback, useState } from "react"
 import { Environment } from "@/common/db.type"
 import { Button, TextField, Theme } from "@mui/material"
 import { css } from "@emotion/react"
 import { Editor, EditorContent, useEditor } from "@tiptap/react"
 import { StarterKit } from "@tiptap/starter-kit"
 
-export function SettingsEnvironment({
+export const SettingsEnvironment = memo(function SettingsEnvironment({
   environment: initialEnvironment,
   className,
 }: {
@@ -76,7 +76,7 @@ export function SettingsEnvironment({
       campaign: campaign || "",
       termsOfService: editor?.getJSON(),
     })
-  }, [edit, environment, telegramUrl, channelUrl, email, campaign, editor])
+  }, [edit, environment, telegramUrl, channelUrl, email, flipd, campaign, editor])
 
   return (
     <section className={className} css={settingsEnvironmentStyles}>
@@ -112,7 +112,7 @@ export function SettingsEnvironment({
       <Button onClick={updateEnvironment}>Click To Change</Button>
     </section>
   )
-}
+})
 
 function settingsEnvironmentStyles(theme: Theme) {
   return css`

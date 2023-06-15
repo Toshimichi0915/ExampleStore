@@ -1,8 +1,9 @@
 import { Environment, Product } from "@/common/db.type"
 import { css } from "@mui/material"
 import { ProductItem } from "@/client/top/item.component"
+import { memo } from "react"
 
-export function Main({ products, environment }: { products: Product[]; environment: Environment }) {
+export const Main = memo(function Main({ products, environment }: { products: Product[]; environment: Environment }) {
   return (
     <main css={mainStyles}>
       <div className="Main-Products">
@@ -12,7 +13,7 @@ export function Main({ products, environment }: { products: Product[]; environme
       </div>
     </main>
   )
-}
+})
 
 function mainStyles() {
   return css`

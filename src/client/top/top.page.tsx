@@ -6,11 +6,11 @@ import { getStaticProps } from "@/pages"
 import { useSearch } from "@/client/top/search.hook"
 import { useSearchInputStore } from "@/client/top/search-input.store"
 import { Search } from "@/client/top/search/search.component"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 import { SearchInput } from "@/common/search.type"
 import { Footer } from "@/client/top/footer.component"
 
-export function TopPage({
+export const TopPage = memo(function TopPage({
   products: initialProducts,
   productTypes: initialProductTypes,
   environment: initialEnvironment,
@@ -28,7 +28,7 @@ export function TopPage({
       <Footer />
     </div>
   )
-}
+})
 
 function topPageStyles() {
   return css`

@@ -1,9 +1,9 @@
 import { Button } from "@mui/material"
-import { useCallback } from "react"
+import { memo, useCallback } from "react"
 import { signOut } from "next-auth/react"
 import { css } from "@emotion/react"
 
-export function SettingsSignOut({ className }: { className?: string }) {
+export const SettingsSignOut = memo(function SettingsSignOut({ className }: { className?: string }) {
   const logout = useCallback(() => signOut(), [])
 
   return (
@@ -12,7 +12,7 @@ export function SettingsSignOut({ className }: { className?: string }) {
       <Button onClick={logout}>Click to Sign Out</Button>
     </section>
   )
-}
+})
 
 function settingsSignOutStyles() {
   return css`

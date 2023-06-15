@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import { ProductType, PurchasedProduct } from "@/common/db.type"
 import { Button, Theme } from "@mui/material"
 import { paperStyles } from "@/client/common/styles"
@@ -7,7 +7,13 @@ import { ProductEditDialog } from "@/client/admin/settings/dialog/product.compon
 import { css } from "@emotion/react"
 import { ProductTypeEditDialog } from "@/client/admin/settings/dialog/product-type.component"
 
-export function SettingsProductTypes({ productTypes, className }: { productTypes: ProductType[]; className?: string }) {
+export const SettingsProductTypes = memo(function SettingsProductTypes({
+  productTypes,
+  className,
+}: {
+  productTypes: ProductType[]
+  className?: string
+}) {
   const [productTypeEditDialogOpen, setProductTypeEditDialogOpen] = useState(false)
   const openProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(true), [])
   const closeProductTypeEditDialog = useCallback(() => setProductTypeEditDialogOpen(false), [])
@@ -40,9 +46,9 @@ export function SettingsProductTypes({ productTypes, className }: { productTypes
       </section>
     </>
   )
-}
+})
 
-export function SettingsProducts({
+export const SettingsProducts = memo(function SettingsProducts({
   products,
   productTypes,
   className,
@@ -79,7 +85,7 @@ export function SettingsProducts({
       </section>
     </>
   )
-}
+})
 
 function settingsTableStyles(theme: Theme) {
   return css`

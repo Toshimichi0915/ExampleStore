@@ -1,10 +1,10 @@
 import { ProductType } from "@/common/db.type"
 import { Button, Dialog, DialogContent, DialogTitle, TextField } from "@mui/material"
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react"
+import { ChangeEvent, memo, useCallback, useEffect, useMemo, useState } from "react"
 import { dialogStyles } from "@/client/common/styles"
 import { useProductTypeEdit } from "@/client/admin/settings/dialog/product-type.hook"
 
-export function ProductTypeEditDialog({
+export const ProductTypeEditDialog = memo(function ProductTypeEditDialog({
   className,
   open,
   onClose,
@@ -52,4 +52,4 @@ export function ProductTypeEditDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})

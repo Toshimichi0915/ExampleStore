@@ -1,9 +1,9 @@
-import { useCallback, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import { PurchaseHistoryDialog } from "@/client/purchase-history/dialog.component"
 import { css } from "@mui/material"
 
-export function PurchaseHistory({ className }: { className?: string }) {
+export const PurchaseHistory = memo(function PurchaseHistory({ className }: { className?: string }) {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const closeDialog = useCallback(() => setDialogOpen(false), [])
@@ -19,7 +19,7 @@ export function PurchaseHistory({ className }: { className?: string }) {
       </div>
     </div>
   )
-}
+})
 
 function purchaseHistoryStyles() {
   return css`

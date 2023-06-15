@@ -4,8 +4,9 @@ import { PaymentInfo } from "@/client/payments/payment-info.component"
 import { css } from "@emotion/react"
 import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/charges/[id]"
+import { memo } from "react"
 
-export function PaymentPage({
+export const PaymentPage = memo(function PaymentPage({
   charge: initialCharge,
   environment: initialEnvironment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -17,7 +18,7 @@ export function PaymentPage({
       <PaymentInfo charge={charge} environment={initialEnvironment} />
     </div>
   )
-}
+})
 
 function paymentPageStyles() {
   return css`

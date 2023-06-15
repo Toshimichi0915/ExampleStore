@@ -1,13 +1,22 @@
 import { css } from "@emotion/react"
 import { Button, TextField, Theme } from "@mui/material"
-import { ChangeEvent, useCallback, useState } from "react"
+import { ChangeEvent, memo, useCallback, useState } from "react"
 import { useChargeSearch } from "@/client/admin/settings/charge-search.hook"
 import { ChargeEditDialog } from "@/client/admin/settings/dialog/charge.component"
 import { ProductType } from "@/common/db.type"
 
-export function SettingsCharge({ className, productTypes }: { className?: string; productTypes: ProductType[] }) {
+export const SettingsCharge = memo(function SettingsCharge({
+  className,
+  productTypes,
+}: {
+  className?: string
+  productTypes: ProductType[]
+}) {
   const { chargeId, setChargeId, search, result } = useChargeSearch()
-  const changeChargeId = useCallback((event: ChangeEvent<HTMLInputElement>) => setChargeId(event.target.value), [])
+  const changeChargeId = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => setChargeId(event.target.value),
+    [setChargeId]
+  )
 
   const [searched, setSearched] = useState(false)
   const [open, setOpen] = useState(false)
@@ -51,7 +60,7 @@ export function SettingsCharge({ className, productTypes }: { className?: string
       </section>
     </>
   )
-}
+})
 
 function settingsChargeStyles(theme: Theme) {
   return css`

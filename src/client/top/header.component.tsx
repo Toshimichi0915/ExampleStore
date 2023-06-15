@@ -6,8 +6,9 @@ import CellTowerIcon from "@mui/icons-material/CellTower"
 import EmailIcon from "@mui/icons-material/Email"
 import CampaignIcon from "@mui/icons-material/Campaign"
 import Image from "next/image"
+import { memo } from "react"
 
-export function Header({ environment }: { environment: Environment }) {
+export const Header = memo(function Header({ environment }: { environment: Environment }) {
   return (
     <header css={headerStyles}>
       <div>
@@ -40,7 +41,7 @@ export function Header({ environment }: { environment: Environment }) {
       )}
     </header>
   )
-}
+})
 
 function headerStyles(theme: Theme) {
   return css`

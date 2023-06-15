@@ -7,8 +7,9 @@ import { SettingsSignOut } from "@/client/admin/settings/signout.component"
 import { SettingsProducts, SettingsProductTypes } from "@/client/admin/settings/table.component"
 import { SettingsEnvironment } from "@/client/admin/settings/environment.component"
 import { SettingsCharge } from "@/client/admin/settings/charge.component"
+import { memo } from "react"
 
-export function SettingsPage({
+export const SettingsPage = memo(function SettingsPage({
   products: initialProducts,
   productTypes: initialProductTypes,
   environment: initialEnvironment,
@@ -28,7 +29,7 @@ export function SettingsPage({
       </main>
     </>
   )
-}
+})
 
 function settingsPageStyles() {
   return css`

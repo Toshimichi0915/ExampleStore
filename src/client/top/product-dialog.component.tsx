@@ -5,10 +5,10 @@ import { css } from "@emotion/react"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import TelegramIcon from "@mui/icons-material/Telegram"
 import { usePurchase } from "@/client/top/purchase.hook"
-import { ChangeEvent, MouseEvent, useCallback, useState } from "react"
+import { ChangeEvent, memo, MouseEvent, useCallback, useState } from "react"
 import Link from "next/link"
 
-export function ProductDialog({
+export const ProductDialog = memo(function ProductDialog({
   product,
   open,
   onClose,
@@ -95,7 +95,7 @@ export function ProductDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})
 
 function productDialogStyles(theme: Theme) {
   return css`

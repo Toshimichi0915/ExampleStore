@@ -3,13 +3,13 @@ import { TextareaAutosize, Theme } from "@mui/material"
 import Link from "next/link"
 import { css } from "@emotion/react"
 import { paperStyles } from "@/client/common/styles"
-import { ReactNode, useMemo } from "react"
+import { memo, ReactNode, useMemo } from "react"
 import { useInvoice } from "@/client/payments/invoice.hook"
 import DownloadIcon from "@mui/icons-material/Download"
 import { useProductContent } from "@/client/payments/purchased-product.hook"
 import { useDownload } from "@/common/download.hook"
 
-export function PaymentCard({
+export const PaymentCard = memo(function PaymentCard({
   className,
   title,
   description,
@@ -31,9 +31,9 @@ export function PaymentCard({
       {children}
     </section>
   )
-}
+})
 
-export function PaymentUrlCard({ charge }: { charge: Charge }) {
+export const PaymentUrlCard = memo(function PaymentUrlCard({ charge }: { charge: Charge }) {
   return (
     <PaymentCard title="Payment" description="Click the URL shown below">
       <div css={paymentUrlCardStyles}>
@@ -49,9 +49,9 @@ export function PaymentUrlCard({ charge }: { charge: Charge }) {
       </div>
     </PaymentCard>
   )
-}
+})
 
-export function InvoiceCard({ charge }: { charge: Charge }) {
+export const InvoiceCard = memo(function InvoiceCard({ charge }: { charge: Charge }) {
   const invoice = useInvoice(charge)
 
   return (
@@ -64,9 +64,9 @@ export function InvoiceCard({ charge }: { charge: Charge }) {
       </div>
     </PaymentCard>
   )
-}
+})
 
-export function DownloadCard({ charge }: { charge: Charge }) {
+export const DownloadCard = memo(function DownloadCard({ charge }: { charge: Charge }) {
   const { product, loading } = useProductContent(charge)
   const blob = useMemo(() => {
     if (typeof Blob === "undefined") return undefined
@@ -86,9 +86,9 @@ export function DownloadCard({ charge }: { charge: Charge }) {
       </div>
     </PaymentCard>
   )
-}
+})
 
-export function PreviewCard({ charge }: { charge: Charge }) {
+export const PreviewCard = memo(function PreviewCard({ charge }: { charge: Charge }) {
   const { product, loading } = useProductContent(charge)
 
   return (
@@ -102,7 +102,7 @@ export function PreviewCard({ charge }: { charge: Charge }) {
       </div>
     </PaymentCard>
   )
-}
+})
 
 function paymentCardStyles(theme: Theme) {
   return css`

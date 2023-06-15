@@ -2,9 +2,15 @@ import { Environment, Product } from "@/common/db.type"
 import { css, Theme } from "@mui/material"
 import { paperStyles } from "@/client/common/styles"
 import { ProductDialog } from "@/client/top/product-dialog.component"
-import { useCallback, useState } from "react"
+import { memo, useCallback, useState } from "react"
 
-export function ProductItem({ product, environment }: { product: Product; environment: Environment }) {
+export const ProductItem = memo(function ProductItem({
+  product,
+  environment,
+}: {
+  product: Product
+  environment: Environment
+}) {
   const [open, setOpen] = useState(false)
   const openDialog = useCallback(() => setOpen(true), [])
   const onClose = useCallback(() => setOpen(false), [])
@@ -23,7 +29,7 @@ export function ProductItem({ product, environment }: { product: Product; enviro
       </div>
     </>
   )
-}
+})
 
 export function productItemStyles(theme: Theme) {
   return css`

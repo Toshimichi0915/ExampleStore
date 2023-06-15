@@ -1,8 +1,9 @@
 import { Charge, ChargeStatusNames } from "@/common/db.type"
 import Link from "next/link"
 import { css, Theme } from "@mui/material"
+import { memo } from "react"
 
-export function ChargeItem({ charge, className }: { charge: Charge; className?: string }) {
+export const ChargeItem = memo(function ChargeItem({ charge, className }: { charge: Charge; className?: string }) {
   return (
     <Link href={`/charges/${charge.id}`} css={chargeItemStyles} className={className}>
       <div className="ChargeItem-Container">
@@ -11,7 +12,7 @@ export function ChargeItem({ charge, className }: { charge: Charge; className?: 
       </div>
     </Link>
   )
-}
+})
 
 function chargeItemStyles(theme: Theme) {
   return css`

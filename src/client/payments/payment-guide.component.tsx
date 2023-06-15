@@ -1,5 +1,5 @@
 import { Charge, ChargeStatus } from "@/common/db.type"
-import { ReactNode, useMemo } from "react"
+import { memo, ReactNode, useMemo } from "react"
 import { css } from "@emotion/react"
 import {
   DownloadCard,
@@ -114,7 +114,7 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
   },
 } as const
 
-export function PaymentGuide({ charge, className }: { charge: Charge; className?: string }) {
+export const PaymentGuide = memo(function PaymentGuide({ charge, className }: { charge: Charge; className?: string }) {
   const paymentStatus = paymentStatuses[charge.status]
   const title = paymentStatus.title
   const component = useMemo(() => paymentStatus.component(charge), [charge, paymentStatus])
@@ -129,7 +129,7 @@ export function PaymentGuide({ charge, className }: { charge: Charge; className?
       {component}
     </main>
   )
-}
+})
 
 function paymentGuideStyles() {
   return css`

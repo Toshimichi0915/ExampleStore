@@ -2,10 +2,13 @@ import { Button, Theme } from "@mui/material"
 import { css } from "@emotion/react"
 import { Charge, ProductType, PurchasedProduct } from "@/common/db.type"
 import { ChargeEditDialog } from "@/client/admin/settings/dialog/charge.component"
-import { forwardRef, useCallback, useState } from "react"
+import { forwardRef, memo, useCallback, useState } from "react"
 
-export const LogsCharge = forwardRef<HTMLDivElement, { charge: Charge; productTypes: ProductType[] }>(
-  function LogsCharge({ charge, productTypes }, ref) {
+export const LogsCharge = memo(
+  forwardRef<HTMLDivElement, { charge: Charge; productTypes: ProductType[] }>(function LogsCharge(
+    { charge, productTypes },
+    ref
+  ) {
     const [open, setOpen] = useState(false)
     const [product, setProduct] = useState<PurchasedProduct>()
 
@@ -48,7 +51,7 @@ export const LogsCharge = forwardRef<HTMLDivElement, { charge: Charge; productTy
         </div>
       </div>
     )
-  }
+  })
 )
 
 function logsChargeStyles(theme: Theme) {

@@ -1,8 +1,9 @@
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 import Link from "next/link"
+import { memo } from "react"
 
-export function Footer() {
+export const Footer = memo(function Footer() {
   return (
     <footer css={footerStyles}>
       <p className="Footer-Text Footer-Copyright">© 2023 Genshin Store</p>
@@ -11,7 +12,7 @@ export function Footer() {
       </Link>
     </footer>
   )
-}
+})
 
 function footerStyles(theme: Theme) {
   return css`

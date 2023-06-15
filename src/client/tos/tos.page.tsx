@@ -3,8 +3,9 @@ import { getServerSideProps } from "@/pages/tos"
 import { EditorContent, useEditor } from "@tiptap/react"
 import { StarterKit } from "@tiptap/starter-kit"
 import { css } from "@emotion/react"
+import { memo } from "react"
 
-export function TosPage({ environment }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export const TosPage = memo(function TosPage({ environment }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const editor = useEditor({
     extensions: [StarterKit],
     content: environment.termsOfService,
@@ -17,7 +18,7 @@ export function TosPage({ environment }: InferGetServerSidePropsType<typeof getS
       {editor && <EditorContent className="Tos-Body" editor={editor} />}
     </div>
   )
-}
+})
 
 function topPageStyles() {
   return css`

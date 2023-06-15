@@ -2,17 +2,26 @@ import { Charge, ChargeStatusNames, Environment } from "@/common/db.type"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
 import Link from "next/link"
+import { memo } from "react"
 
-function PaymentInfoRow({ left, right, className }: { left: string; right: string; className?: string }) {
+const PaymentInfoRow = memo(function PaymentInfoRow({
+  left,
+  right,
+  className,
+}: {
+  left: string
+  right: string
+  className?: string
+}) {
   return (
     <div className={className}>
       <p className="PaymentInfoRow-Left">{left}</p>
       <p className="PaymentInfoRow-Right">{right}</p>
     </div>
   )
-}
+})
 
-export function PaymentInfo({
+export const PaymentInfo = memo(function PaymentInfo({
   charge,
   environment,
   className,
@@ -39,7 +48,7 @@ export function PaymentInfo({
       </p>
     </div>
   )
-}
+})
 
 function paymentInfoStyles(theme: Theme) {
   return css`

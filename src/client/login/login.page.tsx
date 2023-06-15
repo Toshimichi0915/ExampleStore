@@ -2,8 +2,11 @@ import { Button, css, TextField, Theme } from "@mui/material"
 import { paperStyles } from "@/client/common/styles"
 import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/login"
+import { memo } from "react"
 
-export function LoginPage({ csrfToken }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export const LoginPage = memo(function LoginPage({
+  csrfToken,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div css={loginPageStyles}>
       <main css={[paperStyles]} className="Login-Container">
@@ -19,7 +22,7 @@ export function LoginPage({ csrfToken }: InferGetServerSidePropsType<typeof getS
       </main>
     </div>
   )
-}
+})
 
 function loginPageStyles(theme: Theme) {
   return css`

@@ -1,13 +1,13 @@
 import { useRouter } from "next/router"
 import { usePurchaseHistory } from "@/client/purchase-history/history.hook"
-import { useEffect } from "react"
+import { memo, useEffect } from "react"
 import { Dialog, DialogContent, DialogTitle, Theme } from "@mui/material"
 import { ChargeItem } from "@/client/purchase-history/charge-item.component"
 import { dialogStyles } from "@/client/common/styles"
 import Link from "next/link"
 import { css } from "@emotion/react"
 
-export function PurchaseHistoryDialog({
+export const PurchaseHistoryDialog = memo(function PurchaseHistoryDialog({
   className,
   open,
   onClose,
@@ -47,7 +47,7 @@ export function PurchaseHistoryDialog({
       </DialogContent>
     </Dialog>
   )
-}
+})
 
 function purchaseHistoryDialogStyles(theme: Theme) {
   return css`
