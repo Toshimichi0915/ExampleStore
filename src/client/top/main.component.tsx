@@ -2,13 +2,22 @@ import { Environment, Product } from "@/common/db.type"
 import { css } from "@mui/material"
 import { ProductItem } from "@/client/top/item.component"
 import { memo } from "react"
+import { useSearch } from "@/client/top/search.hook"
 
-export const Main = memo(function Main({ products, environment }: { products: Product[]; environment: Environment }) {
+export const Main = memo(function Main({
+  products: initialProducts,
+  environment,
+}: {
+  products: Product[]
+  environment: Environment
+}) {
+  const { data, setupObserver } = useSearch(initialProducts)
+
   return (
     <main css={mainStyles}>
       <div className="Main-Products">
-        {products.map((product) => (
-          <ProductItem key={product.id} product={product} environment={environment} />
+        {data.map((product) => (
+          <ProductItem key={product.id} product={product} environment={environment} ref={setupObserver} />
         ))}
       </div>
     </main>

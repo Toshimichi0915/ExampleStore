@@ -35,9 +35,9 @@ export async function main() {
   await addProductType("3 Name")
   await addProductType("4 Name")
 
-  await addProduct("Twitter OG", 10)
-  await addProduct("3 Name", 10)
-  await addProduct("4 Name", 10)
+  await addProduct("Twitter OG", 500)
+  await addProduct("3 Name", 500)
+  await addProduct("4 Name", 500)
 }
 
 main()

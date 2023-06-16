@@ -1,31 +1,69 @@
-import { useQuery } from "@tanstack/react-query"
-import { SearchInput } from "@/common/search.type"
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { Product } from "@/common/db.type"
-import { useEffect } from "react"
+import { useMemo } from "react"
+import { z } from "zod"
+import { SearchSchema } from "@/common/search.type"
+import { useSearchInputStore } from "@/client/top/search-input.store"
+import { useObserver } from "@/client/common/infinite.hook"
 
-export function useSearch(input: SearchInput, initialData: Product[]): Product[] {
-  const { data, refetch } = useQuery(
-    ["search"],
-    async () => {
+export interface SearchResult {
+  data: Product[]
+  isLoading: boolean
+
+  setupObserver(element: HTMLElement | null): void
+}
+
+export function useSearch(initialData: Product[]): SearchResult {
+  const [query, types, sort, changed] = useSearchInputStore(
+    (state) => [state.query, state.types, state.sort, state.changed] as const
+  )
+
+  const result = useInfiniteQuery(
+    ["search", [query, types, sort]],
+    async ({ pageParam }) => {
       const response = await fetch("/api/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(input),
+        body: JSON.stringify({
+          cursor: pageParam,
+          skip: pageParam ? 1 : 0,
+          query,
+          types,
+          sort,
+        } satisfies z.input<typeof SearchSchema>),
       })
 
       if (!response.ok) throw new Error(`Failed to search: ${response.statusText}`)
-      return await response.json()
+      return (await response.json()) as Product[]
     },
     {
-      initialData,
+      getNextPageParam(current) {
+        if (current.length > 0) {
+          return current[current.length - 1].id
+        } else {
+          return undefined
+        }
+      },
+      ...(!changed && {
+        initialData: {
+          pages: [initialData],
+          pageParams: [undefined],
+        },
+      }),
+      staleTime: Infinity,
     }
   )
 
-  useEffect(() => {
-    refetch().catch((e) => console.error(e))
-  }, [input, refetch])
+  const setupObserver = useObserver(result)
 
-  return data
+  return useMemo(
+    () => ({
+      data: result.data?.pages.flatMap((it) => it) ?? [],
+      isLoading: result.isLoading,
+      setupObserver,
+    }),
+    [result.data?.pages, result.isLoading, setupObserver]
+  )
 }

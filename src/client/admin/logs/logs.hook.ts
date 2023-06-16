@@ -3,18 +3,17 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { LogSchema } from "@/pages/api/logs"
 import { z } from "zod"
 import { useMemo } from "react"
+import { useObserver } from "@/client/common/infinite.hook"
 
 export interface LogSearchResult {
   data: Charge[]
-
-  fetchMore(): void
-
-  hasMore: boolean
   isLoading: boolean
+
+  setupObserver(element: HTMLElement | null): void
 }
 
-export function useLogs(): LogSearchResult {
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery(
+export function useInfiniteLogs(): LogSearchResult {
+  const result = useInfiniteQuery(
     ["logs"],
     async ({ pageParam }) => {
       const data = await fetch("/api/logs", {
@@ -23,9 +22,8 @@ export function useLogs(): LogSearchResult {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: pageParam,
+          cursor: pageParam,
           skip: pageParam ? 1 : 0,
-          take: 20,
         } satisfies z.input<typeof LogSchema>),
       })
 
@@ -42,13 +40,14 @@ export function useLogs(): LogSearchResult {
     }
   )
 
+  const setupObserver = useObserver(result)
+
   return useMemo(
     () => ({
-      data: data?.pages.flatMap((it) => it) ?? [],
-      fetchMore: fetchNextPage,
-      hasMore: hasNextPage ?? false,
-      isLoading,
+      data: result.data?.pages.flatMap((it) => it) ?? [],
+      isLoading: result.isLoading,
+      setupObserver,
     }),
-    [data, fetchNextPage, hasNextPage, isLoading]
+    [result, setupObserver]
   )
 }

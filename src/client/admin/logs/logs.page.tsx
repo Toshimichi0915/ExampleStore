@@ -1,6 +1,6 @@
 import { css } from "@emotion/react"
-import { useLogs } from "@/client/admin/logs/logs.hook"
-import { memo, useCallback, useRef } from "react"
+import { useInfiniteLogs } from "@/client/admin/logs/logs.hook"
+import { memo } from "react"
 import { LogsCharge } from "@/client/admin/logs/charge.component"
 import { InferGetServerSidePropsType } from "next"
 import { getServerSideProps } from "@/pages/admin/logs"
@@ -8,25 +8,7 @@ import { getServerSideProps } from "@/pages/admin/logs"
 export const LogsPage = memo(function LogsPage({
   productTypes: initialProductTypes,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { data, fetchMore, hasMore, isLoading } = useLogs()
-
-  const observerRef = useRef<IntersectionObserver>()
-  const setupObserver = useCallback(
-    (node: HTMLElement | null) => {
-      observerRef.current?.disconnect()
-      observerRef.current = new IntersectionObserver(async (entries) => {
-        if (isLoading) return
-        if (!hasMore) return
-        if (!entries[0].isIntersecting) return
-        await fetchMore()
-      })
-
-      if (node) {
-        observerRef.current?.observe(node)
-      }
-    },
-    [fetchMore, hasMore, isLoading]
-  )
+  const { data, setupObserver } = useInfiniteLogs()
 
   return (
     <main css={loggingPageStyles}>

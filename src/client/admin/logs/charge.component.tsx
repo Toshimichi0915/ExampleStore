@@ -19,7 +19,7 @@ export const LogsCharge = memo(
     const openDialog = useCallback(async () => {
       setOpen(true)
       const data = await fetch(`/api/products/${charge.product.id}`).catch((e) => {
-        console.log(e)
+        console.error(e)
       })
 
       if (data) {

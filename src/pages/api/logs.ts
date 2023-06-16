@@ -6,9 +6,9 @@ import { prisma } from "@/server/global.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
 
 export const LogSchema = z.object({
-  id: z.string().optional(),
-  take: z.number(),
-  skip: z.number(),
+  cursor: z.string().optional(),
+  take: z.number().default(100),
+  skip: z.number().default(0),
 })
 
 export default middleware<NextApiRequest, NextApiResponse>()
@@ -19,9 +19,9 @@ export default middleware<NextApiRequest, NextApiResponse>()
         .pipe(withValidatedBody(LogSchema))
         .pipe(async (req, res, next, schema) => {
           const charges = await prisma.charge.findMany({
-            ...(schema.id && {
+            ...(schema.cursor && {
               cursor: {
-                id: schema.id,
+                id: schema.cursor,
               },
             }),
             include: {
