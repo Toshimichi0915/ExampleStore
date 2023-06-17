@@ -10,11 +10,10 @@ import { SettingsCharge } from "@/client/admin/settings/charge.component"
 import { memo } from "react"
 
 export const SettingsPage = memo(function SettingsPage({
-  products: initialProducts,
   productTypes: initialProductTypes,
   environment: initialEnvironment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const { products, productTypes } = useSettings(initialProducts, initialProductTypes)
+  const { products, productTypes } = useSettings([], initialProductTypes)
 
   return (
     <>
@@ -22,10 +21,10 @@ export const SettingsPage = memo(function SettingsPage({
         <h1 className="Settings-Title">Settings</h1>
         <SettingsCharge productTypes={productTypes} />
         <SettingsProductTypes productTypes={productTypes} />
-        <SettingsProducts products={products} productTypes={productTypes} />
         <SettingsEnvironment environment={initialEnvironment} />
         <SettingsPassword />
         <SettingsSignOut />
+        <SettingsProducts products={products} productTypes={productTypes} />
       </main>
     </>
   )
