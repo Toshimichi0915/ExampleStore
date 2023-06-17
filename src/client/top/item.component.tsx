@@ -47,6 +47,10 @@ export function productItemStyles(theme: Theme) {
     & .ProductItem-ProductName {
       margin: 8px 0 24px 0;
       font-size: 1.1rem;
+
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     & .ProductItem-PurchaseButton {

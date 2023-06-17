@@ -3,13 +3,13 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import { LogSchema } from "@/pages/api/logs"
 import { z } from "zod"
 import { useMemo } from "react"
-import { useObserver } from "@/client/common/infinite.hook"
 
 export interface LogSearchResult {
   data: Charge[]
   isLoading: boolean
+  hasMore: boolean
 
-  setupObserver(element: HTMLElement | null): void
+  fetchMore(): void
 }
 
 export function useInfiniteLogs(): LogSearchResult {
@@ -40,14 +40,13 @@ export function useInfiniteLogs(): LogSearchResult {
     }
   )
 
-  const setupObserver = useObserver(result)
-
   return useMemo(
     () => ({
       data: result.data?.pages.flatMap((it) => it) ?? [],
       isLoading: result.isLoading,
-      setupObserver,
+      hasMore: result.hasNextPage ?? false,
+      fetchMore: result.fetchNextPage,
     }),
-    [result, setupObserver]
+    [result]
   )
 }

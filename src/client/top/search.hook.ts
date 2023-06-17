@@ -4,13 +4,13 @@ import { useMemo } from "react"
 import { z } from "zod"
 import { SearchSchema } from "@/common/search.type"
 import { useSearchInputStore } from "@/client/top/search-input.store"
-import { useObserver } from "@/client/common/infinite.hook"
 
 export interface SearchResult {
   data: Product[]
   isLoading: boolean
+  hasMore: boolean
 
-  setupObserver(element: HTMLElement | null): void
+  fetchMore(): void
 }
 
 export function useSearch(initialData: Product[]): SearchResult {
@@ -56,14 +56,13 @@ export function useSearch(initialData: Product[]): SearchResult {
     }
   )
 
-  const setupObserver = useObserver(result)
-
   return useMemo(
     () => ({
       data: result.data?.pages.flatMap((it) => it) ?? [],
       isLoading: result.isLoading,
-      setupObserver,
+      hasMore: result.hasNextPage ?? false,
+      fetchMore: result.fetchNextPage,
     }),
-    [result.data?.pages, result.isLoading, setupObserver]
+    [result.data?.pages, result.fetchNextPage, result.hasNextPage, result.isLoading]
   )
 }

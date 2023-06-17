@@ -3,6 +3,7 @@ import { css } from "@mui/material"
 import { ProductItem } from "@/client/top/item.component"
 import { memo } from "react"
 import { useSearch } from "@/client/top/search.hook"
+import InfiniteScroll from "react-infinite-scroll-component"
 
 export const Main = memo(function Main({
   products: initialProducts,
@@ -11,15 +12,21 @@ export const Main = memo(function Main({
   products: Product[]
   environment: Environment
 }) {
-  const { data, setupObserver } = useSearch(initialProducts)
+  const { data, hasMore, fetchMore } = useSearch(initialProducts)
 
   return (
     <main css={mainStyles}>
-      <div className="Main-Products">
+      <InfiniteScroll
+        next={fetchMore}
+        hasMore={hasMore}
+        loader="Loading..."
+        dataLength={data.length}
+        className="Main-Products"
+      >
         {data.map((product) => (
-          <ProductItem key={product.id} product={product} environment={environment} ref={setupObserver} />
+          <ProductItem key={product.id} product={product} environment={environment} />
         ))}
-      </div>
+      </InfiniteScroll>
     </main>
   )
 })
@@ -45,6 +52,7 @@ function mainStyles() {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
+      overflow: hidden;
     }
   `
 }
