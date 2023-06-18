@@ -6,7 +6,7 @@ export type SortOption = (typeof sortOptions)[number]
 
 export const SearchSchema = z.object({
   cursor: z.string().optional(),
-  take: z.number().default(10000),
+  take: z.number().default(100),
   skip: z.number().default(0),
   query: z.string().default(""),
   types: z.array(z.string()).default([]),
