@@ -33,7 +33,6 @@
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@vercel/analytics": "^1.0.1",
     "autoprefixer": "^10.4.13",
     "bcrypt": "^5.1.0",
     "coinbase-commerce-node": "^1.0.4",
