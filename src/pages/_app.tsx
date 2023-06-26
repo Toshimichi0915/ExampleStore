@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { PurchaseHistory } from "@/client/purchase-history/history.component"
 import { GlobalTheme } from "@/client/common/theme.component"
 import NextNProgress from "nextjs-progressbar"
+import { Analytics } from "@mui/icons-material"
 
 const queryClient = new QueryClient()
 
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
               />
               <PurchaseHistory />
               <Component {...pageProps} />
+              <Analytics />
             </ThemeProvider>
           </StyledEngineProvider>
         </SessionProvider>
