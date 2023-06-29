@@ -20,7 +20,7 @@ export async function searchProducts(schema: z.output<typeof SearchSchema>): Pro
         },
       }),
       where: {
-        name: { contains: schema.query },
+        name: { contains: schema.query, mode: "insensitive" },
         ...(schema.types.length > 0 && { typeId: { in: schema.types } }),
         charges: { none: { status: ChargeStatus.RESOLVED } },
       },
