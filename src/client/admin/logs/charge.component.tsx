@@ -1,6 +1,6 @@
 import { Button, Theme } from "@mui/material"
 import { css } from "@emotion/react"
-import { Charge, ProductType, PurchasedProduct } from "@/common/db.type"
+import { Charge, ChargeStatusNames, ProductType, PurchasedProduct } from "@/common/db.type"
 import { ChargeEditDialog } from "@/client/admin/settings/dialog/charge.component"
 import { forwardRef, memo, useCallback, useState } from "react"
 
@@ -41,7 +41,7 @@ export const LogsCharge = memo(
         <div className="LogsCharge-Row">
           <div className="LogsCharge-Left">
             <p className="LogsCharge-Line LogsCharge-Line1">
-              {charge.id} ({charge.product.name})
+              {charge.id} ({charge.product.name}) - {ChargeStatusNames[charge.status]}
             </p>
             <p className="LogsCharge-Line LogsCharge-Line2">
               ${charge.product.price} - {new Date(charge.createdAt).toLocaleString()}
