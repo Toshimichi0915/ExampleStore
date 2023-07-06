@@ -1,12 +1,27 @@
 import { Environment, Product } from "@/common/db.type"
 import { dialogStyles } from "@/client/common/styles"
-import { Checkbox, Dialog, DialogContent, DialogTitle, TextareaAutosize, Theme } from "@mui/material"
+import { Checkbox, Dialog, DialogContent, DialogTitle, Popover, TextareaAutosize, Theme } from "@mui/material"
 import { css } from "@emotion/react"
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"
 import TelegramIcon from "@mui/icons-material/Telegram"
+import IosShareIcon from "@mui/icons-material/IosShare"
 import { usePurchase } from "@/client/top/purchase.hook"
-import { ChangeEvent, memo, MouseEvent, useCallback, useState } from "react"
+import { ChangeEvent, memo, MouseEvent, useCallback, useRef, useState } from "react"
 import Link from "next/link"
+
+const popperAnchorOrigin = {
+  vertical: "top",
+  horizontal: "center",
+} as const
+
+const popperTransformOrigin = {
+  vertical: "bottom",
+  horizontal: "center",
+} as const
+
+const popperSx = {
+  pointerEvents: "none",
+} as const
 
 export const ProductDialog = memo(function ProductDialog({
   product,
@@ -51,8 +66,37 @@ export const ProductDialog = memo(function ProductDialog({
   if (product.unswappable) notes.push("This product cannot be swapped to other accounts")
   if (product.hasOriginalMail) notes.push("This product contains an original email")
 
+  const [sharePopoverOpen, setSharePopoverOpen] = useState(false)
+  const shareButtonRef = useRef<HTMLDivElement | null>(null)
+  const [copied, setCopied] = useState(false)
+
+  const openSharePopover = useCallback(() => {
+    setSharePopoverOpen(true)
+    setCopied(false)
+  }, [])
+
+  const closeSharePopover = useCallback(() => {
+    setSharePopoverOpen(false)
+  }, [])
+
+  const copyShareLink = useCallback(async () => {
+    setCopied(true)
+    await navigator.clipboard.writeText(`${environment.baseUrl}/products/${product.id}`)
+  }, [environment.baseUrl, product.id])
+
   return (
     <Dialog css={[dialogStyles, productDialogStyles]} className={className} open={open} onClose={onClose}>
+      <Popover
+        open={sharePopoverOpen}
+        anchorEl={shareButtonRef.current}
+        anchorOrigin={popperAnchorOrigin}
+        transformOrigin={popperTransformOrigin}
+        sx={popperSx}
+        disableRestoreFocus
+        css={sharePopoverStyles}
+      >
+        {copied ? "Copied!" : "Click to copy share URL"}
+      </Popover>
       <DialogTitle className="ProductDialog-Title">
         <span>{product.name}</span>
         <span>${product.price}</span>
@@ -90,6 +134,15 @@ export const ProductDialog = memo(function ProductDialog({
               Contact us for other options
               <TelegramIcon />
             </button>
+            <div
+              className="ProductDialog-ShareButton"
+              ref={shareButtonRef}
+              onMouseEnter={openSharePopover}
+              onMouseLeave={closeSharePopover}
+              onClick={copyShareLink}
+            >
+              <IosShareIcon />
+            </div>
           </div>
         </form>
       </DialogContent>
@@ -185,5 +238,33 @@ function productDialogStyles(theme: Theme) {
         gap: 20px;
       }
     }
+
+    & .ProductDialog-ShareButton {
+      border: 2px solid ${theme.palette.primary.main};
+      color: ${theme.palette.primary.main};
+      font-size: 0.9rem;
+      border-radius: 6px;
+      transition: all 0.3s ease-in-out;
+      display: grid;
+      place-items: center;
+      padding: 4px 10px;
+      min-height: 3rem;
+
+      &:hover {
+        background-color: white;
+        border-color: black;
+        color: black;
+        cursor: pointer;
+      }
+    }
+  `
+}
+
+function sharePopoverStyles() {
+  return css`
+    & .MuiPopover-paper {
+      padding: 8px;
+    }
+    transform: translateY(-10px);
   `
 }

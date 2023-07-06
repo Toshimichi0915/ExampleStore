@@ -13,6 +13,7 @@ export async function getEnvironment(): Promise<Environment> {
   const termsOfService = settings.termsOfService as object | undefined
 
   return {
+    baseUrl: process.env.NEXTAUTH_URL ?? "",
     telegramUrl: settings.telegramUrl,
     channelUrl: settings.channelUrl,
     email: settings.email,

@@ -9,7 +9,6 @@ export default TopPage
 export async function getStaticProps() {
   const productTypes = await getProductTypes()
   const products = await searchProducts(SearchSchema.parse({} satisfies z.input<typeof SearchSchema>))
-
   const environment = await getEnvironment()
 
   return {
