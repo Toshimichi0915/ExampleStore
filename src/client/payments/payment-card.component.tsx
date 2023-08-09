@@ -215,7 +215,7 @@ function previewCardStyles(theme: Theme) {
 
     & .PreviewCard-Textarea {
       width: 100%;
-      background-color: #000020;
+      background-color: ${theme.palette.background.paper};
       border: 1px solid #313a53;
       border-radius: 3px;
       color: white;
