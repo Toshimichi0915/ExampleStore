@@ -6,6 +6,7 @@ import { ProductEditDialog } from "@/client/admin/settings/dialog/product.compon
 import { useProductEdit } from "@/client/admin/settings/dialog/product.hook"
 import { ProductTypeEditDialog } from "@/client/admin/settings/dialog/product-type.component"
 import { useProductTypeEdit } from "@/client/admin/settings/dialog/product-type.hook"
+import { ConfirmDialog } from "@/client/admin/settings/dialog/confirm.component"
 
 export interface TableButton {
   name: string
@@ -51,16 +52,26 @@ export function ProductTableRow({
   const openDialog = useCallback(() => setOpen(true), [])
   const closeDialog = useCallback(() => setOpen(false), [])
 
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const openConfirm = useCallback(() => setConfirmOpen(true), [])
+  const closeConfirm = useCallback(() => setConfirmOpen(false), [])
+
   const buttons = useMemo(
     () => [
       { name: "Edit", onClick: openDialog },
-      { name: "Delete", onClick: remove },
+      { name: "Delete", onClick: openConfirm },
     ],
     [openDialog, remove]
   )
 
   return (
     <>
+      <ConfirmDialog
+        open={confirmOpen}
+        onClose={closeConfirm}
+        onConfirm={remove}
+        title={`Do you want to remove ${product.name}?`}
+      />
       <ProductEditDialog open={open} onClose={closeDialog} product={product} productTypes={productTypes} />
       <TableRow className={className} buttons={buttons}>
         ${product.price} - {product.name}
@@ -84,10 +95,14 @@ export function ProductTypeTableRow({
   const openDialog = useCallback(() => setOpen(true), [])
   const closeDialog = useCallback(() => setOpen(false), [])
 
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const openConfirm = useCallback(() => setConfirmOpen(true), [])
+  const closeConfirm = useCallback(() => setConfirmOpen(false), [])
+
   const buttons = useMemo(
     () => [
       { name: "Edit", onClick: openDialog },
-      { name: "Delete", onClick: remove },
+      { name: "Delete", onClick: openConfirm },
       { name: "Up", onClick: moveUp },
       { name: "Down", onClick: moveDown },
     ],
@@ -96,6 +111,12 @@ export function ProductTypeTableRow({
 
   return (
     <>
+      <ConfirmDialog
+        open={confirmOpen}
+        onClose={closeConfirm}
+        onConfirm={remove}
+        title={`Do you want to remove ${productType.name}?`}
+      />
       <ProductTypeEditDialog open={open} onClose={closeDialog} productType={productType} productTypes={productTypes} />
       <TableRow className={className} buttons={buttons}>
         {productType.name}
