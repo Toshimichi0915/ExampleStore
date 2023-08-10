@@ -61,7 +61,7 @@ export function ProductTableRow({
       { name: "Edit", onClick: openDialog },
       { name: "Delete", onClick: openConfirm },
     ],
-    [openDialog, remove]
+    [openConfirm, openDialog]
   )
 
   return (
@@ -106,7 +106,7 @@ export function ProductTypeTableRow({
       { name: "Up", onClick: moveUp },
       { name: "Down", onClick: moveDown },
     ],
-    [moveDown, moveUp, openDialog, remove]
+    [moveDown, moveUp, openConfirm, openDialog]
   )
 
   return (
