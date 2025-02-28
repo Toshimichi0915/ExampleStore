@@ -15,7 +15,7 @@ async function addProductType(name: string) {
 
 async function addProduct(type: string, count: number) {
   for (let i = 0; i < count; i++) {
-    const username = faker.internet.userName()
+    const username = `${type}-${i}`
     const price = faker.commerce.price()
 
     console.log(`Creating product @${username} with price ${price}`)
@@ -31,13 +31,13 @@ async function addProduct(type: string, count: number) {
 }
 
 export async function main() {
-  await addProductType("Twitter OG")
-  await addProductType("3 Name")
-  await addProductType("4 Name")
+  await addProductType("Example1")
+  await addProductType("Example2")
+  await addProductType("Example3")
 
-  await addProduct("Twitter OG", 500)
-  await addProduct("3 Name", 500)
-  await addProduct("4 Name", 500)
+  await addProduct("Example1", 500)
+  await addProduct("Example2", 500)
+  await addProduct("Example3", 500)
 }
 
 main()

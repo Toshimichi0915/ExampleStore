@@ -83,10 +83,10 @@ export function useInvoice(charge: Charge): Invoice {
     pdf.setTextColor(valueColor)
 
     const text =
-      "It might take a while for the transaction to be processed. If the payment does not complete in 24 hours, please contact us via Telegram (Click this message to open in browser)."
-    const telegram = "https://t.me/example"
+      "It might take a while for the transaction to be processed. If the payment does not complete in 24 hours, please contact us via email (Click this message to open in browser)."
+    const link = "https://example.com"
     const split = pdf.splitTextToSize(text, 350)
-    pdf.textWithLink(split, 30, 555, { url: telegram })
+    pdf.textWithLink(split, 30, 555, { url: link })
 
     pdf.save("invoice.pdf")
   }, [poppins, poppinsMedium, charge])

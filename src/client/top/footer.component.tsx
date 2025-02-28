@@ -6,7 +6,7 @@ import { memo } from "react"
 export const Footer = memo(function Footer() {
   return (
     <footer css={footerStyles}>
-      <p className="Footer-Text Footer-Copyright">© 2023 Genshin Store</p>
+      <p className="Footer-Text Footer-Copyright">© 2023 Example Store</p>
       <Link href="/tos" className="Footer-Text Footer-Tos">
         Terms of service
       </Link>

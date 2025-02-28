@@ -85,8 +85,8 @@ const paymentStatuses: { [key in ChargeStatus]: PaymentStatus } = {
           <div className="PaymentCard-Description">
             <p className="PaymentCard-Text">
               If you haven&apos;t provided reputation or vouch on{" "}
-              <Link href="https://flipd.gg/Genshin" className="PaymentCard-TextUrl">
-                flipd.gg/Genshin
+              <Link href="https://example.com" className="PaymentCard-TextUrl">
+                example.com
               </Link>
               , we would appreciate it if you could do so.
             </p>

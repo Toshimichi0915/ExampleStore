@@ -1,25 +1,19 @@
 import { css, Theme } from "@mui/material"
 import Link from "next/link"
 import { Environment } from "@/common/db.type"
-import TelegramIcon from "@mui/icons-material/Telegram"
 import CellTowerIcon from "@mui/icons-material/CellTower"
 import EmailIcon from "@mui/icons-material/Email"
 import CampaignIcon from "@mui/icons-material/Campaign"
-import Image from "next/image"
 import { memo } from "react"
 
 export const Header = memo(function Header({ environment }: { environment: Environment }) {
   return (
     <header css={headerStyles}>
       <div>
-        <h1 className="Header-Title">Genshin Store</h1>
-        <p className="Header-Description">Premium Twitter Accounts</p>
+        <h1 className="Header-Title">Example Store</h1>
+        <p className="Header-Description">Best value products</p>
       </div>
       <div className="Header-Social">
-        <Link href={environment.telegramUrl} className="Header-Telegram Header-SocialIcon">
-          <TelegramIcon />
-          <span className="Header-Social-Text">TELEGRAM</span>
-        </Link>
         <Link href={environment.channelUrl} className="Header-Channel Header-SocialIcon">
           <CellTowerIcon />
           <span className="Header-Social-Text">CHANNEL</span>
@@ -27,10 +21,6 @@ export const Header = memo(function Header({ environment }: { environment: Envir
         <Link href={`mailto:${environment.email}`} className="Header-Email Header-SocialIcon">
           <EmailIcon />
           <span className="Header-Social-Text">EMAIL</span>
-        </Link>
-        <Link href={environment.flipd} className="Header-Flipd Header-SocialIcon">
-          <Image src="/flipd.png" alt="" width={22} height={22} />
-          <span className="Header-Social-Text">FLIPD</span>
         </Link>
       </div>
       {environment.campaign && (
@@ -99,20 +89,12 @@ function headerStyles(theme: Theme) {
       }
     }
 
-    & .Header-Telegram {
-      background-color: #458efc;
-    }
-
     & .Header-Channel {
       background-color: #2948d5;
     }
 
     & .Header-Email {
       background-color: #2431be;
-    }
-
-    & .Header-Flipd {
-      background-color: #123180;
     }
 
     & .Header-Campaign {

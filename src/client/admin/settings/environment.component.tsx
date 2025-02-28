@@ -15,13 +15,6 @@ export const SettingsEnvironment = memo(function SettingsEnvironment({
 }) {
   const { environment, edit } = useEnvironment(initialEnvironment)
 
-  // telegram
-  const [telegramUrl, setTelegramUrl] = useState(environment.telegramUrl)
-  const changeTelegramUrl = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => setTelegramUrl(event.target.value),
-    []
-  )
-
   // channel
   const [channelUrl, setChannelUrl] = useState(environment.channelUrl)
   const changeChannelUrl = useCallback((event: ChangeEvent<HTMLInputElement>) => setChannelUrl(event.target.value), [])
@@ -29,10 +22,6 @@ export const SettingsEnvironment = memo(function SettingsEnvironment({
   // mail
   const [email, setEmail] = useState(environment.email)
   const changeEmail = useCallback((event: ChangeEvent<HTMLInputElement>) => setEmail(event.target.value), [])
-
-  // flipd
-  const [flipd, setFlipd] = useState(environment.flipd)
-  const changeFlipd = useCallback((event: ChangeEvent<HTMLInputElement>) => setFlipd(event.target.value), [])
 
   // news
   const [campaign, setCampaign] = useState(environment.campaign ?? "")
@@ -69,22 +58,18 @@ export const SettingsEnvironment = memo(function SettingsEnvironment({
   const updateEnvironment = useCallback(() => {
     edit({
       ...environment,
-      telegramUrl,
       channelUrl,
       email,
-      flipd,
       campaign: campaign || "",
       termsOfService: editor?.getJSON(),
     })
-  }, [edit, environment, telegramUrl, channelUrl, email, flipd, campaign, editor])
+  }, [edit, environment, channelUrl, email, campaign, editor])
 
   return (
     <section className={className} css={settingsEnvironmentStyles}>
       <h2 className="SettingsEnvironment-Title">Environment</h2>
-      <TextField label="Telegram URL" type="text" value={telegramUrl} onChange={changeTelegramUrl} />
       <TextField label="Channel URL" type="text" value={channelUrl} onChange={changeChannelUrl} />
       <TextField label="Email" type="text" value={email} onChange={changeEmail} />
-      <TextField label="Flipd" type="text" value={flipd} onChange={changeFlipd} />
       <TextField label="Campaign" type="text" value={campaign} onChange={changeCampaign} />
       <div className="SettingsEnvironment-Tos">
         {editor && (

@@ -57,9 +57,9 @@ export const ProductDialog = memo(function ProductDialog({
     (e: MouseEvent<HTMLButtonElement>) => {
       if (!checked) return
       e.preventDefault()
-      window.open(environment.telegramUrl, "_blank")
+      window.open(environment.channelUrl, "_blank")
     },
-    [checked, environment.telegramUrl]
+    [checked, environment.channelUrl]
   )
 
   const notes = []

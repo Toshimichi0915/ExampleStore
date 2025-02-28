@@ -41,10 +41,7 @@ export const PaymentInfo = memo(function PaymentInfo({
       </div>
       <p className="PaymentInfo-Note">
         Note: it might take a while for the transaction to be processed. If the payment does not complete in 24 hours,
-        please contact us via{" "}
-        <Link className="PaymentInfo-Telegram" href={environment.telegramUrl}>
-          Telegram
-        </Link>
+        please contact us via email
       </p>
     </div>
   )
@@ -74,15 +71,6 @@ function paymentInfoStyles(theme: Theme) {
 
     & .PaymentInfo-Note {
       padding: 10px 20px;
-    }
-
-    & .PaymentInfo-Telegram {
-      color: ${theme.palette.primary.main};
-
-      &:hover {
-        color: ${theme.palette.primary.light};
-        text-decoration: underline;
-      }
     }
 
     & .PaymentInfo-Title {

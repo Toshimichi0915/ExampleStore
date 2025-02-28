@@ -17,11 +17,11 @@ export default function App({ Component, pageProps: { session, ...pageProps } }:
   return (
     <>
       <Head>
-        <title>Genshin Store</title>
+        <title>Example Store</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="Genshin Store" />
-        <meta property="og:site_name" content="Genshin Store" />
-        <meta property="og:description" content="Provides premium Twitter accounts" />
+        <meta property="og:title" content="Example Store" />
+        <meta property="og:site_name" content="Example Store" />
+        <meta property="og:description" content="Provides Best value products" />
         <meta property="og:type" content="website" />
       </Head>
       <QueryClientProvider client={queryClient}>

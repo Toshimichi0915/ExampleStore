@@ -18,9 +18,7 @@ export function useEnvironment(initialEnvironment?: Environment): EnvironmentEdi
       return res.json()
     },
     {
-      initialData: initialEnvironment ?? {
-        telegramUrl: "",
-      },
+      initialData: initialEnvironment ?? {},
     }
   )
 

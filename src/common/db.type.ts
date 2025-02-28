@@ -67,10 +67,8 @@ export const ChargeStatusKeys = Object.keys(ChargeStatus) as ChargeStatusKeys
 
 export interface Environment {
   baseUrl: string
-  telegramUrl: string
   channelUrl: string
   email: string
-  flipd: string
   campaign?: string | null | undefined
   termsOfService?: object | null | undefined
 }

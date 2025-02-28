@@ -14,11 +14,9 @@ export async function getEnvironment(): Promise<Environment> {
 
   return {
     baseUrl: process.env.NEXTAUTH_URL ?? "",
-    telegramUrl: settings.telegramUrl,
     channelUrl: settings.channelUrl,
     email: settings.email,
     campaign: settings.campaign,
-    flipd: settings.flipd,
     termsOfService,
   }
 }
