@@ -8,14 +8,13 @@ import { memo } from "react"
 
 export const PaymentPage = memo(function PaymentPage({
   charge: initialCharge,
-  environment: initialEnvironment,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const charge = useCharge(initialCharge)
 
   return (
     <div css={paymentPageStyles}>
       <PaymentGuide charge={charge} className="Payment-PaymentGuide" />
-      <PaymentInfo charge={charge} environment={initialEnvironment} />
+      <PaymentInfo charge={charge} />
     </div>
   )
 })

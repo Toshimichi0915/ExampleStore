@@ -4,7 +4,6 @@ import { ChargeStatus } from "@/common/db.type"
 import { chargePrismaToObj } from "@/server/mapper.util"
 import { prisma } from "@/server/global.type"
 import { PaymentPage } from "@/client/payments/payment.page"
-import { getEnvironment } from "@/server/db"
 
 export default PaymentPage
 
@@ -42,12 +41,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
     }
   }
 
-  const environment = await getEnvironment()
-
   return {
     props: {
       charge: chargePrismaToObj(charge, charge.product),
-      environment,
     },
   }
 }

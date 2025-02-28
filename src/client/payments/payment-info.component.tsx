@@ -1,7 +1,6 @@
-import { Charge, ChargeStatusNames, Environment } from "@/common/db.type"
+import { Charge, ChargeStatusNames } from "@/common/db.type"
 import { css } from "@emotion/react"
 import { Theme } from "@mui/material"
-import Link from "next/link"
 import { memo } from "react"
 
 const PaymentInfoRow = memo(function PaymentInfoRow({
@@ -21,15 +20,7 @@ const PaymentInfoRow = memo(function PaymentInfoRow({
   )
 })
 
-export const PaymentInfo = memo(function PaymentInfo({
-  charge,
-  environment,
-  className,
-}: {
-  charge: Charge
-  environment: Environment
-  className?: string
-}) {
+export const PaymentInfo = memo(function PaymentInfo({ charge, className }: { charge: Charge; className?: string }) {
   return (
     <div css={paymentInfoStyles} className={className}>
       <div className="PaymentInfo-Container">
